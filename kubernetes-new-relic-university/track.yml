@@ -2,17 +2,29 @@ slug: kubernetes-new-relic-university
 id: dyjhnodiwxxz
 type: track
 title: Kubernetes - New Relic University
-teaser: A short description of the track.
-description: |-
-  A long description of the track.
-
-  You can use any GitHub flavoured markdown.
+teaser: Learn how to get full observability in a Kubernetes environment with New Relic
+description: "# New Relic - Observability for Kubernetes \n\nDuring this tutorial,
+  we will learn how to get full visibility into a Kubernetes cluster following New
+  Relic's Observability maturity model:\n\n![Kubernetes maturity model](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/maturity-model.png?raw=true
+  \"Kubernetes maturity model\")\n\nWe will go through the following steps:\n\n##
+  Overall Kubernetes Health & Capacity\n\n* Using Kubernetes secrets\n\n* **kube-state-metrics**
+  for overall health state of each Kubernetes object\n\n* Using DaemonSets\n\n* Controlling
+  cluster capacity with resource requests & resource limits\n\n## Dynamic cluster
+  behavior\n\n* Understanding the Kubernetes API server\n\n* Using Kubernetes health
+  checks\n\n* Track important **Kubernetes events** with the **New Relic Kubernetes
+  events integration**\n\n# Microservices performance\n* Introduction to Distributed
+  Tracing\n* Correlating application performance data in the context of Kubernetes\n\n#
+  Log correlation\n* Introduction to log forwarding with Fluent Bit\n* Capture **Kubernetes
+  logs** from your pods with New Relic's Fluent Bit plugin\n\n# Complete service observability\n*
+  Introduction to the Prometheus OpenMetrics format\n* Install the New Relic **Prometheus**
+  integration to get any Prometheus data\n* Using New Relic service integrations\n"
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
-tags: []
+tags:
+- kubernetes
 owner: newrelic
 developers:
 - spolfliet@newrelic.com
 private: false
 published: false
 challenges: []
-checksum: "594608221363997156"
+checksum: "804899710534777226"
