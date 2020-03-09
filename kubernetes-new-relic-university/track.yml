@@ -1,0 +1,18 @@
+slug: kubernetes-new-relic-university
+id: dyjhnodiwxxz
+type: track
+title: Kubernetes - New Relic University
+teaser: A short description of the track.
+description: |-
+  A long description of the track.
+
+  You can use any GitHub flavoured markdown.
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
+tags: []
+owner: newrelic
+developers:
+- spolfliet@newrelic.com
+private: false
+published: false
+challenges: []
+checksum: "594608221363997156"
