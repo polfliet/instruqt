@@ -3,21 +3,45 @@ id: dyjhnodiwxxz
 type: track
 title: Kubernetes - New Relic University
 teaser: Learn how to get full observability in a Kubernetes environment with New Relic
-description: "# New Relic - Observability for Kubernetes \n\nDuring this tutorial,
-  we will learn how to get full visibility into a Kubernetes cluster following New
-  Relic's Observability maturity model:\n\n![Kubernetes maturity model](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/maturity-model.png?raw=true
-  \"Kubernetes maturity model\")\n\nWe will go through the following steps:\n\n##
-  Overall Kubernetes Health & Capacity\n\n* Using Kubernetes secrets\n\n* **kube-state-metrics**
-  for overall health state of each Kubernetes object\n\n* Using DaemonSets\n\n* Controlling
-  cluster capacity with resource requests & resource limits\n\n## Dynamic cluster
-  behavior\n\n* Understanding the Kubernetes API server\n\n* Using Kubernetes health
-  checks\n\n* Track important **Kubernetes events** with the **New Relic Kubernetes
-  events integration**\n\n# Microservices performance\n* Introduction to Distributed
-  Tracing\n* Correlating application performance data in the context of Kubernetes\n\n#
-  Log correlation\n* Introduction to log forwarding with Fluent Bit\n* Capture **Kubernetes
-  logs** from your pods with New Relic's Fluent Bit plugin\n\n# Complete service observability\n*
-  Introduction to the Prometheus OpenMetrics format\n* Install the New Relic **Prometheus**
-  integration to get any Prometheus data\n* Using New Relic service integrations\n"
+description: |
+  # New Relic - Observability for Kubernetes TEST
+
+  During this tutorial, we will learn how to get full visibility into a Kubernetes cluster following New Relic's Observability maturity model:
+
+  ![Kubernetes maturity model](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/maturity-model.png?raw=true "Kubernetes maturity model")
+
+  We will go through the following steps:
+
+  ## Overall Kubernetes Health & Capacity
+
+  * Using Kubernetes secrets
+
+  * **kube-state-metrics** for overall health state of each Kubernetes object
+
+  * Using DaemonSets
+
+  * Controlling cluster capacity with resource requests & resource limits
+
+  ## Dynamic cluster behavior
+
+  * Understanding the Kubernetes API server
+
+  * Using Kubernetes health checks
+
+  * Track important **Kubernetes events** with the **New Relic Kubernetes events integration**
+
+  # Microservices performance
+  * Introduction to Distributed Tracing
+  * Correlating application performance data in the context of Kubernetes
+
+  # Log correlation
+  * Introduction to log forwarding with Fluent Bit
+  * Capture **Kubernetes logs** from your pods with New Relic's Fluent Bit plugin
+
+  # Complete service observability
+  * Introduction to the Prometheus OpenMetrics format
+  * Install the New Relic **Prometheus** integration to get any Prometheus data
+  * Using New Relic service integrations
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
 tags:
 - kubernetes
@@ -32,7 +56,7 @@ challenges:
 - slug: kubernetes-secrets
   id: sua74knxvnml
   type: challenge
-  title: Using Kubernetes secrets
+  title: Best Practice - Using Kubernetes secrets
   teaser: Use a Kubernetes secret to store the New Relic license key
   assignment: "Use a Kubernetes secret to store passwords or license keys in your
     Kubernetes cluster.\n\nWe will create a Kubernetes secret that contains our New
@@ -46,6 +70,9 @@ challenges:
     before pressing enter.\n\n`kubectl create secret generic newrelic-secret --from-literal=new_relic_license_key='<YOUR_NEW_RELIC_LICENSE_KEY>'`\n\nIf
     you made a mistake, you should delete the secret with *kubectl delete secret newrelic-secret*\n\nThe
     yaml files in the rest of this tutorial will refer to this *newrelic-secret*\n"
+  notes:
+  - type: text
+    contents: This is a note
   tabs:
   - title: Shell
     type: terminal
@@ -56,4 +83,158 @@ challenges:
     url: https://one.newrelic.com
   difficulty: basic
   timelimit: 500
-checksum: "11869501466981867986"
+- slug: k8s-health
+  id: pej6glwikazf
+  type: challenge
+  title: Kubernetes health with kube-state-metrics
+  teaser: Deploy kube-state-metrics
+  assignment: |-
+    During this step we will install kube-state-metrics, a service that exposes metrics about the various Kubernetes objects.
+
+    ### Install kube-state-metrics
+    Download kube-state-metrics
+    `curl -L -o kube-state-metrics-1.7.2.zip https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip`
+
+    Install kube-state-metrics in the cluster
+    `kubectl apply -f kube-state-metrics-1.7.2/kubernetes`
+
+    Confirm that kube-state-metrics is installed
+    `kubectl get pods --all-namespaces | grep kube-state-metrics`
+
+    After a minute, you should see something like:
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true "Kube-state-metrics")
+
+    TODO do a kubectl port-forward and check the data?
+  difficulty: basic
+  timelimit: 500
+- slug: nr-k8s-integration
+  id: awzvrxxbxqcx
+  type: challenge
+  title: New Relic Kubernetes integration
+  teaser: Deploy the New Relic Kubernetes integration
+  assignment: |2-
+
+    During this step we will deploy the New Relic Kubernetes integration to our cluster.
+
+
+    ### Install the New Relic Kubernetes integration
+    We are going to deploy a DaemonSet to the cluster.
+    This DaemonSet will ensure that we have the New Relic Kubernetes agent running on each node of our cluster
+    The yaml file is already available on our machine, execute the following command to create the DaemonSet:
+    `kubectl create -f newrelic-infrastructure-k8s-latest.yaml`
+
+    Confirm the DaemonSet was created
+    `kubectl get daemonsets`
+
+    You should see something like:
+    ![Daemon set](https://github.com/polfliet/katacoda-scenarios/blob/master/kubernetes/screenshots/daemonset.png?raw=true "Daemon set")
+
+    Confirm that the agent is running
+    `kubectl get pods`
+
+    After a minute, you should see something like:
+    ![New Relic pod running](https://github.com/polfliet/katacoda-scenarios/blob/master/kubernetes/screenshots/infrapod.png?raw=true "New Relic pod running")
+  difficulty: basic
+  timelimit: 500
+- slug: k8s-resources
+  id: wwjsy00kdtnb
+  type: challenge
+  title: Best Practice - Using resource requests & resource limits
+  teaser: Control capacity in your cluster
+  assignment: "TODO use a predefined yaml with an example \nThen show this in the
+    cluster explorer"
+  difficulty: basic
+  timelimit: 500
+- slug: nr-k8s-events
+  id: 7nr0loh01gfc
+  type: challenge
+  title: New Relic Kubernetes Events integration
+  teaser: Correlate Kubernetes events in the Kubernetes cluster explorer
+  assignment: |2
+
+    During this step we will deploy the New Relic Kubernetes events integration to our cluster.
+
+    ### Install the New Relic Kubernetes events integration
+    The New Relic Kubernetes events integration watches for events happening in our Kubernetes cluster.
+
+    The yaml file is already available on our machine, we can apply it:
+    `kubectl apply -f nri-kube-events-0.0.2.yaml`
+
+    Confirm the Pod is running
+    `kubectl get pods`
+
+    You should see something like:
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/eventpod.png?raw=true "Event pod")
+  difficulty: basic
+  timelimit: 500
+- slug: nr-distributed-tracing
+  id: a6skqehthnpj
+  type: challenge
+  title: Using Distributed Tracing
+  teaser: Trace your microservices
+  assignment: |
+    Explain DT, spans, etc.
+
+    Refer to DT in k8s cluster explorer
+
+    set a custom attribute?
+  difficulty: basic
+  timelimit: 500
+- slug: nr-logs
+  id: j4yyvxmu0etv
+  type: challenge
+  title: New Relic Logs for Kubernetes
+  teaser: Stream Kubernetes logs to New Relic
+  assignment: |2-
+
+    New Relic's FluentBit plugin allows us to collect log files generated by the containers in our cluster
+
+    ### Install FluentBit and the New Relic FluentBit plugin
+    The yaml files are already available on our machine, we can apply it:
+
+    `kubectl apply -f rbac.yml -f fluent-conf.yml -f new-relic-fluent-plugin.yml`
+
+    Confirm that FluentBit is running
+    `kubectl get pods`
+
+    You should see something like:
+    ![FluentBit plugin](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/fluentbit.png?raw=true "New Relic FluentBit plugin")
+  difficulty: basic
+  timelimit: 500
+- slug: nr-prometheus
+  id: ycxo28jhzbaz
+  type: challenge
+  title: New Relic Prometheus OpenMetrics integration
+  teaser: Getting Prometheus data
+  assignment: |2-
+
+    The New Relic Prometheus OpenMetrics integration allows us to scrape any endpoint in our cluster.
+
+    ### Install the New Relic Prometheus OpenMetrics integration
+    The yaml file is already on the machine.
+    `kubectl apply -f nri-prometheus-latest.yaml`
+
+    Confirm that the deployment has been created:
+    `kubectl get deployments nri-prometheus`
+
+    You should see something like:
+    ![Prometheus integration](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/prometheus.png?raw=true "Prometheus integration")
+  difficulty: basic
+  timelimit: 500
+- slug: nr-integrations
+  id: 0wlvfllrfpri
+  type: challenge
+  title: New Relic service integrations
+  teaser: Use New Relic's Kubernetes service integrations
+  assignment: TODO use our OKIs
+  difficulty: basic
+  timelimit: 500
+- slug: nr-melt
+  id: dc5snwqaxpw0
+  type: challenge
+  title: Building a M.E.L.T. dashboard
+  teaser: Connecting Metrics, Events, Logs and Traces
+  assignment: TODO
+  difficulty: basic
+  timelimit: 500
+checksum: "12313096072509391584"
