@@ -2,4 +2,5 @@ version: "2"
 virtualmachines:
 - name: kubernetes
   image: instruqt/kubernetes-v1-11-0
+  shell: /bin/bash
   machine_type: g1-small

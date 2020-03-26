@@ -68,11 +68,14 @@ challenges:
     \"License key\")\n\n### Create the Kubernetes secret\nCreate the Kubernetes secret
     by copying the following line and **put your license key between the quotes**
     before pressing enter.\n\n`kubectl create secret generic newrelic-secret --from-literal=new_relic_license_key='<YOUR_NEW_RELIC_LICENSE_KEY>'`\n\nIf
-    you made a mistake, you should delete the secret with *kubectl delete secret newrelic-secret*\n\nThe
+    you made a mistake, you should delete the secret with `kubectl delete secret newrelic-secret`\n\nThe
     yaml files in the rest of this tutorial will refer to this *newrelic-secret*\n"
   notes:
   - type: text
-    contents: This is a note
+    contents: Please wait while we set-up your testing environment
+  - type: text
+    contents: 'Kubernetes (“koo-burr-NET-eez”) is the mangled conventional pronunciation
+      of a Greek word, κυβερνήτης, meaning “helmsman” or “pilot.” '
   tabs:
   - title: Shell
     type: terminal
@@ -89,10 +92,11 @@ challenges:
   title: Kubernetes health with kube-state-metrics
   teaser: Deploy kube-state-metrics
   assignment: |-
-    During this step we will install kube-state-metrics, a service that exposes metrics about the various Kubernetes objects.
+    During this step we will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics), a service that exposes metrics about the various Kubernetes objects.
 
-    ### Install kube-state-metrics
-    Download kube-state-metrics
+    ### Installing kube-state-metrics
+
+    Download kube-state-metrics version 1.7.2 from Github
     `curl -L -o kube-state-metrics-1.7.2.zip https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip`
 
     Install kube-state-metrics in the cluster
@@ -104,6 +108,7 @@ challenges:
     After a minute, you should see something like:
     ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true "Kube-state-metrics")
 
+    ### Looking at the data
     TODO do a kubectl port-forward and check the data?
   difficulty: basic
   timelimit: 500
@@ -237,4 +242,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "12313096072509391584"
+checksum: "13562192284830266510"
