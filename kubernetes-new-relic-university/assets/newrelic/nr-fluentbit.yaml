@@ -65,7 +65,7 @@ spec:
           - name: LICENSE_KEY
             valueFrom:
               secretKeyRef:
-                name: guestbook-secret
+                name: newrelic-secret
                 key: new_relic_license_key
           - name: BUFFER_SIZE
             value: "256000"

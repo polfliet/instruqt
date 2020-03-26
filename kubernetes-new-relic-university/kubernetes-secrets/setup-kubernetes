@@ -1,8 +1,1 @@
-# Download the demo app yaml files
-wget -r -np https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/assets/
-
-# Create the demo app in our k8s cluster
-# cd app/
-# kubectl create -f .
-
-# load generator
+#!/bin/bash

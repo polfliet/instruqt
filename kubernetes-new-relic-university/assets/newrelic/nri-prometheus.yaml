@@ -69,7 +69,7 @@ spec:
           - name: "LICENSE_KEY"
             valueFrom:
               secretKeyRef:
-                name: guestbook-secret
+                name: newrelic-secret
                 key: new_relic_license_key
           - name: "BEARER_TOKEN_FILE"
             value: "/var/run/secrets/kubernetes.io/serviceaccount/token"

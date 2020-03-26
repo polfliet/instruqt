@@ -89,7 +89,7 @@ spec:
             - name: "NRIA_LICENSE_KEY"
               valueFrom:
                 secretKeyRef:
-                  name: guestbook-secret
+                  name: newrelic-secret
                   key: new_relic_license_key
             - name: "NRIA_VERBOSE"
               value: "0"
@@ -187,7 +187,7 @@ data:
           HOSTNAME: ${discovery.ip}
           PORT: 15672
           USERNAME: user
-          PASSWORD: 
+          PASSWORD:
             valueFrom:
                 secretKeyRef:
                   name: rabbitmq-secret

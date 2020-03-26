@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; then
+  echo "Starting Kubernetes, this may take a minute or so"
+  while ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; do printf "." && sleep 1; done || break
+  printf "done."
+  echo ""
+fi
+
+# Install unzip
+sudo apt-get install unzip
+
+# Create the demo app in our k8s cluster
+kubectl create namespace demo-app
+kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/rabbitmq.yaml -n demo-app
+kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/redis.yaml -n demo-app
+kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/frontend.yaml -n demo-app
+kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/parser.yaml -n demo-app
+kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/worker.yaml -n demo-app
