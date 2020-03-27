@@ -105,6 +105,10 @@ spec:
                 secretKeyRef:
                   name: newrelic-secret
                   key: new_relic_license_key
+            - name: "HTTP_PROXY"
+              value: "http://.."
+            - name: "HTTPS_PROXY"
+              value: "http://.."
           #- name: "NRIA_VERBOSE"
           #  value: "1"
           volumeMounts:
