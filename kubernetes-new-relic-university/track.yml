@@ -98,25 +98,21 @@ challenges:
   type: challenge
   title: Kubernetes health with kube-state-metrics
   teaser: Deploy kube-state-metrics
-  assignment: |-
-    During this step we will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics), a service that exposes metrics about the various Kubernetes objects.
-
-    ### Installing kube-state-metrics
-
-    Download kube-state-metrics version 1.7.2 from Github
-    `curl -L -o kube-state-metrics-1.7.2.zip https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip`
-
-    Install kube-state-metrics in the cluster
-    `kubectl apply -f kube-state-metrics-1.7.2/kubernetes`
-
-    Confirm that kube-state-metrics is installed
-    `kubectl get pods --all-namespaces | grep kube-state-metrics`
-
-    After a minute, you should see something like:
-    ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true "Kube-state-metrics")
-
-    ### Looking at the data
-    TODO do a kubectl port-forward and check the data?
+  assignment: "During this step we will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics),
+    a service that exposes metrics about the various Kubernetes objects. These metrics
+    can then be picked up by monitoring agents to provide information on the health
+    and performance of your Kubernetes cluster. \n\n### Installing kube-state-metrics\n\nDownload
+    kube-state-metrics version 1.7.2 from Github\n`curl -L -o kube-state-metrics-1.7.2.zip
+    https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip`\n\nInstall
+    kube-state-metrics in the cluster\n`kubectl apply -f kube-state-metrics-1.7.2/kubernetes`\n\nConfirm
+    that kube-state-metrics is installed\n`kubectl get pods --all-namespaces | grep
+    kube-state-metrics`\n\nAfter a minute, you should see something like:\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true
+    \"Kube-state-metrics\")\n\n### Looking at the data\n\nTo take a sneak peak at
+    the data that's being retrieve by kube-state-metrics you can run the following
+    script to retrieve the IP address of the pod.\n\n`./get-metrics-ip.sh`\n\nYou
+    can then use this IP address with `curl` to view the statistics.\n\n`curl http://[IP
+    ADDRESS]:8080/metrics`\n\nThe metrics format is based off the Prometheus standard,
+    which we will cover later in the workshop. "
   tabs:
   - title: Shell
     type: terminal
@@ -254,4 +250,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "17802827915721237044"
+checksum: "11817235393991704852"

@@ -10,6 +10,10 @@ fi
 # Install unzip
 sudo apt-get install unzip
 
+# Download helper script
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/get-metrics-ip.sh
+chmod +x get-metrics-ip.sh
+
 # Create the demo app in our k8s cluster
 kubectl create namespace demo-app
 kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/rabbitmq.yaml -n demo-app
