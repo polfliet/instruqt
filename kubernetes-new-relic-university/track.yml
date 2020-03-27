@@ -127,22 +127,23 @@ challenges:
   assignment: |-
     During this step we will deploy the New Relic Kubernetes integration to our cluster.
 
-    To achieve this we are going to deploy a DaemonSet to the cluster.
-    This DaemonSet will ensure that we have the New Relic Kubernetes agent running on each node of our cluster
-    The yaml file is already available on our machine, execute the following command to create the DaemonSet:
+    To achieve this we are going to deploy a DaemonSet into our Kubernetes cluster. A DaemonSet is a Kubernetes concept that ensures that we have 1 pod running on each node in our environment. For more information ]check out the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).
+
+    This DaemonSet will ensure that we have the New Relic Kubernetes agent running on each node of our cluster.
+    The yaml file required is already available on our machines, execute the following command to create the New Relic DaemonSet:
     `kubectl create -f nri-k8s.yaml`
 
-    Confirm the DaemonSet was created
-    `kubectl get daemonsets`
+    Confirm the DaemonSet was created: `kubectl get daemonsets`
 
     You should see something like:
     ![Daemon set](https://github.com/polfliet/katacoda-scenarios/blob/master/kubernetes/screenshots/daemonset.png?raw=true "Daemon set")
 
-    Confirm that the agent is running
-    `kubectl get pods`
+    Confirm that the agent is running: `kubectl get pods`
 
     After a minute, you should see something like:
     ![New Relic pod running](https://github.com/polfliet/katacoda-scenarios/blob/master/kubernetes/screenshots/infrapod.png?raw=true "New Relic pod running")
+
+    You can also check the logs of the agent `kubectl logs [POD NAME]` as it's a good place to check for errors and any other issues.
   tabs:
   - title: Shell
     type: terminal
@@ -250,4 +251,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "11817235393991704852"
+checksum: "14215741985508825911"
