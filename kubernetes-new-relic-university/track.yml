@@ -74,7 +74,7 @@ challenges:
     key between the quotes** before pressing enter.\n\n`kubectl create secret generic
     newrelic-secret --from-literal=new_relic_license_key='<YOUR_NEW_RELIC_LICENSE_KEY>'`\n\nYou
     can check if the secret was added succesfully by running `kubectl describe secret
-    newrelic-secret`.\n\nIf you made a mistake, you can delete the secret with `kubectl
+    newrelic-secret`\n\nIf you made a mistake, you can delete the secret with `kubectl
     delete secret newrelic-secret`\n\nThe yaml files in the rest of this tutorial
     will refer to this *newrelic-secret* to retrieve the license key. \n"
   notes:
@@ -283,4 +283,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "4613995767688239888"
+checksum: "6343511410226959991"
