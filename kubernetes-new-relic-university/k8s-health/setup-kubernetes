@@ -10,10 +10,6 @@ fi
 # Install unzip
 sudo apt-get install unzip
 
-# Download helper script
-wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/get-metrics-ip.sh
-chmod +x get-metrics-ip.sh
-
 # Create the demo app in our k8s cluster
 mkdir app/
 pushd app/
@@ -29,4 +25,15 @@ kubectl create -f redis.yaml -n demo-app
 kubectl create -f frontend.yaml -n demo-app
 kubectl create -f parser.yaml -n demo-app
 kubectl create -f worker.yaml -n demo-app
+popd
+
+# Create directory for kube-state-metrics files and set as working directory
+mkdir kube-state-metrics/
+set-workdir $(pwd)/kube-state-metrics
+
+
+# Download helper script
+pushd kube-state-metrics
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/get-metrics-ip.sh
+chmod +x get-metrics-ip.sh
 popd
