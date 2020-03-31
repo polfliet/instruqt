@@ -15,9 +15,18 @@ wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-r
 chmod +x get-metrics-ip.sh
 
 # Create the demo app in our k8s cluster
+mkdir app/
+pushd app/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/rabbitmq.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/redis.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/frontend.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/parser.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/worker.yaml
+
 kubectl create namespace demo-app
-kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/rabbitmq.yaml -n demo-app
-kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/redis.yaml -n demo-app
-kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/frontend.yaml -n demo-app
-kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/parser.yaml -n demo-app
-kubectl create -f https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/worker.yaml -n demo-app
+kubectl create -f rabbitmq.yaml -n demo-app
+kubectl create -f redis.yaml -n demo-app
+kubectl create -f frontend.yaml -n demo-app
+kubectl create -f parser.yaml -n demo-app
+kubectl create -f worker.yaml -n demo-app
+popd

@@ -30,15 +30,15 @@ description: |
 
   * Track important **Kubernetes events** with the **New Relic Kubernetes events integration**
 
-  # Microservices performance
+  ## Microservices performance
   * Introduction to Distributed Tracing
   * Correlating application performance data in the context of Kubernetes
 
-  # Log correlation
+  ## Log correlation
   * Introduction to log forwarding with Fluent Bit
   * Capture **Kubernetes logs** from your pods with New Relic's Fluent Bit plugin
 
-  # Complete service observability
+  ## Complete service observability
   * Introduction to the Prometheus OpenMetrics format
   * Install the New Relic **Prometheus** integration to get any Prometheus data
   * Using New Relic service integrations
@@ -155,8 +155,40 @@ challenges:
   type: challenge
   title: Best Practice - Using resource requests & resource limits
   teaser: Control capacity in your cluster
-  assignment: "TODO use a predefined yaml with an example \nThen show this in the
-    cluster explorer"
+  assignment: "When you deploy a container with K8S it will be automatically scheduled
+    on a node with available capacity. This provides a unique challenge as you don't
+    know where your container will end up. \n\nImagine you have a container that's
+    very memory intensive and it gets deployed on a node with a limited amount of
+    available memory. Within minutes your container will put the node under stress,
+    and K8S will automatically start removing pods to keep the node stable.\n\nAnother
+    scenario is where a container on a node start consuming all of the CPU. All of
+    a sudden the other container on that node will start slowing down because they
+    need to wait on resources to become available.\n\nTo avoid these scenarios you
+    can set resource requests and limits on K8S containers. A container resource requests
+    makes sure that there are enough resources available on nodes before they get
+    scheduled. A container limit limits the amount of CPU and memory a container uses.
+    CPU is hard limit, meaning the container can't use more than the limit amount
+    of CPU. Memory behaves differently as K8S will kill the pod when the container
+    uses more than the limit of memory.\n\nAn example config is opened in the `YAML
+    Example` tab. Look for the following configuration parameters:\n\n```\nresources:\n
+    \   requests:\n        cpu: 50m\n        memory: 100Mi\n    limit:\n        cpu:
+    200m\n        memory: 300Mi\n```\n\nAs a challenge try adding resource requests
+    and limits to the RabbitMQ pod that's running in this environment. The config
+    file is already open under the `RabbitMQ Yaml` tab. \n\nYou can apply the changes
+    with `kubectl apply app/rabbitmq.yaml` and check if the resources are set with
+    ...\n"
+  tabs:
+  - title: YAML Example
+    type: code
+    hostname: kubernetes
+    path: /app/worker.yaml
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  - title: RabbitMQ YAML
+    type: code
+    hostname: kubernetes
+    path: app/rabbitmq.yaml
   difficulty: basic
   timelimit: 500
 - slug: nr-k8s-events
@@ -251,4 +283,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "14215741985508825911"
+checksum: "4613995767688239888"
