@@ -1,0 +1,2 @@
+
+kubectl describe -n demo-app pod rabbit | grep Limits

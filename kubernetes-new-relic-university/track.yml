@@ -127,7 +127,7 @@ challenges:
   assignment: |-
     During this step we will deploy the New Relic Kubernetes integration to our cluster.
 
-    To achieve this we are going to deploy a DaemonSet into our Kubernetes cluster. A DaemonSet is a Kubernetes concept that ensures that we have 1 pod running on each node in our environment. For more information ]check out the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).
+    To achieve this we are going to deploy a DaemonSet into our Kubernetes cluster. A DaemonSet is a Kubernetes concept that ensures that we have 1 pod running on each node in our environment. For more information [check out the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).
 
     This DaemonSet will ensure that we have the New Relic Kubernetes agent running on each node of our cluster.
     The yaml file required is already available on our machines, execute the following command to create the New Relic DaemonSet:
@@ -169,26 +169,22 @@ challenges:
     scheduled. A container limit limits the amount of CPU and memory a container uses.
     CPU is hard limit, meaning the container can't use more than the limit amount
     of CPU. Memory behaves differently as K8S will kill the pod when the container
-    uses more than the limit of memory.\n\nAn example config is opened in the `YAML
-    Example` tab. Look for the following configuration parameters:\n\n```\nresources:\n
-    \   requests:\n        cpu: 50m\n        memory: 100Mi\n    limit:\n        cpu:
+    uses more than the limit of memory.\n\nAn example config is available in the `Editor`
+    tab. Open the file `worker.yaml` and look for the following configuration parameters:\n\n```\nresources:\n
+    \   requests:\n        cpu: 50m\n        memory: 100Mi\n    limits:\n        cpu:
     200m\n        memory: 300Mi\n```\n\nAs a challenge try adding resource requests
     and limits to the RabbitMQ pod that's running in this environment. The config
-    file is already open under the `RabbitMQ Yaml` tab. \n\nYou can apply the changes
-    with `kubectl apply app/rabbitmq.yaml` and check if the resources are set with
-    ...\n"
+    file is available under the `Editor` tab in the file `rabbitmq.yaml`.\n\nYou can
+    apply the changes with `kubectl apply app/rabbitmq.yaml` and check if the resources
+    are set with ...\n"
   tabs:
-  - title: YAML Example
+  - title: Editor
     type: code
     hostname: kubernetes
-    path: /app/worker.yaml
+    path: /root/app/
   - title: Shell
     type: terminal
     hostname: kubernetes
-  - title: RabbitMQ YAML
-    type: code
-    hostname: kubernetes
-    path: app/rabbitmq.yaml
   difficulty: basic
   timelimit: 500
 - slug: nr-k8s-events
@@ -283,4 +279,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "6343511410226959991"
+checksum: "4648975931414253333"
