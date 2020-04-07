@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Reset home dir
+cd /root/
+
 # Wait for kubernetes to become available
 if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; then
   echo "Starting Kubernetes, this may take a minute or so"
@@ -7,3 +10,6 @@ if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namesp
   printf "done."
   echo ""
 fi
+
+# Set workdir
+set-workdir $(pwd)/app

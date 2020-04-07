@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kubectl create -f nri-k8s.yaml
+kubectl create -f new-relic/nri-k8s.yaml
