@@ -41,8 +41,8 @@ metadata:
                 # using the discovered IP as the hostname address
                 HOSTNAME: ${discovery.ip}
                 PORT: 15672
-                USERNAME: guest
-                PASSWORD: guest
+                USERNAME: user
+                PASSWORD: bitnami
             labels:
                 env: production
                 role: rabbitmq
