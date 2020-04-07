@@ -175,8 +175,8 @@ challenges:
     200m\n        memory: 300Mi\n```\n\nAs a challenge try adding resource requests
     and limits to the RabbitMQ pod that's running in this environment. The config
     file is available under the `Editor` tab in the file `rabbitmq.yaml`.\n\nYou can
-    apply the changes with `kubectl apply app/rabbitmq.yaml` and check if the resources
-    are set with ...\n"
+    apply the changes with `kubectl apply -f rabbitmq.yaml -n demo-app` and check
+    if the resources are set with `kubectl describe -n demo-app pod rabbitmq`. \n"
   tabs:
   - title: Editor
     type: code
@@ -197,7 +197,7 @@ challenges:
 
     ### Install the New Relic Kubernetes events integration
     The yaml file is already available on our machine, we can apply it:
-    `kubectl apply -f nri-kube-events-0.0.2.yaml`
+    `kubectl apply -f nri-k8s-events.yaml`
 
     Confirm the Pod is running
     `kubectl get pods`
@@ -236,7 +236,7 @@ challenges:
     ### Install FluentBit and the New Relic FluentBit plugin
     The yaml files are already available on our machine, we can apply it:
 
-    `kubectl apply -f nri-k8s-fluentbit.yml`
+    `kubectl apply -f nri-k8s-fluentbit.yaml`
 
     Confirm that FluentBit is running
     `kubectl get pods`
@@ -259,7 +259,7 @@ challenges:
 
     ### Install the New Relic Prometheus OpenMetrics integration
     The yaml file is already on the machine.
-    `kubectl apply -f nri-prometheus.yaml`
+    `kubectl apply -f nri-k8s-prometheus.yaml`
 
     Confirm that the deployment has been created:
     `kubectl get deployments nri-prometheus`
@@ -313,4 +313,4 @@ challenges:
     path: /root/new-relic/
   difficulty: basic
   timelimit: 500
-checksum: "9587744881147585882"
+checksum: "7829246854939563347"
