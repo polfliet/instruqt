@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Wait for kubernetes to become available
+if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; then
+  echo "Starting Kubernetes, this may take a minute or so"
+  while ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; do printf "." && sleep 1; done || break
+  printf "done."
+  echo ""
+fi
+
 # Download the New Relic event config
 pushd new-relic/
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/newrelic/nri-k8s-events.yaml

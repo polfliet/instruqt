@@ -7,3 +7,4 @@ if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namesp
   printf "done."
   echo ""
 fi
+

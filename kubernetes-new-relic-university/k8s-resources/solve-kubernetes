@@ -1,0 +1,5 @@
+#!/bin/bash
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/rabbitmq_limits.yaml
+kubectl apply -f rabbitmq_limits.yaml -n demo-app
+rm rabbitmq_limits
