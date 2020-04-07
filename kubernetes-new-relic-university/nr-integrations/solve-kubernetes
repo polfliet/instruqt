@@ -1,0 +1,5 @@
+#!/bin/bash
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/newrelic/nri-k8s-configmap.yaml
+kubectl apply -f nri-k8s-configmap.yaml -n demo-app
+rm nri-k8s-configmap.yaml

@@ -243,6 +243,10 @@ challenges:
 
     You should see something like:
     ![FluentBit plugin](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/fluentbit.png?raw=true "New Relic FluentBit plugin")
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
   difficulty: basic
   timelimit: 500
 - slug: nr-prometheus
@@ -250,35 +254,63 @@ challenges:
   type: challenge
   title: New Relic Prometheus OpenMetrics integration
   teaser: Getting Prometheus data
-  assignment: |2-
-
+  assignment: |-
     The New Relic Prometheus OpenMetrics integration allows us to scrape any endpoint in our cluster.
 
     ### Install the New Relic Prometheus OpenMetrics integration
     The yaml file is already on the machine.
-    `kubectl apply -f nri-prometheus-latest.yaml`
+    `kubectl apply -f nri-prometheus.yaml`
 
     Confirm that the deployment has been created:
     `kubectl get deployments nri-prometheus`
 
     You should see something like:
     ![Prometheus integration](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/prometheus.png?raw=true "Prometheus integration")
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
   difficulty: basic
   timelimit: 500
 - slug: nr-integrations
   id: 0wlvfllrfpri
   type: challenge
-  title: New Relic service integrations
+  title: New Relic Service integrations
   teaser: Use New Relic's Kubernetes service integrations
-  assignment: TODO use our OKIs
+  assignment: "We now have an insight into our applications, logs and the overal health
+    of Kubernetes, but what about our supporting services like Redis or RabbitMQ?\n\nTo
+    cover these too New Relic supports retrieving data from supporting services to
+    gauge their overal health and performance.\n\nWe do this by adding some information
+    to our New Relic infrastructure agent. If you remember one of the first things
+    we deployed was the `newrelic-infra` DaemonSet. We're now going to adept the config
+    to also monitor our Redis and RabbitMQ services.\n\n### Redis\n\nYou can find
+    an example configuration on the New Relic docs: [Example Redis config](https://github.com/newrelic/nri-redis/blob/master/redis-config.yml.k8s_sample)\n\nYou
+    need to add this to the `nri-k8s.yaml` file. All the way at the bottom you will
+    find the following code:\n\n```\napiVersion: v1\nkind: ConfigMap\nmetadata:\n
+    \ name: nri-integration-cfg # aimed to be safely overridden by users\n  namespace:
+    default\n```\n\nWe need to add the Redis configuration to it. An example is given
+    below:\n\n```\napiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: nri-integration-cfg
+    # aimed to be safely overridden by users\n  namespace: default\n  data:\n    redis-config.yml:
+    |\n    ---\n    # Run auto discovery to find pods with label \"app=redis\"\n    #
+    https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery\n
+    \   discovery:\n      command:\n        # Run NRI Discovery for Kubernetes\n        #
+    https://github.com/newrelic/nri-discovery-kubernetes\n        ...\n```\n\nAfter
+    you've changed and saved the file you need to reapply the agent config. You can
+    do this with the following command: `kubectl apply -f nri-k8s.yaml`\n\nIf you
+    get any errors you can ask us to help, but always try to see if you can figure
+    it out yourself.\n\n## RabbitMQ\n\nFor RabbitMQ you can find the example configuration
+    [here](https://github.com/newrelic/nri-rabbitmq/blob/master/rabbitmq-config.yml.k8s_sample).
+    Use the same process as described above to get RabbitMQ configured.\n\nHint: The
+    default username and password for RabbitMQ are `guest`. \nHint: You can remove
+    all the optional configuration values.\n\n\n\n\n\n"
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  - title: Editor
+    type: code
+    hostname: kubernetes
+    path: /root/new-relic/
   difficulty: basic
   timelimit: 500
-- slug: nr-melt
-  id: dc5snwqaxpw0
-  type: challenge
-  title: Building a M.E.L.T. dashboard
-  teaser: Connecting Metrics, Events, Logs and Traces
-  assignment: TODO
-  difficulty: basic
-  timelimit: 500
-checksum: "15322194045449141176"
+checksum: "17910592675903358190"

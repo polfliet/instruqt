@@ -11,3 +11,10 @@ if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namesp
   echo ""
 fi
 
+# Download the prometheus New Relic config
+pushd new-relic/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/newrelic/nri-k8s-prometheus.yaml
+popd
+
+# Set workdir
+set-workdir $(pwd)/new-relic
