@@ -192,13 +192,10 @@ challenges:
   type: challenge
   title: New Relic Kubernetes Events integration
   teaser: Correlate Kubernetes events in the Kubernetes cluster explorer
-  assignment: |2
-
-    During this step we will deploy the New Relic Kubernetes events integration to our cluster.
+  assignment: |
+    During this step we will deploy the New Relic Kubernetes events integration to our cluster. It will gives us an insight into which actions Kubernetes is performing and which problems are currently active.
 
     ### Install the New Relic Kubernetes events integration
-    The New Relic Kubernetes events integration watches for events happening in our Kubernetes cluster.
-
     The yaml file is already available on our machine, we can apply it:
     `kubectl apply -f nri-kube-events-0.0.2.yaml`
 
@@ -207,6 +204,12 @@ challenges:
 
     You should see something like:
     ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/eventpod.png?raw=true "Event pod")
+
+    You can also check the logs of the agent `kubectl logs [POD NAME]` as it's a good place to check for errors and any other issues.
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
   difficulty: basic
   timelimit: 500
 - slug: nr-distributed-tracing
@@ -279,4 +282,4 @@ challenges:
   assignment: TODO
   difficulty: basic
   timelimit: 500
-checksum: "4648975931414253333"
+checksum: "1638530219596719971"

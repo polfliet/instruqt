@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Download the New Relic event config
+pushd new-relic/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/newrelic/nri-k8s-events.yaml
+popd
+
+# Set workdir
+set-workdir $(pwd)/new-relic
