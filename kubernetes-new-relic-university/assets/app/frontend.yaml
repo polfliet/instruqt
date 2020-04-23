@@ -29,8 +29,6 @@ spec:
       containers:
       - name: frontend
         image: docker.io/spolfliet/newrelic-k8s-guestbook-frontend:latest
-        #image: polfliet/frontend:latest
-        #imagePullPolicy: Never
         resources:
           requests:
             cpu: 100m

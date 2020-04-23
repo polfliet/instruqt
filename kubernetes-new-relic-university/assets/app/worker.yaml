@@ -29,8 +29,6 @@ spec:
       containers:
       - name: worker
         image: docker.io/spolfliet/newrelic-k8s-guestbook-worker:latest
-        #image: polfliet/worker:latest
-        #imagePullPolicy: Never
         resources:
           requests:
             cpu: 50m
