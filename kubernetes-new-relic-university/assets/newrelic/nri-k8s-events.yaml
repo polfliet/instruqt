@@ -34,7 +34,7 @@ data:
     - name: newRelicInfra
       config:
         agentEndpoint: http://localhost:8001/v1/data
-        clusterName: K8s webinar
+        clusterName: New Relic - K8s Workshop
         agentHTTPTimeout: 30s
 kind: ConfigMap
 metadata:

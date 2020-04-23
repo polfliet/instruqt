@@ -43,7 +43,7 @@ spec:
               name: newrelic-secret
               key: new_relic_license_key
         - name: NEW_RELIC_APP_NAME
-          value: K8s webinar - Worker
+          value: New Relic K8s Workshop - Worker
         - name: GET_HOSTS_FROM
           value: dns
           # If your cluster config does not include a dns service, then to
