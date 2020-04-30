@@ -154,24 +154,22 @@ kind: ConfigMap
 metadata:
   name: nri-integration-cfg # aimed to be safely overridden by users
   namespace: default
-# data:
-#   redis-config.yml: |
-#     ---
-#     # Run auto discovery to find pods with label "app=redis"
-#     discovery:
-#       command:
-#         # Run NRI Discovery for Kubernetes
-#         # https://github.com/newrelic/nri-discovery-kubernetes
-#         exec: /var/db/newrelic-infra/nri-discovery-kubernetes
-#         match:
-#           label.app: redis
-#     integrations:
-#       - name: nri-redis
-#         env:
-#           # using the discovered IP as the hostname address
-#           HOSTNAME: ${discovery.ip}
-#           PORT: 6379
-#           KEYS: '{"0":["<KEY_1>"],"1":["<KEY_2>"]}'
-#           REMOTE_MONITORING: true
-#         labels:
-#           env: production
+#data:
+#  redis-config.yml: |
+#    ---
+#    # Run auto discovery to find pods with label "app=redis"
+#    discovery:
+#      command:
+#        # Run NRI Discovery for Kubernetes
+#        # https://github.com/newrelic/nri-discovery-kubernetes
+#        exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+#        match:
+#          label.app: redis
+#    integrations:
+#      - name: nri-redis
+#        env:
+#          # using the discovered IP as the hostname address
+#          HOSTNAME: ${discovery.ip}
+#          PORT: 6379
+#          KEYS: '{"0":["<KEY_1>"],"1":["<KEY_2>"]}'
+#          REMOTE_MONITORING: true
