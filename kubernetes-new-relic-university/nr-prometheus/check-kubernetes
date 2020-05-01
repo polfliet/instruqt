@@ -1,3 +1,6 @@
 #!/bin/bash
 
 kubectl get pods | grep nri-prometheus
+if [ $? -ne 0 ]; then
+    fail-message "Could not find the New Relic Prometheus integration. Please follow the steps."
+fi

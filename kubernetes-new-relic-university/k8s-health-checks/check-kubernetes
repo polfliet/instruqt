@@ -1,0 +1,4 @@
+kubectl describe pod -n demo-app -l tier=frontend | grep Live
+if [ $? -ne 0 ]; then
+    fail-message "Could not find the Livenes probe. Please follow the instructions."
+fi

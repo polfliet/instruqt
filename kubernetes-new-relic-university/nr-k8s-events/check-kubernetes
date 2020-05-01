@@ -1,3 +1,6 @@
 #!/bin/bash
 
-kubectl get pods | grep nr-kube-events
+kubectl get pods | grep nri-kube-events
+if [ $? -ne 0 ]; then
+    fail-message "Could not find New Relic k8s events integration. Please follow the steps."
+fi

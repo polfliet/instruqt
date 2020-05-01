@@ -1,3 +1,6 @@
 #!/bin/bash
 
 kubectl get pods | grep newrelic-logging
+if [ $? -ne 0 ]; then
+    fail-message "Could not find New Relic Logging agent. Please follow the steps."
+fi

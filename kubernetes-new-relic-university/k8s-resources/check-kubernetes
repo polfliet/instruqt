@@ -1,3 +1,6 @@
 #!/bin/bash
 
 kubectl describe -n demo-app pod rabbit | grep Limits
+if [ $? -ne 0 ]; then
+    fail-message "Could not find resource limit on RabbitMQ pod. Please follow the instructions."
+fi
