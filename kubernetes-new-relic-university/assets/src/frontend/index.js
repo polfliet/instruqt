@@ -95,6 +95,7 @@ app.get('/healthz', function (req, res) {
   var failRate = 10;
   var fail = Math.floor(Math.random() * failRate) === 1;
   if (fail) {
+    console.error(' Error - Unsupported USER_AGENT')
     res.status(500).send('FAILED');
   } else {
     res.status(200).send('OK');
