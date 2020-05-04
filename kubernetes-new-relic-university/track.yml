@@ -52,10 +52,8 @@ challenges:
     rest of this tutorial will refer to this *newrelic-secret* to retrieve the license
     key. \n"
   notes:
-  - type: video
-    url: https://www.youtube.com/embed/8yJOYDTYml4?autoplay=1
   - type: text
-    contents: "Please wait while we set-up your testing environment.\n\nKubernetes
+    contents: "Our new Kubernetes environment is being deployed. This takes a minute.\n\nKubernetes
       (“koo-burr-NET-eez”) is the mangled conventional pronunciation of a Greek word,
       κυβερνήτης, meaning “helmsman” or “pilot.” "
   tabs:
@@ -163,7 +161,7 @@ challenges:
     is available in the `Editor` tab. Open the file `worker.yaml` and look for the
     following configuration parameters:\n\n```\nresources:\n    requests:\n        cpu:
     50m\n        memory: 100Mi\n    limits:\n        cpu: 200m\n        memory: 300Mi\n```\n\nHere
-    is your challenge: Add resource requests and limits to the RabbitMQ pod that's
+    is your challenge: Add resource requests and limits to the **RabbitMQ** pod that's
     running in this environment. The config file is available under the `Editor` tab
     in the file `rabbitmq.yaml`. (use the same values as the above example and don't
     forget to save the file in the editor. Pay attention to the indentation!)\n\nYou
@@ -192,10 +190,6 @@ challenges:
   - title: Shell
     type: terminal
     hostname: kubernetes
-  - title: docs.newrelic.com
-    type: website
-    hostname: kubernetes
-    url: http://docs.newrelic.com
   difficulty: basic
   timelimit: 900
 - slug: nr-k8s-events
@@ -272,8 +266,9 @@ challenges:
       httpGet:
         path: /healthz
         port: 3000
-      initialDelaySeconds: 30
+      initialDelaySeconds: 5
       periodSeconds: 5
+      failureThreshold: 1 # for demo purposes
     ```
     Now let's apply the yaml file.
     ```
@@ -287,7 +282,7 @@ challenges:
     ![Events](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/events.png?raw=true "Events")
 
     Now go back to the cluster explorer, search and click on the *frontend* pod. In the meantime, our Liveness probe should have failed a couple of times and you should see it in the context of the Kubernetes Cluster Explorer:
-    ![Failing liveness probe](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/events.png?raw=true "Failing liveness probe")
+    ![Failing liveness probe](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/liveness.png?raw=true "Failing liveness probe")
   notes:
   - type: text
     contents: The dev team is complaining that their application sometimes crashes.
@@ -301,45 +296,6 @@ challenges:
     type: code
     hostname: kubernetes
     path: /root/app/
-  difficulty: basic
-  timelimit: 900
-- slug: nr-distributed-tracing
-  id: a6skqehthnpj
-  type: challenge
-  title: Using Distributed Tracing
-  teaser: Trace your microservices
-  assignment: |
-    Many services could be communicating in a Kubernetes environment, Distributed Tracing allows us to track and understand that communication.
-
-    * A distributed trace represents a unique transaction that flows through your microservice environment
-    * A trace consists of spans, which represent a unit of work (e.g.: code execution on 1 microservice)
-    ![Distributed Tracing](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-intro.png?raw=true "Distributed Tracing")
-
-    # Kubernetes Cluster Explorer
-    Go back to the Cluster Explorer. Search for the 'frontend' deployment and click on the pod.
-
-    Because we have an APM agent running in the container, we can see application details in the context of this pod. You should see something like this:
-    ![APM details](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/pod-apm.png?raw=true "APM")
-
-    Click on *'Trace this application'* to show relevant traces for the service running inside this pod.
-
-    Now we see an overview of all traces that were captured:
-    ![Distributed Traces](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-overview.png?raw=true "Distributed Traces")
-
-    Click on one of the traces and try to understand what happened:
-    * How many entities were involved in this trace?
-    * How much time are we spending in each service?
-
-    # Extra: Add the New Relic APM agent to your Docker image
-    # Extra: Set a custom attribute for DT?
-  notes:
-  - type: text
-    contents: Your environment is becoming more complex. We need to understand how
-      our microservices are communicating.
-  tabs:
-  - title: Shell
-    type: terminal
-    hostname: kubernetes
   difficulty: basic
   timelimit: 900
 - slug: nr-logs
@@ -392,35 +348,57 @@ challenges:
     hostname: kubernetes
   difficulty: basic
   timelimit: 900
-- slug: nr-prometheus
-  id: ycxo28jhzbaz
+- slug: nr-distributed-tracing
+  id: a6skqehthnpj
   type: challenge
-  title: New Relic Prometheus OpenMetrics integration
-  teaser: Getting Prometheus data
-  assignment: |-
-    The New Relic Prometheus OpenMetrics integration allows us to scrape any Prometheus endpoint in our cluster.
+  title: Using Distributed Tracing
+  teaser: Trace your microservices
+  assignment: |
+    Many services could be communicating in a Kubernetes environment, Distributed Tracing allows us to track and understand that communication.
 
-    # Install the New Relic Prometheus OpenMetrics integration
-    The yaml file is already on the machine.
-    ```
-    kubectl apply -f nri-k8s-prometheus.yaml
-    ```
+    * A distributed trace represents a unique transaction that flows through your microservice environment
+    * A trace consists of spans, which represent a unit of work (e.g.: code execution on 1 microservice)
+    ![Distributed Tracing](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-intro.png?raw=true "Distributed Tracing")
 
-    Confirm that the deployment has been created:
-    ```
-    kubectl get deployments nri-prometheus
-    ```
+    # Kubernetes Cluster Explorer
+    Go back to the Cluster Explorer. Search for the 'frontend' deployment and click on the pod.
 
-    You should see something like:
-    ![Prometheus integration](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/prometheus.png?raw=true "Prometheus integration")
+    Because we have an APM agent running in the container, we can see application details in the context of this pod. You should see something like this:
+    ![APM details](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/pod-apm.png?raw=true "APM")
 
-    # New Relic One
-    During the final part of this workshop, we will look at how to build rich dashboards combining Metrics, Events, Logs and Traces.
+    Click on *'Trace this application'* to show relevant traces for the service running inside this pod.
+
+    Now we see an overview of all traces that were captured:
+    ![Distributed Traces](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-overview.png?raw=true "Distributed Traces")
+
+    Click on one of the traces and try to understand what happened:
+    * How many entities were involved in this trace?
+    * How much time are we spending in each service?
+
+    ## More details?
+
+    The dev team added a custom attribute *msgData* to the traces. This way we are able to quickly find a specific trace. Try using the *msgData* attribute in the search field.
+    ![Distributed Tracing - Custom Attributes](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-search.png?raw=true "Distributed Tracing - Custom Attributes")
+
+    Learne more about [adding custom APM attributes here](https://docs.newrelic.com/docs/using-new-relic/data/customize-data/collect-custom-attributes).
+
+    # Extra: Add the New Relic APM agent to your container image
+    We get Distributed Tracing and other APM capabilities out-of-the-box by adding the New Relic APM agent to our containers.
+
+    The dev team already added the APM agent for our Node.js application. Here is more information on how to install an APM agent for different language. The basic idea is to package the APM agent within the container, for example by adding it to your Dockerfile:
+    * [New Relic Java APM](https://docs.newrelic.com/docs/agents/java-agent/additional-installation/install-new-relic-java-agent-docker)
+    * [New Relic Python APM](https://docs.newrelic.com/docs/agents/php-agent/advanced-installation/docker-other-container-environments-install-php-agent)
+    * [New Relic .NET APM](https://docs.newrelic.com/docs/agents/net-agent/installation/install-docker-container)
+    * [Install New Relic for Go](https://docs.newrelic.com/docs/agents/go-agent/installation/install-new-relic-go)
+    * [Install New Relic for Node.js](https://docs.newrelic.com/docs/agents/nodejs-agent/installation-configuration/install-nodejs-agent)
+    * [Install New Relic for Python](https://docs.newrelic.com/docs/agents/python-agent/installation/standard-python-agent-install)
+    * [Install New Relic for Ruby](https://docs.newrelic.com/docs/agents/ruby-agent/installation/install-new-relic-ruby-agent)
   notes:
   - type: text
-    contents: Many services expose data in the Prometheus format. Combining Prometheus
-      metrics with the other data types we have (Events, Logs, Traces) would bring
-      us true service observability.
+    contents: Your environment is becoming more complex. Teams are asking to understand
+      how the microservices are communicating and where they are spending time. The
+      dev team is a big fan of New Relic and they have added the New Relic APM agent
+      to their containers.
   tabs:
   - title: Shell
     type: terminal
@@ -450,11 +428,20 @@ challenges:
     you've changed and saved the file you need to reapply the agent config. You can
     do this with the following command: \n```\nkubectl apply -f nri-k8s.yaml\n```\n\n#
     New Relic Dashboards\n\nA dashboard will be automatically created for our Redis
-    service.\n\nTODO not working in this cluster now\n\n\n"
+    service.\n\nGo to [New Relic One](one.newrelic.com) in your browser.\n\nClick
+    on the *New Relic Infrastructure* button on the New Relic One homepage\n![New
+    Relic Infrastructure](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-infra.png?raw=true
+    \"New Relic Infrastructure\")\n\nClick on *Third-party services* \n![New Relic
+    Third-party services](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-3rdparty.png?raw=true
+    \"New Relic Third-party services\")\n\nAnd open the *Redis dashboard*:\n![Redis
+    dashboard](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/redis.png?raw=true
+    \"Redis dashboard\")\n\nThis Dashboard shows the most important KPIs for our Redis
+    service.\n"
   notes:
   - type: text
-    contents: For some services, we need more details. New Relic offers detailed and
-      out-of-the-box integrations for various technologies running in your cluster.
+    contents: Another department had trouble with Redis and RabbitMQ in the past because
+      they were lacking proper visibility. We will stay on top of our tech stack by
+      using New Relic's out-of-the-box integrations!
   tabs:
   - title: Shell
     type: terminal
@@ -465,12 +452,67 @@ challenges:
     path: /root/new-relic/
   difficulty: basic
   timelimit: 900
+- slug: nr-prometheus
+  id: ycxo28jhzbaz
+  type: challenge
+  title: New Relic Prometheus OpenMetrics integration
+  teaser: Getting Prometheus data
+  assignment: |
+    The New Relic Prometheus OpenMetrics integration allows us to scrape any Prometheus endpoint in our cluster.
+
+    # Install the New Relic Prometheus OpenMetrics integration
+    The yaml file is already on the machine.
+    ```
+    kubectl apply -f nri-k8s-prometheus.yaml
+    ```
+
+    Confirm that the deployment has been created:
+    ```
+    kubectl get deployments nri-prometheus
+    ```
+
+    You should see something like:
+    ![Prometheus integration](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/prometheus.png?raw=true "Prometheus integration")
+
+    The New Relic Prometheus integration will detect which services are exposing Prometheus metrics by looking for the `prometheus.io/scrape` label. Let's verify what services are exposing Prometheus metrics:
+
+    ```
+    kubectl get pods --all-namespaces -l prometheus.io/scrape=true
+    ```
+
+    # Building MELT Dashboards
+    So far we have gathered Metrics, Events, Logs and Traces (MELT). The real power comes from combining those data types. In the next section we will learn how to build MELT dashboards.
+  notes:
+  - type: text
+    contents: Many services expose data in the Prometheus format. Combining Prometheus
+      metrics with the other data types we have (Events, Logs, Traces) would bring
+      us true service observability.
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 900
 - slug: melt
   id: 8cauepgs0o8v
   type: challenge
   title: Building a MELT dashboard
   teaser: Wrap up
-  assignment: '* Show how to download 1 yaml file from one.newrelic.com'
+  assignment: |-
+    #TODO LIAM
+
+    * Show chart builder and where to find metrics, and in particular the Prometheus metrics
+    Show all metrics from the kube-dns service:
+    ```
+    FROM Metric SELECT uniques(metricName) WHERE clusterName = 'New Relic - K8s Workshop' and `label.k8s-app` = 'kube-dns'
+    ```
+
+    Example:
+    ```
+    FROM Metric SELECT latest(coredns_dns_request_duration_seconds.percentiles) WHERE clusterName = 'New Relic - K8s Workshop' and `label.k8s-app` = 'kube-dns' and percentile = 99 timeseries
+    ```
+
+    * Show how to download 1 yaml file from one.newrelic.com
   tabs:
   - title: one.newrelic.com
     type: website
@@ -478,4 +520,23 @@ challenges:
     url: http://one.newrelic.com
   difficulty: basic
   timelimit: 900
-checksum: "2084565308956522385"
+- slug: summary
+  id: sd6n517jlmwq
+  type: challenge
+  title: Summary
+  teaser: summary
+  assignment: |-
+    Great job!
+
+    We now have full observability in our Kubernetes environment.
+
+    During this workshop, we went through several steps and yaml files.
+    To make this easy, you can download 1 manifest file from [New Relic One](one.newrelic.com) by clicking on your name in the top-right corner, and selecting *Instrument your system*.
+
+    Follow the guide and download 1 manifest file that contains everything you need to get true observability:
+    ![Instrument your system]https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/menu.png?raw=true "Instrument your system"
+
+    Good luck!!
+  difficulty: basic
+  timelimit: 500
+checksum: "1097674790952372631"
