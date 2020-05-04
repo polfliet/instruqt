@@ -3,9 +3,36 @@ var amqp = require('amqplib');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+// Add Winston logging for logs in context
+var winston = require('winston'),
+    expressWinston = require('express-winston');
+const newrelicFormatter = require('@newrelic/winston-enricher')
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.locals.newrelic = newrelic;
+
+// Enable Wiston logger
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.json(),
+    newrelicFormatter()
+  ),
+  expressFormat: true,
+  colorize: true
+}));
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.json(),
+    newrelicFormatter()
+  ),
+});
 
 // Do some heavy calculations
 var lookBusy = function() {
@@ -25,21 +52,21 @@ var pushToQueue = function(message, res) {
 
       return ok.then(function(_qok) {
         newrelic.addCustomAttribute('msgData', message);
-        console.error(' [x] Sending to queue: ' + message);
+        logger.error(' [x] Sending to queue: ' + message);
         ch.sendToQueue(q, Buffer.from(message));
         return ch.close();
       });
-    }).finally(function() { 
+    }).finally(function() {
       conn.close();
       res.status(200).send('OK');
     });
-  }).catch(console.error);
+  }).catch(logger.error);
 }
 
 // Look busy middleware
 app.use(function(req, res, next) {
   if (process.env.LOOK_BUSY == 't') {
-    console.log('looking busy ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME)
+    logger.log('looking busy ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME)
     lookBusy();
   }
 
@@ -48,7 +75,7 @@ app.use(function(req, res, next) {
 
 app.get('/healthz', function (req, res) {
   newrelic.setIgnoreTransaction(true);
-  res.status(200).send('OK');    
+  res.status(200).send('OK');
 });
 
 app.get('/', function(req, res) {
@@ -57,5 +84,5 @@ app.get('/', function(req, res) {
 });
 
 app.listen(process.env.PORT || 3000, function () {
-  console.error('Parser ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': listening on port 3000!');
+  logger.error('Parser ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': listening on port 3000!');
 });

@@ -4,12 +4,39 @@ const amqp = require('amqplib');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+// Add Winston logging for logs in context
+var winston = require('winston'),
+    expressWinston = require('express-winston');
+const newrelicFormatter = require('@newrelic/winston-enricher')
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 const redisHost = process.env.GET_HOSTS_ENV !== 'env' ? 'redis-master' : process.env.REDIS_MASTER_SERVICE_HOST;
 
 const client = redis.createClient({ host: redisHost, port: 6379 });
 app.locals.newrelic = newrelic;
+
+// Enable Wiston logger
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.json(),
+    newrelicFormatter()
+  ),
+  expressFormat: true,
+  colorize: true
+}));
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.json(),
+    newrelicFormatter()
+  ),
+});
 
 // Do some heavy calculations
 var lookBusy = function() {
@@ -20,7 +47,7 @@ var lookBusy = function() {
 };
 
 var listenToQueue = function() {
-  console.error('Worker ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': start listening to queue');
+  logger.error('Worker ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': start listening to queue');
 
   amqp.connect('amqp://user:bitnami@rabbitmq:5672').then(function(conn) {
     process.once('SIGINT', function() { conn.close(); });
@@ -32,26 +59,26 @@ var listenToQueue = function() {
         return ch.consume(q, function(msg) {
           lookBusy();
           var message = msg.content.toString();
-          console.error(" [x] Received '%s'", message);
+          logger.error(" [x] Received '%s'", message);
 
           // Push to Redis
           client.set('message', message, function(err) {
             if (err) {
-              console.error('Worker ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': Error pushing to Redis');
+              logger.error('Worker ' + process.env.NEW_RELIC_METADATA_KUBERNETES_POD_NAME + ': Error pushing to Redis');
             }
           });
         }, {noAck: true});
       });
 
       return ok.then(function(_consumeOk) {
-        console.error(' [*] Waiting for messages');
+        logger.error(' [*] Waiting for messages');
       });
     });
-  }).catch(console.error);
+  }).catch(logger.error);
 }
 
 client.on('error', function(err) {
-  console.error('Worker: Could not connect to redis host:', err);
+  logger.error('Worker: Could not connect to redis host:', err);
   newrelic.noticeError(err);
 })
 
