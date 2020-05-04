@@ -52,8 +52,9 @@ var pushToQueue = function(message, res) {
 
       return ok.then(function(_qok) {
         newrelic.addCustomAttribute('msgData', message);
-        logger.error(' [x] Sending to queue: ' + message);
+        logger.error('Sending to queue: ' + message);
         ch.sendToQueue(q, Buffer.from(message));
+
         return ch.close();
       });
     }).finally(function() {
@@ -79,7 +80,10 @@ app.get('/healthz', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-  var message = req.query.message.toUpperCase();
+  var message = req.query.message;
+
+  logger.info('Received ' + message);
+
   pushToQueue(message, res)
 });
 

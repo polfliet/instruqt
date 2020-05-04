@@ -82,7 +82,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/message', function (req, res) {
-  logger.info('redis', { message: '[x] Get messages from Redis' });
+  logger.info('redis', { message: 'Get messages from Redis' });
   client.get('message', function(err, reply) {
     if (err) {
       logger.error('error: ', e);
@@ -96,6 +96,8 @@ app.get('/message', function (req, res) {
 app.post('/message', function(req, res) {
   var message = req.body.message;
 
+  logger.info('Received ' + message);
+
   const options = {
     hostname: 'parser',
     port: 80,
@@ -103,17 +105,15 @@ app.post('/message', function(req, res) {
     method: 'GET'
   }
 
-  logger.info('Forwarding message to parser service');
+  logger.info('Forwarding to parser service');
   const request = http.request(options, (res) => {
     res.on('data', (d) => {
-      logger.info('Answer received', d);
+      logger.info('Answer received, done', d);
     })
   });
-
   request.on('error', (error) => {
     logger.error('GET Error', d);
   })
-
   request.end()
 
   res.redirect('/');

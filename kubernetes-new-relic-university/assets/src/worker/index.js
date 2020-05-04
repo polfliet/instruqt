@@ -59,7 +59,7 @@ var listenToQueue = function() {
         return ch.consume(q, function(msg) {
           lookBusy();
           var message = msg.content.toString();
-          logger.error(" [x] Received '%s'", message);
+          logger.error('Received & processing ' + message);
 
           // Push to Redis
           client.set('message', message, function(err) {
