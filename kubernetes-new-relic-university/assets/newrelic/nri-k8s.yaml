@@ -162,7 +162,7 @@ metadata:
 #      command:
 #        # Run NRI Discovery for Kubernetes
 #        # https://github.com/newrelic/nri-discovery-kubernetes
-#        exec: /var/db/newrelic-infra/nri-discovery-kubernetes --port 10250 --tls
+#        exec: /bin/bash -c 'NRK8S_NODE_NAME=localhost; /var/db/newrelic-infra/nri-discovery-kubernetes --port 10250 --tls'
 #        match:
 #          label.app: redis
 #    integrations:
