@@ -84,7 +84,7 @@ apiVersion: v1
 data:
   config.yaml: |
     # The name of your cluster. It's important to match other New Relic products to relate the data.
-    cluster_name: "New Relic - K8s Workshop"
+    cluster_name: "New Relic - Workshop"
 
     # How often the integration should run. Defaults to 30s.
     # scrape_duration: "30s"
