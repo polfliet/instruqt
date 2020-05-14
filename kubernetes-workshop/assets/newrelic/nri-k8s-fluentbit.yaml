@@ -1,0 +1,173 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: fluent-bit-read
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fluent-bit-read
+subjects:
+- kind: ServiceAccount
+  name: newrelic-logging
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: fluent-bit-read
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: newrelic-logging
+  namespace: default
+automountServiceAccountToken: true
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: newrelic-logging
+  namespace: default
+  labels:
+    k8s-app: newrelic-logging
+    version: v1
+    kubernetes.io/cluster-service: "true"
+    name: newrelic-logging
+    app.kubernetes.io/name: newrelic-logging
+spec:
+  selector:
+    matchLabels:
+      name: newrelic-logging
+  template:
+    metadata:
+      labels:
+        k8s-app: newrelic-logging
+        version: v1
+        kubernetes.io/cluster-service: "true"
+        name: newrelic-logging
+        app.kubernetes.io/name: newrelic-logging
+    spec:
+      serviceAccountName: newrelic-logging
+      containers:
+      - name: newrelic-logging
+        env:
+          - name: ENDPOINT
+            value : "https://log-api.newrelic.com/log/v1"
+          - name: SOURCE
+            value: "kubernetes"
+          - name: LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: newrelic-secret
+                key: new_relic_license_key
+          - name: BUFFER_SIZE
+            value: "256000"
+          - name: MAX_RECORDS
+            value: "500"
+          - name: LOG_LEVEL
+            value: "info"
+          - name: PATH
+            value: "/var/log/containers/*.log"
+        image: newrelic/newrelic-fluentbit-output:1.1.2
+        command:
+          - /fluent-bit/bin/fluent-bit
+          - -c
+          - /fluent-bit/etc/fluent-bit.conf
+          - -e
+          - /fluent-bit/bin/out_newrelic.so
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+        - name: config
+          mountPath: /fluent-bit/etc
+        - name: varlog
+          mountPath: /var
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: config
+        configMap:
+          name: fluent-bit-config
+      - name: varlog
+        hostPath:
+          path: /var
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: default
+  labels:
+    k8s-app: newrelic-logging
+data:
+  # Configuration files: server, input, filters and output
+  # ======================================================
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         1
+        Log_Level     ${LOG_LEVEL}
+        Daemon        off
+        Parsers_File  parsers.conf
+        HTTP_Server   On
+        HTTP_Listen   0.0.0.0
+        HTTP_Port     2020
+
+    @INCLUDE input-kubernetes.conf
+    @INCLUDE output-newrelic.conf
+    @INCLUDE filter-kubernetes.conf
+
+  input-kubernetes.conf: |
+    [INPUT]
+        Name              tail
+        Tag               kube.*
+        Path              ${PATH}
+        Parser            docker
+        DB                /var/log/flb_kube.db
+        Mem_Buf_Limit     7MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+  filter-kubernetes.conf: |
+    [FILTER]
+        Name           kubernetes
+        Match          kube.*
+        Kube_URL       https://kubernetes.default.svc.cluster.local:443
+        Merge_JSON_Log Off
+
+  output-newrelic.conf: |
+    [OUTPUT]
+        Name  newrelic
+        Match *
+        licenseKey ${LICENSE_KEY}
+        endpoint ${ENDPOINT}
+        maxBufferSize ${BUFFER_SIZE}
+        maxRecords ${MAX_RECORDS}
+
+  parsers.conf: |
+    [PARSER]
+        Name   json
+        Format json
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    [PARSER]
+        Name        docker
+        Format      json
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep   On
+        # Command      |  Decoder | Field | Optional Action
+        # =============|==================|=================
+        Decode_Field_As   escaped    log
+

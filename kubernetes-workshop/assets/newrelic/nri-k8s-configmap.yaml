@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nri-integration-cfg # aimed to be safely overridden by users
+  namespace: default
+data:
+    redis-config.yml: |
+        ---
+        # Run auto discovery to find pods with label "app=redis"
+        # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
+        discovery:
+            command:
+                # Run NRI Discovery for Kubernetes
+                # https://github.com/newrelic/nri-discovery-kubernetes
+                exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+                match:
+                    label.app: redis
+        integrations:
+        - name: nri-redis
+            env:
+                # using the discovered IP as the hostname address
+                HOSTNAME: ${discovery.ip}
+                PORT: 6379
+                REMOTE_MONITORING: true
+            labels:
+                env: production
+    rabbitmq-config.yml: |
+        ---
+        # Run auto discovery to find pods with label "app=rabbitmq"
+        # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
+        discovery:
+            command:
+                # Run NRI Discovery for Kubernetes
+                # https://github.com/newrelic/nri-discovery-kubernetes
+                exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+                match:
+                    label.app: rabbitmq
+        integrations:
+        - name: nri-rabbitmq
+            env:
+                # using the discovered IP as the hostname address
+                HOSTNAME: ${discovery.ip}
+                PORT: 15672
+                USERNAME: user
+                PASSWORD: bitnami
+            labels:
+                env: production
+                role: rabbitmq

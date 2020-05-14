@@ -1,0 +1,12 @@
+Unable to connect to the server: dial tcp: lookup 1852DFE2008F9E2BAC3154FB4AC1F788.yl4.eu-west-1.eks.amazonaws.com: no such host
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: message
+Unable to connect to the server: dial tcp: lookup 1852DFE2008F9E2BAC3154FB4AC1F788.yl4.eu-west-1.eks.amazonaws.com: no such host
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: message
+Unable to connect to the server: dial tcp: lookup 1852DFE2008F9E2BAC3154FB4AC1F788.yl4.eu-west-1.eks.amazonaws.com: no such host
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: message

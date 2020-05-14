@@ -1,0 +1,203 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: newrelic
+  namespace: default
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: newrelic
+rules:
+- apiGroups: [""]
+  resources:
+    - "nodes"
+    - "nodes/metrics"
+    - "nodes/stats"
+    - "nodes/proxy"
+    - "pods"
+    - "secrets"
+    - "services"
+  verbs: ["get", "list"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: newrelic
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: newrelic
+subjects:
+- kind: ServiceAccount
+  name: newrelic
+  namespace: default
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: newrelic-infra
+  namespace: default
+  labels:
+    app: newrelic-infra
+spec:
+  selector:
+    matchLabels:
+      name: newrelic-infra
+  updateStrategy:
+      type: RollingUpdate # Only supported in Kubernetes version 1.6 or later.
+  template:
+    metadata:
+      labels:
+        name: newrelic-infra
+      annotations:
+        # Needed for Kubernetes versions prior to 1.6.0, where tolerations were set via annotations.
+        scheduler.alpha.kubernetes.io/tolerations: |
+          [{"operator": "Exists", "effect": "NoSchedule"},{"operator": "Exists", "effect": "NoExecute"}]
+    spec:
+      serviceAccountName: newrelic
+      hostNetwork: true # This option is a requirement for the Infrastructure Agent to report the proper hostname in New Relic.
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: newrelic-infra
+          image: newrelic/infrastructure-k8s:1.13.2
+          securityContext:
+            privileged: true
+          resources:
+            limits:
+              memory: 300M
+            requests:
+              cpu: 100m
+              memory: 150M
+          volumeMounts:
+            - mountPath: /host
+              name: host-volume
+              readOnly: true
+            - mountPath: /var/run/docker.sock
+              name: host-docker-socket
+            - mountPath: /var/db/newrelic-infra/integrations.d/
+              name: nri-default-integration-cfg-volume
+            - mountPath: /etc/newrelic-infra/integrations.d/
+              name: nri-integration-cfg-volume
+          env:
+            - name: "CLUSTER_NAME"
+              value: "New Relic - Workshop"
+            - name: "NRIA_LICENSE_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: newrelic-secret
+                  key: new_relic_license_key
+            - name: "NRIA_VERBOSE"
+              value: "0"
+           # - name: "CADVISOR_PORT" # Enable direct connection to cAdvisor by specifying the port. Needed for Kubernetes versions prior to 1.7.6.
+           #   value: "4194"
+           # - name: "KUBE_STATE_METRICS_URL" # If this value is specified then discovery process for kube-state-metrics endpoint won't be triggered.
+           #   value: "http://172.17.0.3:8080" # This is example value. Only HTTP request is accepted.
+           # - name: "ETCD_TLS_SECRET_NAME" # Name of the secret containing the cacert, cert and key used for setting the mTLS config for retrieving metrics from ETCD.
+           #   value: "newrelic-infra-etcd-tls-secret"
+           # - name: "ETCD_TLS_SECRET_NAMESPACE" # Namespace where the the secret specified in ETCD_TLS_SECRET_NAME was created.
+           #   value: "default"
+           # - name: API_SERVER_SECURE_PORT
+           #   value: "6443"
+            - name: "NRIA_DISPLAY_NAME"
+              valueFrom:
+                fieldRef:
+                  apiVersion: "v1"
+                  fieldPath: "spec.nodeName"
+            - name: "NRK8S_NODE_NAME"
+              valueFrom:
+                fieldRef:
+                  apiVersion: "v1"
+                  fieldPath: "spec.nodeName"
+            - name: "NRIA_CUSTOM_ATTRIBUTES"
+              value: '{"clusterName":"$(CLUSTER_NAME)"}'
+            - name: "NRIA_PASSTHROUGH_ENVIRONMENT"
+              value: "KUBERNETES_SERVICE_HOST,KUBERNETES_SERVICE_PORT,CLUSTER_NAME,CADVISOR_PORT,NRK8S_NODE_NAME,KUBE_STATE_METRICS_URL,KUBE_STATE_METRICS_POD_LABEL,ETCD_TLS_SECRET_NAME,ETCD_TLS_SECRET_NAMESPACE,API_SERVER_SECURE_PORT"
+      volumes:
+        - name: host-volume
+          hostPath:
+            path: /
+        - name: host-docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+        - name: nri-default-integration-cfg-volume
+          configMap:
+            name: nri-default-integration-cfg
+        - name: nri-integration-cfg-volume
+          configMap:
+            name: nri-integration-cfg
+      tolerations:
+        - operator: "Exists"
+          effect: "NoSchedule"
+        - operator: "Exists"
+          effect: "NoExecute"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nri-default-integration-cfg # integrations config provided by default
+  namespace: default
+data:
+  nri-kubernetes-config.yml: |
+    integration_name: com.newrelic.kubernetes
+    instances:
+      - name: nri-kubernetes
+        command: metrics
+
+  redis-config.yml: |
+    ---
+    # Run auto discovery to find pods with label "app=redis"
+    discovery:
+      command:
+        # Run NRI Discovery for Kubernetes
+        # https://github.com/newrelic/nri-discovery-kubernetes
+        exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+        match:
+          label.app: redis
+    integrations:
+      - name: nri-redis
+        env:
+          # using the discovered IP as the hostname address
+          HOSTNAME: ${discovery.ip}
+          PORT: 6379
+          KEYS: '{"0":["<KEY_1>"],"1":["<KEY_2>"]}'
+          REMOTE_MONITORING: true
+        labels:
+          env: production
+
+  rabbitmq-config.yml: |
+    ---
+    # Run auto discovery to find pods with label "app=rabbitmq"
+    # https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery
+    discovery:
+      command:
+        # Run NRI Discovery for Kubernetes
+        # https://github.com/newrelic/nri-discovery-kubernetes
+        exec: /var/db/newrelic-infra/nri-discovery-kubernetes
+        match:
+          label.app: rabbitmq
+    integrations:
+      - name: nri-rabbitmq
+        env:
+          # using the discovered IP as the hostname address
+          HOSTNAME: ${discovery.ip}
+          PORT: 15672
+          USERNAME: user
+          PASSWORD:
+            valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: password
+        labels:
+          env: production
+          role: rabbitmq
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nri-integration-cfg # aimed to be safely overridden by users
+  namespace: default
