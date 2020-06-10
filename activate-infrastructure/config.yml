@@ -1,0 +1,5 @@
+version: "2"
+containers:
+- name: linux-host
+  image: ubuntu:18.04
+  memory: 64
