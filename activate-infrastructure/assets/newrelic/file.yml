@@ -1,0 +1,7 @@
+###############################################################################
+# Log forwarder configuration file example                                    #
+###############################################################################
+logs:
+    # Basic tailing of a file
+  - name: syslog
+    file: /var/log/syslog
