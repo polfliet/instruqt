@@ -22,6 +22,7 @@ wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-r
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/frontend.yaml
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/parser.yaml
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/worker.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/loadgen.yaml
 
 # Create our demo app in a seperate namespace
 kubectl create namespace demo-app
@@ -35,15 +36,14 @@ kubectl apply -f redis.yaml -n demo-app
 kubectl apply -f frontend.yaml -n demo-app
 kubectl apply -f parser.yaml -n demo-app
 kubectl apply -f worker.yaml -n demo-app
+kubectl apply -f loadgen.yaml -n demo-app # Start load generator
 popd
 
 # Download and run load generator in background
-wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/loadgen.sh
-chmod +x loadgen.sh
-nohup ./loadgen.sh 2>/dev/null &
+#wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/loadgen.sh
+#chmod +x loadgen.sh
+#nohup ./loadgen.sh 2>/dev/null & disown
 
 # Create directory for kube-state-metrics files and set as working directory
 mkdir kube-state-metrics/
 set-workdir $(pwd)/kube-state-metrics
-
-exit 0

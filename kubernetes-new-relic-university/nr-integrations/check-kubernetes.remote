@@ -1,0 +1,6 @@
+#!/bin/bash
+
+kubectl describe configmap nri-integration-cfg | grep redis
+if [ $? -ne 0 ]; then
+    fail-message "Could not find Redis integration. Please follow the steps and uncomment the Redis integration. Don't forget to apply the changes."
+fi

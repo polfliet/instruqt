@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Reset home dir
+cd /root/
+
+# Wait for kubernetes to become available
+if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; then
+  echo "Starting Kubernetes, this may take a minute or so"
+  while ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/; do printf "." && sleep 1; done || break
+  printf "done."
+  echo ""
+fi
+
+# Set label so Prometheus integration picks it up
+kubectl label pods -n kube-system -l k8s-app=kube-dns prometheus.io/scrape=true
