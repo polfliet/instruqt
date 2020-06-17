@@ -1,5 +1,6 @@
 version: "2"
-containers:
-- name: linux-host
-  image: ubuntu:18.04
-  memory: 64
+virtualmachines:
+- name: ubuntu
+  image: ubuntu-minimal-1804-lts
+  shell: /usr/bin/env bash
+  machine_type: n1-standard-1

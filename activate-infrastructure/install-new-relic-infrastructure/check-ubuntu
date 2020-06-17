@@ -1,0 +1,4 @@
+export SYSTEMD_PAGER=''; service newrelic-infra status
+if [ $? -ne 0 ]; then
+    fail-message "New Relic Infrastructure is not running. Please follow the steps."
+fi

@@ -3,65 +3,117 @@ id: hfsnumyy82wg
 type: track
 title: Product Activate - New Relic Infrastructure
 teaser: Learn how to use New Relic Infrastructure
-description: |-
-  * Install agent
-  * Install on-host
-icon: ""
+description: This lab is intended to give you experience of deploying the New Relic
+  Infrastructure solution and to extend the information that the New Relic Infrastructure
+  agent collects.
+icon: https://github.com/polfliet/instruqt/raw/master/assets/icons/nr-infrastructure.png
 tags:
-- ""
+- infrastructure
 owner: newrelic
 developers:
+- svandamme@newrelic.com
+- mechandi@newrelic.com
+- asavory@newrelic.com
 - spolfliet@newrelic.com
 private: true
-published: false
+published: true
 challenges:
 - slug: install-new-relic-infrastructure
   id: a1v3kmp7echz
   type: challenge
   title: Install New Relic Infrastructure
   teaser: Install the New Relic Infrastructure agent
-  assignment: "\nThe first step to installing the New Relic infrastructure agent is
-    figuring out which agent to install. New Relic supports several package management
-    systems (`apt`, `yum`, `zypper`) and operating systems, which means the install
-    instructions are different for each.\n\nThe simpelest way to figure out which
-    package manager the customer uses is to discover which operating system is installed.
-    Running the following command will give you that information.\n\n```\ncat /etc/os-release\n```\n\nCheck
-    out the `NAME` and `PRETTY_NAME` variable for the name of the operating system.
-    `VERSION_ID` gives you a hint on the version.\n\nNext is the installation. In
-    New Relic go to `Infrastructure` and click on `+ Add data connections` (top, right).
-    Here you can find a list of operating systems to choose from. When in doubt or
-    the operating system is not listed, you can always reach out to support. Use the
-    `NAME` and `PRETTY_NAME` variables from the output to select the right operating
-    system.\n\nAfter selecting the right operating system follow the instructions
-    within New Relic, executing command by command. When you need to select a command
-    depending on the `distribution version` you can use the information from the `VERSION_ID`
-    discovered above.\n\nYou can check if your installation was succesfull by running:
-    \n\n```\nservice newrelic-infra status\n```\n\nIf it says `Active: active (running)`
-    you are all good.\n"
+  assignment: "# Check your operating system\nThe first step to installing the New
+    Relic infrastructure agent is figuring out which agent to install. New Relic supports
+    several package management systems (`apt`, `yum`, `zypper`) and operating systems,
+    which means the install instructions are different for each.\n\nThe simplest way
+    to figure out which package manager you have is to discover which operating system
+    is installed. Running the following command will give you that information.\n\n```\ncat
+    /etc/os-release\n```\n\nCheck out the `NAME` and `PRETTY_NAME` variable for the
+    name of the operating system. `VERSION_ID` gives you a hint on the version.\n\n#
+    Install New Relic Infrastructure\nOpen a tab in your browser and go to [New Relic
+    One](one.newrelic.com).\nIn the top-right, click on your name and click on `Instrument
+    your system`\n\n![Instrument your system](https://github.com/polfliet/instruqt/blob/master/activate-infrastructure/assets/gifs/instrument-system.gif?raw=true
+    \"Instrument your system\")\n\nAfter selecting the right operating system follow
+    the instructions within New Relic:\n* Select your New Relic account\n* Choose
+    the correct operating system\n* Copy the installation instructions to the terminal
+    window\n\nYou can check if your installation was succesfull by running: \n\n```\nservice
+    newrelic-infra status\n```\n\nIf it says `Active: active (running)` you are all
+    good. Press `q` to exit this command.\n"
   notes:
   - type: text
-    contents: Let's get started
+    contents: Please wait while we are starting your Linux server
   tabs:
   - title: Terminal
     type: terminal
-    hostname: linux-host
+    hostname: ubuntu
+  difficulty: basic
+  timelimit: 900
+- slug: agent-lifecycle
+  id: ldc0mrjxt1pc
+  type: challenge
+  title: Agent Lifecycle
+  teaser: Learn how to stop, start, restart the agent
+  assignment: |
+    You can start, stop, or restart the agent using:
+    ```
+    sudo systemctl <start|stop|restart|status> newrelic-infra
+    ```
+
+    ### Stop the agent if it’s running:
+    ```
+    sudo systemctl stop newrelic-infra
+    ```
+
+    ### Start the agent:
+    ```
+    sudo systemctl start newrelic-infra
+    ```
+
+    ### Check the status of the agent:
+    ```
+    sudo systemctl status newrelic-infra
+    ```
+    Use `q` to quit
+
+    ### Restart the agent:
+    ```
+    sudo systemctl restart newrelic-infra
+    ```
+
+    ### Check the status of the agent again:
+    ```
+    sudo systemctl status newrelic-infra
+    ```
+    Use `q` to quit
+  notes:
+  - type: text
+    contents: Time to learn more about the lifecycle of the New Relic Infrastructure
+      agent
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
   difficulty: basic
   timelimit: 900
 - slug: nri-customizing
   id: q8q90xgjgkay
   type: challenge
-  title: New Relic Infrastructure - Customizing
+  title: Agent configuration
   teaser: Customizing the agent
-  assignment: |+
+  assignment: |-
     Now that we have a running agent, let's take a look at the configuration. We're going to add a couple of labels (so we can more easily find a group of servers), as well as change the hostname.
 
+    # Configuration files
     When the New Relic agent is installed it will create a `/etc/newrelic-infra` directory. Let's take a look at what's inside that directory.
 
     ```
     ls /etc/newrelic-infra
     ```
 
-    When installing New Relic Infrastructure OHI's (On host integrations) you will find them in this directory, including the configuration file.
+    Note that we have 2 directories:
+    * `integrations.d/`: Configuration files for New Relic Infrastructure OHI's (On-Host integrations) can be found here
+    * `logging.d/`: Configuration files for setting up New Relic Logs
 
     The New Relic agent also has a configuration file `newrelic-infra.yml` which you can find in `/etc`.
 
@@ -69,7 +121,8 @@ challenges:
     cat /etc/newrelic-infra.yml
     ```
 
-    Let's add some labels and change the hostname of our agent. To do that, open `/etc/newrelic-infra.yml` in your favorite editor. (If you don't have one, you can use `nano`. [Here is a quick tutorial on `nano` to get your started.](https://wiki.gentoo.org/wiki/Nano/Basics_Guide))
+    # Customizing the agent
+    Let's add some labels and change the hostname of our agent. To do that, use the Instruqt editor to open `/etc/newrelic-infra.yml`.
 
     We're going to add some labels to make it easier to group our hosts for alerting and dashboarding. In this case we're adding the location of the server, the group that's managing it, and the environment. Copy paste this information into the `/etc/newrelic-infra.yml` file. You can always add your own labels to test.
 
@@ -86,7 +139,7 @@ challenges:
     display_name: app1-staging-eu
     ```
 
-    You can now save the `newrelic-infra.yml` file and restart the agent. Restarting the agent can be done by running the following command. In this case we're using the service command, keep in mind that this might be different depending on the Operating System, or if you're using the New Relic Dockerized agent.
+    You can now save the `newrelic-infra.yml` file and restart the agent. Restarting the agent can be done by running the following command. In this case we're using the service command, keep in mind that this might be different depending on the Operating System.
 
     ```
     service newrelic-infra restart
@@ -94,8 +147,18 @@ challenges:
 
     After restarting the agent you will see a new host appear in the New Relic UI, with the `display_name` you've given it.
 
-    Congratulations, you've now installed and configured a New Relic Infrastructure agent. In the next step we'll take a look at the data that the agent is sending to the New Relic platform.
-
+    Congratulations, you've now installed and configured a New Relic Infrastructure agent.
+  notes:
+  - type: text
+    contents: We will now learn how to customize the agent
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra.yml
   difficulty: basic
   timelimit: 900
 - slug: nri-explore
@@ -103,34 +166,12 @@ challenges:
   type: challenge
   title: Exploring the data
   teaser: Explore the data
-  assignment: |
-    Now that the Infrastructure agent is pushing data to the New Relic platform, and more specically New Relic Insights, let's take a look at what our modifications have done with the data.
+  assignment: |+
+    Now that the Infrastructure agent is pushing data to the New Relic platform, let's take a look at the data coming in.
 
-    Navigate to the New Relic UI, Insights and then the Data explorer. The first Event type we want to take a look at is `SystemSample`.
+    Navigate to the New Relic Infrastructure UI
 
-    The `SystemSample` event contains data describing the current overall state of the entire server, including CPU, memory, disk, and network.
-
-    | agentName agentVersion coreCount displayName entityGuid entityId entityKey entityName environment fullHostname hostname instanceType | kernelVersion linuxDistribution location nr.entityType operatingSystem processorCount systemMemoryBytes team cpuIOWaitPercent cpuIdlePercent cpuPercent cpuStealPercent | cpuSystemPercent cpuUserPercent criticalViolationCount diskFreeBytes diskFreePercent diskReadUtilizationPercent diskReadsPerSecond diskTotalBytes diskUsedBytes diskUsedPercent diskUtilizationPercent diskWriteUtilizationPercent | diskWritesPerSecond loadAverageFifteenMinute loadAverageFiveMinute loadAverageOneMinute memoryFreeBytes memoryTotalBytes memoryUsedBytes swapFreeBytes swapTotalBytes swapUsedBytes timestamp warningViolationCount |
-    |----|----|----|----|
-
-    If you have a good eye you'll find our `environment`, `location`, and `team` custom_attributes that we added to New Relic infrastructure config file.
-
-    Imagine the agent installed on hundreds of hosts, we can now easily retrieve our resource usage depending on these parameters.
-
-    ```sql
-    SELECT average(cpuPercent) FROM SystemSample FACET location
-    ```
-
-    Next to `SystemSample` New Relic also has:
-
-    * `ProcessSample` event gathers detailed resource usage information from programs running on a single system
-    * `StorageSample` event represents a single storage device associated with a server.
-    * `NetworkSample` event captures the descriptive and state information for each network device associated with a server. It includes the device's interface and address information, as well as current usage data.
-    * `InfrastructureEvent` describes changes (deltas) that occur in a system's live state.
-
-    Each of these (except for the `InfrastructureEvent`) will contain the custom_attributes we've defined in our config file, allowing you to quick sort and group like we did with `SystemSample` data.
-
-    Next to the data in Insighs you also have the views in New Relic Infrastructure. Navigate to New Relic UI and select the Infrastructure tab. Make sure to check out the following pages:
+    Make sure to check out the following pages:
 
     * Hosts
     * Network
@@ -139,23 +180,17 @@ challenges:
     * Inventory
     * Events
 
-    For our last step in the tutorial we'll take a look on how you can debug the New Relic agent. To make it a challenge we will break something in your set-up and it will be your job to find out what the issue is, and fix it.
+    Can you answer the following questions:
+    * Hosts: What instanceType is this machine?
+    * Processes: What process was consuming a lot of resources?
+    * Inventory: Is root login via ssh permitted?
+    * Events: When was the time-consuming process installed?
+
+  tabs:
+  - title: New Relic One
+    type: website
+    hostname: ubuntu
+    url: https://one.newrelic.com
   difficulty: basic
   timelimit: 500
-- slug: nri-troubleshooting
-  id: 7tyebkssxyf0
-  type: challenge
-  title: Troubleshooting the gaent
-  teaser: Troubleshooting the agent
-  assignment: |2
-
-    If you check the New Relic data you might notice that the agent you have installed stopped reporting. (It might take a few minutes before you see the gap in the data)
-
-    Your challenge now is to find and fix the issue. Check our documentation for some help: [Troubleshooting the infrastructure agent](https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/troubleshooting/no-data-appears-infrastructure)
-
-    A good way to check if you're getting data again from the agents is to run `SELECT * FROM SystemSample WHERE hostname = 'app1-staging-eu'`. If you see events for the last couple of minutes, the agent is running.
-
-    Once you see data again in the New Relic UI, you are done. Well done!
-  difficulty: basic
-  timelimit: 500
-checksum: "2969301547866428200"
+checksum: "14528391577385230718"
