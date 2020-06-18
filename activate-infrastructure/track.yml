@@ -166,26 +166,19 @@ challenges:
   type: challenge
   title: Exploring the data
   teaser: Explore the data
-  assignment: |+
-    Now that the Infrastructure agent is pushing data to the New Relic platform, let's take a look at the data coming in.
-
-    Navigate to the New Relic Infrastructure UI
-
-    Make sure to check out the following pages:
-
-    * Hosts
-    * Network
-    * Storage
-    * Processes
-    * Inventory
-    * Events
-
-    Can you answer the following questions:
-    * Hosts: What instanceType is this machine?
-    * Processes: What process was consuming a lot of resources?
-    * Inventory: Is root login via ssh permitted?
-    * Events: When was the time-consuming process installed?
-
+  assignment: "NOTE: I have asked the Instruqt team if we can put the notes full screen
+    when there is no terminal window needed. Ideally we want to show some dashboard
+    screenshots here. \n\nNow that the Infrastructure agent is pushing data to the
+    New Relic platform, let's take a look at the data coming in.\n\nNavigate to the
+    New Relic Infrastructure UI\n\n*Make sure to check out the following pages:*\n\n*
+    Hosts\n* Network\n* Storage\n* Processes\n* Inventory\n* Events\n\n*Can you answer
+    the following questions:*\n* Hosts: What instanceType is this machine?\n* Processes:
+    What process was consuming a lot of resources?\n* Inventory: Is root login via
+    ssh permitted?\n* Events: When was the time-consuming process installed?\n\n"
+  notes:
+  - type: text
+    contents: Your server is being monitored, time to explore all the data that is
+      coming in.
   tabs:
   - title: New Relic One
     type: website
@@ -193,4 +186,87 @@ challenges:
     url: https://one.newrelic.com
   difficulty: basic
   timelimit: 500
-checksum: "14528391577385230718"
+- slug: logs
+  id: omds9nvl5dwy
+  type: challenge
+  title: 'Extra: Forwarding Logs'
+  teaser: How to forward logs using New Relic Infrastructure
+  assignment: |-
+    The New Relic Infrastructure agent can forward logs to New Relic.
+
+    An example configuration is already available on this machine.
+    Use the editor to open `/etc/newrelic-infra/logging.d/file.yml`
+
+    This configuration tells the New Relic Infrastructure agent to forward the contents of `/var/log/syslog` to New Relic.
+
+    # Try it out
+    The Infrastructure agent has already picked up this configuration file, so let's create some log messages and check if we can see them in New Relic:
+    ```
+    logger "This is a message for New Relic"
+    ```
+
+    Go to Logs on [New Relic One](one.newrelic.com).
+    You should be able to see our message in the log stream:
+    ![Logs](https://github.com/polfliet/instruqt/blob/master/activate-infrastructure/assets/screenshots/logs.png?raw=true "Logs")
+  notes:
+  - type: text
+    contents: New Relic is a true observability platform with support for different
+      data types, such as Metrics, Events, Logs and Traces (MELT). Let's see how we
+      can easily forward logs with the Infrastructure agent.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra/logging.d/file.yml
+  difficulty: basic
+  timelimit: 900
+- slug: nri-ohi
+  id: penm7yeystkg
+  type: challenge
+  title: 'Extra: Installing an on-host integration'
+  teaser: Learn how to use on-host integrations
+  assignment: |+
+    MongoDB has been installed on your server, and a user `newrelic` is already created with the right permissions. Read more about configuring MongoDB in the [docs](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/mongodb-monitoring-integration)
+
+    # Install the MongoDB on-host integration
+
+    ```
+    sudo apt install -y nri-mongodb
+    ```
+
+    Configuration files for the on-host integrations are stored in `/etc/newrelic-infra/integrations.d`
+
+    ```
+    sudo cp mongodb-config.yml.sample mongodb-config.yml
+    ```
+    Use the editor to update `mongodb-config.yml`:
+    * Change the host to `localhost`
+    * Change the username and password to `newrelic`
+    * Disable SSL by setting `ssl` to `false`
+
+    Restart the Infrastructure agent:
+    ```
+    sudo service newrelic-infra restart
+    ```
+
+    # Explore the data
+    Go to [New Relic One](one.newrelic.com), navigate to New Relic Infrastructure - Third-party services and open the MongoDB dashboard.
+
+  notes:
+  - type: text
+    contents: We are installing MongoDB on your server. Let's learn how to get visibility
+      in MongoDB.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra/integrations.d/
+  difficulty: basic
+  timelimit: 900
+checksum: "3779228552660206968"
