@@ -11,6 +11,12 @@ if ! curl --silent --fail --output /dev/null http://localhost:8001/api/v1/namesp
   echo ""
 fi
 
+# Download a bad pod with wrong image to generate events
+pushd app/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/app/unknown.yaml
+kubectl apply -f unknown.yaml -n demo-app
+popd
+
 # Download the New Relic event config
 pushd new-relic/
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/newrelic/nri-k8s-events.yaml
