@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: important
+  labels:
+    app: important
+spec:
+  containers:
+  - image: docker.io/spolfliet/important:latest
+    name: important
+  restartPolicy: Always
