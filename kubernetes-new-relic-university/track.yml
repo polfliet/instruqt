@@ -21,11 +21,16 @@ tags:
 - kubernetes
 owner: newrelic
 developers:
+- spolfliet@newrelic.com
 - svandamme@newrelic.com
 - lhurrell@newrelic.com
-- spolfliet@newrelic.com
+- mcaron@newrelic.com
+- asavory@newrelic.com
+- mechandi@newrelic.com
+- tdoherty@newrelic.com
+- pweber@newrelic.com
 private: true
-published: false
+published: true
 challenges:
 - slug: kubernetes-secrets
   id: sua74knxvnml
@@ -118,7 +123,8 @@ challenges:
     the *Kubernetes Cluster Explorer* link and navigate to your cluster ('*New Relic
     - Workshop*')\n![Kubernetes Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce.png?raw=true
     \"Kubernetes Cluster Explorer\")\n\nYour Kubernetes Cluster Explorer should look
-    something like this:\n![Kubernetes Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce2.png?raw=true
+    something like this (note: give the agent some time to initialize):\n![Kubernetes
+    Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce2.png?raw=true
     \"Kubernetes Cluster Explorer\")\n\nTake some time to get familiar with the Kubernetes
     cluster explorer. We will be using the cluster explorer in the rest of this session.\n\n**Try
     to find an answer to the following questions**:\n* How many pods do we have running
@@ -266,8 +272,8 @@ challenges:
       httpGet:
         path: /healthz
         port: 3000
-      initialDelaySeconds: 5
-      periodSeconds: 5
+      initialDelaySeconds: 10
+      periodSeconds: 10
       failureThreshold: 1 # for demo purposes
     ```
     Now let's apply the yaml file.
@@ -371,7 +377,7 @@ challenges:
     Now we see an overview of all traces that were captured:
     ![Distributed Traces](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-overview.png?raw=true "Distributed Traces")
 
-    Click on one of the traces and try to understand what happened:
+    Click on one of the traces and try to understand what happened (search for a trace with root entry span *POST//message*):
     * How many entities were involved in this trace?
     * How much time are we spending in each service?
 
@@ -499,7 +505,7 @@ challenges:
   title: Building a MELT dashboard
   teaser: Wrap up
   assignment: |-
-    #TODO LIAM
+    # THIS CHALLENGE NEEDS TO BE CREATED @LIAM
 
     * Show chart builder and where to find metrics, and in particular the Prometheus metrics
     Show all metrics from the kube-dns service:
@@ -513,11 +519,6 @@ challenges:
     ```
 
     * Show how to download 1 yaml file from one.newrelic.com
-  tabs:
-  - title: one.newrelic.com
-    type: website
-    hostname: kubernetes
-    url: http://one.newrelic.com
   difficulty: basic
   timelimit: 900
 - slug: summary
@@ -534,9 +535,9 @@ challenges:
     To make this easy, you can download 1 manifest file from [New Relic One](one.newrelic.com) by clicking on your name in the top-right corner, and selecting *Instrument your system*.
 
     Follow the guide and download 1 manifest file that contains everything you need to get true observability:
-    ![Instrument your system]https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/menu.png?raw=true "Instrument your system"
+    ![Instrument your system](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/menu.png?raw=true "Instrument your system")
 
     Good luck!!
   difficulty: basic
   timelimit: 500
-checksum: "1097674790952372631"
+checksum: "8344043223412877304"

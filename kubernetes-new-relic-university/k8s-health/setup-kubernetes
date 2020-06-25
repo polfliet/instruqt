@@ -42,7 +42,7 @@ popd
 # Download and run load generator in background
 #wget https://raw.githubusercontent.com/polfliet/instruqt/master/kubernetes-new-relic-university/assets/scripts/loadgen.sh
 #chmod +x loadgen.sh
-#nohup ./loadgen.sh 2>/dev/null & disown
+#nohup ./loadgen.sh >/var/log/loadgen.out 2>/var/log/loadgen.err </dev/null & disown
 
 # Create directory for kube-state-metrics files and set as working directory
 mkdir kube-state-metrics/
