@@ -31,3 +31,10 @@ spec:
         image: docker.io/spolfliet/newrelic-k8s-guestbook-rabbitmq:latest 
         ports:
           - containerPort: 3000
+        #resources:
+        #  requests:
+        #      cpu: 50m
+        #      memory: 100Mi
+        #  limits:
+        #      cpu: 200m
+        #      memory: 300Mi
