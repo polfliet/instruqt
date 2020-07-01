@@ -1,4 +1,4 @@
-name - Name of the integration (Required)
+name - Name of the integration to be executed (Required)
 
 config - Configuration block for Flex (Required for Flex)
 
