@@ -1,0 +1,3 @@
+file - Full path to the .json or .csv file (Paths without a file extension will be treated as JSON by default)
+
+set_header - Array of strings, Name and number of columns Flex should extract data from. If this property is not set, the first row of data will be used as the header. (Only applies to CSV files)
