@@ -1,0 +1,13 @@
+name - Name of the integration (Required)
+
+config - Configuration block for Flex (Required for Flex)
+
+interval - Time between consecutive executions of the integration
+    * Default: 30s, Minimum: 15s, Maximum: None
+    * Format: Integer + s|m|h (e.g.; 15s, 15m, 15h)
+
+labels - Key-value map that decorates each event from this integration with additional metadata 
+
+timeout - Time to wait for data from this integration before it is killed and restarted
+    * Default: 120s, Minimum: 100ms, Maximum: None
+    * Format: Integer + ms|s|m|h (e.g.; 15ms, 15s, 15m, 15h)
