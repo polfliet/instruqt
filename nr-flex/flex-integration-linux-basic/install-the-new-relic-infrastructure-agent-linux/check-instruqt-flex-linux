@@ -1,0 +1,2 @@
+# This command checks for the newrelic-infra process running
+if ps aux | grep newrelic-infra | grep -v grep; then exit 0; else fail-message "Could not find newrelic-infra process running. Please re-install"; fi
