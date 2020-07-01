@@ -1,0 +1,27 @@
+run - Command or application that you want to run, including environment variables with format: $$ENV_VAR_NAME
+
+shell - Shell to use when executing the command defined in run (Default: /bin/sh)
+
+split - Mode of processing output. Vertical = 1/line, Horizontal = n+1/line (table format). Only used when ignore_output is false (Default: vertical)
+
+split_by - Regular expression used to split data
+
+regex_match - Boolean, defined whether split_by should be a match (true), or split (Default: false)
+
+row_header - Integer, line number that contains the header details
+
+row_start - Integer, line number where Flex starts processing metric data. Used with split: horizontal
+
+line_start - Integer, line number where Flex starts processing metric data. Used with split: vertical
+
+line_end - Integer, line number where Flex stops processing metric data. Used with split: vertical
+
+set_header - Array of strings, Name and number of columns Flex should extract data from. Used with split: horizontal
+
+header_split_by - Regular expression to split header line. Used with split: horizontal
+
+header_regex_match - Boolean, defined whether header_split_by should be a match (true), or split (Default: false)
+
+split_output - Regular expression used to split output into blocks of data
+
+timeout - Integer, time to wait (ms) for the command to execute. If the command exceeds timeout Flex ignores output and returns an error.
