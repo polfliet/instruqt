@@ -1,0 +1,14 @@
+url - the target URL
+
+headers - key/value pairs to be sent with request
+
+method - used to annotate the POST and PUT methods (GET is default)
+
+payload - JSON body to be sent with POST and PUT methods
+
+tls_config - section defined to enable HTTPS settings
+  * enable - boolean (false is default), requires ca to be defined if true
+  * insecure_skip_verify - boolean (false is default), skips verification of TLS certificates
+  * ca - path to Certificate Authority PEM certificate
+
+return_headers - boolean (false is default), includes response headers on the metric sample
