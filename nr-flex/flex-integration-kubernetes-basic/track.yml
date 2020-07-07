@@ -1,4 +1,5 @@
 slug: flex-integration-kubernetes-basic
+id: miovt93nqiny
 type: track
 title: Flex Integration - Build Your First Kubernetes Configuration
 teaser: An introduction to creating configurations for the Flex Integration on New
@@ -26,4 +27,6 @@ owner: newrelic
 developers:
 - zmutchler@newrelic.com
 private: true
+published: false
 challenges: []
+checksum: "1333818260524149945"
