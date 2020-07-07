@@ -31,6 +31,7 @@ private: true
 published: false
 challenges:
 - slug: best-practice-using-kubernetes-secrets
+  id: dnqpealpj5d4
   type: challenge
   title: Best Practice - Using Kubernetes Secrets
   teaser: Use a Kubernetes secret to store the New Relic license key
@@ -55,12 +56,12 @@ challenges:
     key. \n"
   notes:
   - type: text
-    contents: |-
-      "Please be patient while your Kubernetes environment is being built. This can take several minutes... "
+    contents: '"Please be patient while your Kubernetes environment is being built.
+      This can take several minutes... "'
   tabs:
   - title: shell
     type: terminal
     hostname: instruqt-flex-kubernetes
   difficulty: basic
   timelimit: 900
-checksum: "7502046853488582780"
+checksum: "6585046872415808431"
