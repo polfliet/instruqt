@@ -1,0 +1,29 @@
+slug: flex-integration-kubernetes-basic
+type: track
+title: Flex Integration - Build Your First Kubernetes Configuration
+teaser: An introduction to creating configurations for the Flex Integration on New
+  Relic's Infrastructure Agent
+description: |-
+  # Overview
+  This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Kubernetes](https://docs.newrelic.com/docs/integrations/kubernetes-integration/installation/kubernetes-integration-install-configure).
+
+  ## Requirements
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+
+  ## What is the Flex Integration?
+  *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
+
+  "New Relic Flex is an application-agnostic, all-in-one tool that allows you to collect metric data from a wide variety of services. Flex’s approach is different from that of dedicated integrations: Instead of interfacing directly with services, Flex instructs the New Relic Infrastructure agent to listen to standard structured output, which Flex then processes and collects as metric data for Infrastructure.
+
+  With this approach, you can instrument any application that exposes metric data in some way or another, whether it’s from JSON over HTTP or from standard output in a shell session, and combine that data with all your other critical telemetry data in New Relic One. The amount of services you can instrument is only limited by the data sources supported by Flex, which are growing and are open for contribution. If a service can talk, chances are that Flex can listen."
+
+  ## Important Note
+  **This track utilizes an ephemeral kubernetes environment. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
+icon: https://github.com/polfliet/instruqt/blob/master/assets/icons/flex-logo.png?raw=true
+tags:
+- ""
+owner: newrelic
+developers:
+- zmutchler@newrelic.com
+private: true
+challenges: []
