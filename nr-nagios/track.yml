@@ -1,20 +1,33 @@
 slug: nr-nagios
 id: hbmyez0cy8rt
-version: 0.0.1
 type: track
 title: New Relic Nagios Integration
-teaser: Learn how to re-use your existing Nagios scripts with the New Relic Nagios
-  integration
-description: No need to keep your Nagios server. The New Relic Nagios integration
-  can directly execute your existing Nagios scripts and stream the data to the New
-  Relic platform.
-icon: ""
+teaser: Learn how to re-use your existing Nagios service checks with the New Relic
+  Nagios integration
+description: |-
+  # Quick and easy transition from Nagios to New Relic
+  New Relic Infrastructure provides many features out-of-the-box, including:
+  * Real-time **server monitoring** (incl. CPU, memory, storage and network)
+  * **Process monitoring** with resource consumption details for individual processes
+  * Searchable **inventory** page for a complete view of a host’s configuration files, system modules, metadata, packages, services, user sessions, etc.
+  * **Event feed** that lets you see important events in your system, like admin logins, version upgrades, and other inventory changes.
+
+  But if you are transitioning from Nagios to New Relic then you might have some custom Nagios service checks that you want to keep using on the short term. Therefor, New Relic offers a [Nagios Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/nagios-monitoring-integration).
+
+  The benefits are:
+  * No need to keep your Nagios server. The New Relic Nagios integration relies on the local scripts available on your servers and directly executes those scripts
+  * The data of your existing Nagios checks are streamed to the New Relic platform and allow you to build rich dashboards and alerts
+
+  During this Instruqt workshop we will learn how to use the New Relic Nagios integration and how to create dashboards and alerts.
+icon: https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/nagios.png?raw=true
 tags:
-- nagios, infrastructure
+- nagios
+- ' infrastructure'
 owner: newrelic
 developers:
+- bschmitt@newrelic.com
 - spolfliet@newrelic.com
-private: true
+private: false
 published: true
 challenges:
 - slug: nr-infrastructure
@@ -31,7 +44,7 @@ challenges:
 
     If you don't have an account yet you can create a free account on [New Relic.com](https://newrelic.com/signup).
 
-    ![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/nrlicense.gif?raw=true "License key")
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/license.gif?raw=true "License key")
 
     # Create config file
     Create a configuration file, and add your license key (click the copy icon and paste in the terminal):
@@ -39,27 +52,17 @@ challenges:
     echo "license_key: <YOUR_LICENSE_KEY>" | tee -a /etc/newrelic-infra.yml
     ```
 
-    *Don't forget to update <YOUR_LICENSE_KEY>
-
-    # Enable New Relic's GPG key:
-    ```
-    curl https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -
-    ```
-
-    # Update apt repository
-    ```
-    printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt xenial main" | tee -a /etc/apt/sources.list.d/newrelic-infra.list
-    ```
-
-    # Update apt package manager
-    ```
-    apt-get update
-    ```
+    *Don't forget to update <YOUR_LICENSE_KEY>*
 
     # Install New Relic Infrastructure agent
     ```
     apt-get install newrelic-infra -y
     ```
+
+    *Note that this machine was prepared and the package manager was already updated. For complete instructions on how to install the New Relic Infrastructure agent, see [here](https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/get-started/introduction-new-relic-infrastructure#install)*
+  notes:
+  - type: text
+    contents: Your Linux VM is being created, please wait a minute...
   tabs:
   - title: Terminal
     type: terminal
@@ -76,14 +79,18 @@ challenges:
     Navigate to the New Relic integrations folder:\n```\ncd /etc/newrelic-infra/integrations.d\n```\n\n#
     Copy the sample configuration file \n```\nsudo cp nagios-config.yml.sample nagios-config.yml\n```\n\n#
     Configuring the Nagios integration \nCheck the contents of the service_checks.yml
-    file.\nThis file contains the Nagios scripts that will be executed by the New
+    file.\n\nThis file contains the Nagios scripts that will be executed by the New
     Relic agent.\n\n```\nsudo cat /etc/newrelic-infra/integrations.d/service_checks.yml\n```\nThis
-    example file contains 1 service check.\n\nThe check_users Nagios script is already
-    available on this machine. \n\n# Update permissions\nThe service_checks.yml file
-    requires permissive file permissions (0600)\n```\nsudo chmod 600 /etc/newrelic-infra/integrations.d/service_checks.yml\n```\n\n#
+    example file contains 1 service check, `check_users`\n\nThe `check_users` Nagios
+    script is already available on this machine. \n\n# Update permissions\nThe service_checks.yml
+    file requires permissive file permissions (0600)\n```\nsudo chmod 600 /etc/newrelic-infra/integrations.d/service_checks.yml\n```\n\n#
     Restart the New Relic agent\nAfter restarting the agent, the check_users Nagios
     script will be executed and the output will be sent to New Relic\n```\nsudo systemctl
     restart newrelic-infra\n```"
+  notes:
+  - type: text
+    contents: You have successfully deployed the New Relic Infrastructure agent, and
+      we will now install the New Relic Nagios integration
   tabs:
   - title: Terminal
     type: terminal
@@ -100,42 +107,88 @@ challenges:
 
     Go to [one.newrelic.com](https://one.newrelic.com)
 
-    Open the Chart builder to explore the data. Click on the Chart builder in the top right corner.
-
-    ![alt text](https://github.com/polfliet/katacoda-scenarios/blob/master/nagios/screenshots/chartbuilder.png?raw=true "Chart Builder")
+    In the top-right corner, click on 'Query your data` to explore the data. ![alt text](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/chartbuilder.png?raw=true "Chart Builder")
 
     The data is stored in NagiosSample, so we can query:
     ```
     FROM NagiosServiceCheckSample SELECT * limit 5
     ```
 
-    ![alt text](https://github.com/polfliet/katacoda-scenarios/blob/master/nagios/screenshots/query1.png?raw=true "Query")
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/query1.png?raw=true "Query")
 
     Use the following query to check the status and output of the Nagios script:
     ```
     FROM NagiosServiceCheckSample select serviceCheck.name, serviceCheck.status, serviceCheck.serviceOutput limit 5
     ```
 
-    ![alt text](https://github.com/polfliet/katacoda-scenarios/blob/master/nagios/screenshots/query2.png?raw=true "Query2")
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/query2.png?raw=true "Query2")
 
     To visualize the status of a Nagios script over time, use:
     ```
     FROM NagiosServiceCheckSample select latest(serviceCheck.status) where serviceCheck.name = 'check_users' TIMESERIES
     ```
 
-    ![alt text](https://github.com/polfliet/katacoda-scenarios/blob/master/nagios/screenshots/chart.png?raw=true "Chart")
+    ![alt text](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/chart.png?raw=true "Chart")
+  notes:
+  - type: text
+    contents: Time to build some dashboards with the data coming from our Nagios service
+      checks!
   tabs:
   - title: Terminal
     type: terminal
     hostname: ubuntu
   difficulty: basic
-  timelimit: 500
+  timelimit: 900
 - slug: nagios-alerts
   id: a7eoagc4nx0d
   type: challenge
-  title: Creating alerts
+  title: Alerting
   teaser: Learn how to set alerts for your Nagios scripts
-  assignment: TODO
+  assignment: |
+    # Creating an alert
+    * Go to [New Relic One](https://one.newrelic.com)
+
+    * Click on *Alerts* ![Alerts](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/alerts-icon.png?raw=true "Alerts")
+    * Then click on *Alert Policies* ![Alert policies](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/alerts-policies.png?raw=true "Alert policies")
+    * Select an existing policy or create a new one.
+    * Click on *Add a condition* to create a new alert
+
+    Select NRQL alert and use the following NRQL query:
+    ```
+    FROM NagiosServiceCheckSample SELECT latest(serviceCheck.status) where serviceCheck.name = 'check_users'
+    ```
+    Set the alert threshold to be above 0 > for 5 minutes.
+    This means that an alert will be triggered when the status output of our user check is larger than 0 for 5 minutes.
+
+    After saving, you should see an alert similar to this:
+    ![Alert example](https://github.com/polfliet/instruqt/blob/master/nr-nagios/screenshots/alerts-example.png?raw=true "Alerts example")
+
+    # Simulate user logins
+    Now let's start a number of SSH sessions (you have to type `yes` the first time) to trigger our alert.
+    ```
+    ssh root@localhost
+    ```
+    Do this 5 times in the Instruqt shell and in a couple of minutes you should receive an alert.
+    You can always check the Nagios service check and its output manually, by running:
+    ```
+    /usr/local/nagios/libexec/check_users 2 5
+    ```
+    You will see that the Nagios service check is in a critical state now and you will soon receive an alert.
+
+    # Summary
+    During this tutorial we learned how to use the New Relic Nagios integration.
+
+    Remember that New Relic Infrastructure provides many Nagios capabilities out-of-the-box and that using the Nagios integration is just to help you on the short-term with any custom service checks you want to keep using.
+
+    Good luck!
+  notes:
+  - type: text
+    contents: Let's create some alerts on the data from our Nagios service checks
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
   difficulty: basic
-  timelimit: 500
-checksum: "110647743585730437"
+  timelimit: 900
+checksum: "12656705628164965569"
+show_timer: true

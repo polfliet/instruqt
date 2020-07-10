@@ -1,0 +1,6 @@
+#!/bin/bash
+ls /etc/systemd/system/newrelic-infra.service
+
+if [ $? -ne 0 ]; then
+    fail-message "Could not find New Relic agent. Please follow the instructions."
+fi
