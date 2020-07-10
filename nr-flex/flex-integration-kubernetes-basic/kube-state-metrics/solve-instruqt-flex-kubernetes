@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curl -L -o kube-state-metrics-1.7.2.zip https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip
+kubectl apply -f kube-state-metrics-1.7.2/kubernetes

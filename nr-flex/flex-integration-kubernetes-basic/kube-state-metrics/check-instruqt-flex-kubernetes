@@ -1,0 +1,6 @@
+#!/bin/bash
+
+kubectl get pods --all-namespaces | grep kube-state-metrics
+if [ $? -ne 0 ]; then
+    fail-message "Could not find kube-state-metrics. Please follow the instructions."
+fi

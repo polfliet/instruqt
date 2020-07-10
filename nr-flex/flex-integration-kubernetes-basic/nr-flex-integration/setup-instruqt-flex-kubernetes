@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Reset home dir
+cd /root/
+
+# Set workdir
+set-workdir $(pwd)/new-relic

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Reset home dir
+cd /root/
+
+# Install unzip
+sudo apt-get install unzip
+
+# Create directory for kube-state-metrics files and set as working directory
+mkdir kube-state-metrics/
+set-workdir $(pwd)/kube-state-metrics

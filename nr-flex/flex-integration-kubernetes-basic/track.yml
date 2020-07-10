@@ -93,4 +93,93 @@ challenges:
     hostname: instruqt-flex-kubernetes
   difficulty: basic
   timelimit: 900
-checksum: "6389038021677938243"
+- slug: nr-k8s-integration
+  id: zy00zdlvpxid
+  type: challenge
+  title: New Relic Kubernetes Integration
+  teaser: Deploy the New Relic Kubernetes integration
+  assignment: "During this step we will deploy the New Relic Kubernetes integration
+    to our cluster.\n\nTo achieve this we are going to deploy a DaemonSet into our
+    Kubernetes cluster. A DaemonSet is a Kubernetes concept that ensures that we have
+    1 pod running on each node in our environment. For more information [check out
+    the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).\n\nThis
+    DaemonSet will ensure that we have the New Relic Kubernetes agent running on each
+    node of our cluster.\nThe yaml file required is already available on our machines,
+    execute the following command to create the New Relic DaemonSet:\n```\nkubectl
+    apply -f nri-k8s.yaml\n```\n\nConfirm the DaemonSet was created: \n```\nkubectl
+    get daemonsets\n```\n\nYou should see something like:\n![Daemon set](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/daemonset.png?raw=true
+    \"Daemon set\")\n\nConfirm that the agent is running: \n```\nkubectl get pods\n```\n\nAfter
+    a minute, you should see something like:\n![New Relic pod running](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/infrapod.png?raw=true
+    \"New Relic pod running\")\n\n# Kubernetes Cluster Explorer\nOpen a new tab in
+    your browser and go to [one.newrelic.com](https://one.newrelic.com)\n\nClick on
+    the *Kubernetes Cluster Explorer* link and navigate to your cluster ('*New Relic
+    - Workshop*')\n![Kubernetes Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce.png?raw=true
+    \"Kubernetes Cluster Explorer\")\n\nYour Kubernetes Cluster Explorer should look
+    something like this (note: give the agent some time to initialize):\n![Kubernetes
+    Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce2.png?raw=true
+    \"Kubernetes Cluster Explorer\")\n\nTake some time to get familiar with the Kubernetes
+    cluster explorer. We will be using the cluster explorer in the rest of this session.\n\n**Try
+    to find an answer to the following questions**:\n* How many pods do we have running
+    in the demo-app namespace?\n* What image is used for the frontend deployment?\n*
+    How can I search for the pods that match a specific label?\n\n# Extra: Troubleshooting
+    the New Relic agent\nIf the New Relic agent is having trouble, a good place to
+    start is by looking at the log messages:\n```\nkubectl logs <POD_NAME>\n```"
+  notes:
+  - type: text
+    contents: |-
+      Great job, kube-state-metrics is deployed.
+
+      Time to hook up our cluster with the New Relic Kubernetes agent and start using the Kubernetes Cluster Explorer
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-kubernetes
+  difficulty: basic
+  timelimit: 900
+- slug: nr-flex-integration
+  id: xjoe0lxjckqi
+  type: challenge
+  title: New Relic Flex Integration
+  teaser: Use New Relic's Flex integration
+  assignment: "We now have an insight into our applications, logs and the overal health
+    of Kubernetes, but what about our supporting services like Redis or RabbitMQ?\n\nNew
+    Relic offers integrations to get detailed information about the supporting services
+    in a k8s environment so you can gauge their health and performance.\n\nWe do this
+    by adding some information to our New Relic infrastructure agent. If you remember
+    one of the first things we deployed was the `newrelic-infra` DaemonSet. We're
+    now going to adapt the config to monitor our Redis service in more detail.\n\n#
+    Redis\n\nYou can find an example configuration on the New Relic docs: [Example
+    Redis config](https://github.com/newrelic/nri-redis/blob/master/redis-config.yml.k8s_sample)\n\nYou
+    need to uncomment the following in the `nri-k8s.yaml` file. All the way at the
+    bottom you will find the following code:\n\n```\n  data:\n    redis-config.yml:
+    |\n    ---\n    # Run auto discovery to find pods with label \"app=redis\"\n    #
+    https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery\n
+    \   discovery:\n      command:\n        # Run NRI Discovery for Kubernetes\n        #
+    https://github.com/newrelic/nri-discovery-kubernetes\n        ...\n```\n\nAfter
+    you've changed and saved the file you need to reapply the agent config. You can
+    do this with the following command: \n```\nkubectl apply -f nri-k8s.yaml\n```\n\n#
+    New Relic Dashboards\n\nA dashboard will be automatically created for our Redis
+    service.\n\nGo to [New Relic One](one.newrelic.com) in your browser.\n\nClick
+    on the *New Relic Infrastructure* button on the New Relic One homepage\n![New
+    Relic Infrastructure](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-infra.png?raw=true
+    \"New Relic Infrastructure\")\n\nClick on *Third-party services* \n![New Relic
+    Third-party services](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-3rdparty.png?raw=true
+    \"New Relic Third-party services\")\n\nAnd open the *Redis dashboard*:\n![Redis
+    dashboard](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/redis.png?raw=true
+    \"Redis dashboard\")\n\nThis Dashboard shows the most important KPIs for our Redis
+    service.\n"
+  notes:
+  - type: text
+    contents: You've got your cluster reporting into New Relic One. Now let's level
+      up with Flex!
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-kubernetes
+  - title: editor
+    type: code
+    hostname: instruqt-flex-kubernetes
+    path: /root/new-relic/
+  difficulty: basic
+  timelimit: 900
+checksum: "2171349382376918257"

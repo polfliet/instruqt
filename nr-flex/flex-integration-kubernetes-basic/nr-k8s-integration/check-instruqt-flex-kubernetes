@@ -1,0 +1,6 @@
+#!/bin/bash
+
+kubectl get daemonsets newrelic-infra
+if [ $? -ne 0 ]; then
+    fail-message "Could not find the New Relic agent. Please deploy the agent as a DaemonSet by following the steps."
+fi
