@@ -1,0 +1,78 @@
+slug: flex-integration-windows-basic
+id: yc2xaacyjxqx
+version: 0.0.1
+type: track
+title: Flex Integration - Build Your First Windows Configuration
+teaser: An introduction to creating configurations for the Flex Integration on New
+  Relic's Infrastructure Agent
+description: |-
+  # Overview
+  This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Windows](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer).
+
+  ## Requirements
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+
+  ## What is the Flex Integration?
+  *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
+
+  "New Relic Flex is an application-agnostic, all-in-one tool that allows you to collect metric data from a wide variety of services. Flex’s approach is different from that of dedicated integrations: Instead of interfacing directly with services, Flex instructs the New Relic Infrastructure agent to listen to standard structured output, which Flex then processes and collects as metric data for Infrastructure.
+
+  With this approach, you can instrument any application that exposes metric data in some way or another, whether it’s from JSON over HTTP or from standard output in a shell session, and combine that data with all your other critical telemetry data in New Relic One. The amount of services you can instrument is only limited by the data sources supported by Flex, which are growing and are open for contribution. If a service can talk, chances are that Flex can listen."
+
+  ## Important Note
+  **This track utilizes an ephemeral virtual machine. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
+icon: ""
+tags: []
+owner: newrelic
+developers:
+- zmutchler@newrelic.com
+private: true
+published: false
+challenges:
+- slug: install-the-new-relic-infrastructure-agent
+  id: blhcd6ybwill
+  type: challenge
+  title: Install the New Relic Infrastructure Agent
+  teaser: Installation of the New Relic Infrastructure Agent using the MSI installer.
+  assignment: "# Overview\nThe Flex integration has come bundled with the New Relic
+    Infrastructure agent since [v1.10.7](https://docs.newrelic.com/docs/release-notes/infrastructure-release-notes/infrastructure-agent-release-notes/new-relic-infrastructure-agent-1107),
+    so installation of Flex is as simple as [installing the Infrastructure Agent](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer).
+    The server for this track is a Windows Server 2019 VM, so you will be using the
+    MSI installer method for these steps.\n\n## Installation: \n\nLog in to [New Relic
+    One](https://one.newrelic.com) and collect your New Relic license key:\n![License
+    Key](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/license.gif?raw=true
+    \"License Key\")\n\nCopy and paste the following snippets into your workspace's
+    `shell` tab to download and install the Infrastructure agent: \n\n*Note that you
+    would need to \"Run As Admin\" in your own environment for these steps*\n\n**Download
+    the latest version of the Infrastructure agent**\n```shell\n(New-Object System.Net.WebClient).DownloadFile(\"https://download.newrelic.com/infrastructure_agent/windows/newrelic-infra.msi\",
+    \"$env:TEMP\\newrelic-infra.msi\")\n```\n\n**Install the agent using `msiexec.exe`,
+    building your config file by using the `GENERATE_CONFIG` argument and replacing
+    `{{LICENSE_KEY}}` below with your license key**\n```shell\nmsiexec.exe /qn /i
+    \"$env:TEMP\\newrelic-infra.msi\" GENERATE_CONFIG=true LICENSE_KEY=\"{{LICENSE_KEY}}\"
+    | Out-Null\n```\n\n**Start the Infrastructure agent service**\n```shell\nnet start
+    newrelic-infra\n```\n\n## Validate installation \nBack in [New Relic One](https://one.newrelic.com),
+    select the **Query your data** link in the upper right to open the [Chart Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, select the **Advanced (NRQL)** toggle in the upper right to open the
+    window where you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your latest installation:\n\n```sql\nFROM SystemSample SELECT
+    count(*) FACET entityName TIMESERIES 1 minute  WHERE entityName = 'instruqt-flex-windows'\n```\n![Chart
+    Builder](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/cb_infra-agent.gif?raw=true
+    \"Chart Builder\")\n\nYou should see your hostname show up within a minute or
+    two of your installation via MSI. If you do not, troubleshoot by ensuring the
+    following: \n  * The agent service is running: `net start newrelic-infra`\n  *
+    You have the proper license key assigned: `type \"C:\\Program Files\\New Relic\\newrelic-infra\\newrelic-infra.yml`\n\nAt
+    this point, you have installed the latest version of the Infrastructure agent
+    and the associated Flex integration that is bundled with it. In the next challenge,
+    you will create your first configuration."
+  notes:
+  - type: text
+    contents: Please be patient while your VM is configured. This can take several
+      minutes...
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-windows
+  difficulty: basic
+  timelimit: 1200
+checksum: "4001559088441132260"
+show_timer: true

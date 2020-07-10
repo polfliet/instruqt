@@ -1,2 +1,5 @@
 # The local instruqt CLI
 instruqt
+
+# Mac OS .DS_Store
+.DS_Store

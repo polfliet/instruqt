@@ -1,0 +1,5 @@
+version: "2"
+virtualmachines:
+- name: instruqt-flex-windows
+  image: windows-2019
+  machine_type: n1-standard-2

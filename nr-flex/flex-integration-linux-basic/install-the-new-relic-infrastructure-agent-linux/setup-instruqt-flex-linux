@@ -1,0 +1,10 @@
+# Download reference files for API challenges
+mkdir /tmp/study-hall
+curl -o /tmp/study-hall/integrations-sdk-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/integrations-sdk-options.txt
+curl -o /tmp/study-hall/url-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/url-api-options.txt
+curl -o /tmp/study-hall/commands-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/commands-api-options.txt
+curl -o /tmp/study-hall/file-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/file-api-options.txt
+
+# Download CSV file for File API challenge
+mkdir /tmp/assets
+curl -o /tmp/assets/file-api-example.csv https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/file-api-example.csv

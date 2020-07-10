@@ -1,0 +1,67 @@
+slug: flex-integration-kubernetes-basic
+id: miovt93nqiny
+type: track
+title: Flex Integration - Build Your First Kubernetes Configuration
+teaser: An introduction to creating configurations for the Flex Integration on New
+  Relic's Infrastructure Agent
+description: |-
+  # Overview
+  This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Kubernetes](https://docs.newrelic.com/docs/integrations/kubernetes-integration/installation/kubernetes-integration-install-configure).
+
+  ## Requirements
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+
+  ## What is the Flex Integration?
+  *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
+
+  "New Relic Flex is an application-agnostic, all-in-one tool that allows you to collect metric data from a wide variety of services. Flex’s approach is different from that of dedicated integrations: Instead of interfacing directly with services, Flex instructs the New Relic Infrastructure agent to listen to standard structured output, which Flex then processes and collects as metric data for Infrastructure.
+
+  With this approach, you can instrument any application that exposes metric data in some way or another, whether it’s from JSON over HTTP or from standard output in a shell session, and combine that data with all your other critical telemetry data in New Relic One. The amount of services you can instrument is only limited by the data sources supported by Flex, which are growing and are open for contribution. If a service can talk, chances are that Flex can listen."
+
+  ## Important Note
+  **This track utilizes an ephemeral kubernetes environment. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
+icon: https://github.com/polfliet/instruqt/blob/master/assets/icons/flex-logo.png?raw=true
+tags:
+- ""
+owner: newrelic
+developers:
+- zmutchler@newrelic.com
+- bschmitt@newrelic.com
+private: true
+published: false
+challenges:
+- slug: best-practice-using-kubernetes-secrets
+  id: dnqpealpj5d4
+  type: challenge
+  title: Best Practice - Using Kubernetes Secrets
+  teaser: Use a Kubernetes secret to store the New Relic license key
+  assignment: "Kubernetes secrets are a great way to store passwords, private keys,
+    and other sensitive information. The secrets can then be shared with pods and
+    containers without having to pass them as plain text in your YAML files. You can
+    find more information about Kubernetes secrets on the [Kubernetes docs](https://kubernetes.io/docs/concepts/configuration/secret/).\n\nWe
+    will create a Kubernetes secret that contains your New Relic License key. The
+    License key will be used by the New Relic Observability agents to send data to
+    the platform. \n\n# Get your New Relic license key\nFirst we need to retrieve
+    your New Relic license key by logging in to your New Relic account, and clicking
+    on Account Settings. \n\nIf you don't have an account yet you can create a free
+    account on [New Relic.com](https://newrelic.com/signup).\n\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/nrlicense.gif?raw=true
+    \"License key\")\n\n# Create the Kubernetes secret\nNext we are going to create
+    the Kubernetes secret by copying the following command and **putting your license
+    key between the quotes** before pressing enter.\n\n```\nkubectl create secret
+    generic newrelic-secret --from-literal=new_relic_license_key='<LICENSE_KEY>'\n```\n\nYou
+    can check if the secret was added succesfully by running \n```\nkubectl describe
+    secret newrelic-secret\n```\n\nIf you made a mistake, you can delete the secret
+    with \n```\nkubectl delete secret newrelic-secret\n```\n\nThe yaml files in the
+    rest of this tutorial will refer to this *newrelic-secret* to retrieve the license
+    key. \n"
+  notes:
+  - type: text
+    contents: '"Please be patient while your Kubernetes environment is being built.
+      This can take several minutes... "'
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-kubernetes
+  difficulty: basic
+  timelimit: 900
+checksum: "6585046872415808431"
