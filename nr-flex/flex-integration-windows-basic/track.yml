@@ -1,10 +1,9 @@
 slug: flex-integration-windows-basic
 id: yc2xaacyjxqx
-version: 0.0.1
 type: track
-title: Flex Integration - Build Your First Windows Configuration
-teaser: An introduction to creating configurations for the Flex Integration on New
-  Relic's Infrastructure Agent
+title: '[BLOCKED] Flex Integration - Build Your First Windows Configuration'
+teaser: -- Blocked pending Windows support in Instruqt -- An introduction to creating
+  configurations for the Flex Integration on New Relic's Infrastructure Agent
 description: |-
   # Overview
   This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Windows](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer).
@@ -21,13 +20,15 @@ description: |-
 
   ## Important Note
   **This track utilizes an ephemeral virtual machine. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
-icon: ""
-tags: []
+icon: https://github.com/polfliet/instruqt/blob/master/assets/icons/flex-logo.png?raw=true
+tags:
+- ""
 owner: newrelic
 developers:
 - zmutchler@newrelic.com
 private: true
 published: false
+maintenance: true
 challenges:
 - slug: install-the-new-relic-infrastructure-agent
   id: blhcd6ybwill
@@ -74,5 +75,5 @@ challenges:
     hostname: instruqt-flex-windows
   difficulty: basic
   timelimit: 1200
-checksum: "4001559088441132260"
+checksum: "9467410069134931349"
 show_timer: true
