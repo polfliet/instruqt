@@ -1,0 +1,16 @@
+#!/bin/bash
+
+curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -
+printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt bionic main" | tee -a /etc/apt/sources.list.d/newrelic-infra.list
+apt-get update
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-nagios/assets/check_users
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-nagios/assets/service_checks.yml
+
+mkdir -p /etc/newrelic-infra/integrations.d/
+mv service_checks.yml /etc/newrelic-infra/integrations.d/
+
+
+mkdir -p /usr/local/nagios/libexec/
+mv check_users /usr/local/nagios/libexec/
+chmod 777 /usr/local/nagios/libexec/check_users
