@@ -56,12 +56,41 @@ challenges:
     key. \n"
   notes:
   - type: text
-    contents: '"Please be patient while your Kubernetes environment is being built.
-      This can take several minutes... "'
+    contents: "Please be patient while your Kubernetes environment is being built.
+      This can take several minutes... \n\nDid you know that k8s is shorthand for
+      K-u b e r n e t e-s? \n\nMeaning, k-8 letters-s"
   tabs:
   - title: shell
     type: terminal
     hostname: instruqt-flex-kubernetes
   difficulty: basic
   timelimit: 900
-checksum: "6585046872415808431"
+- slug: kube-state-metrics
+  id: pyqeu9wokmct
+  type: challenge
+  title: Kubernetes health with kube-state-metrics
+  teaser: Deploy kube-state-metrics
+  assignment: "During this step we will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics),
+    a service that exposes metrics about the various Kubernetes objects. These metrics
+    can then be picked up by monitoring agents to provide information on the health
+    and performance of your Kubernetes cluster. \n\n# Installing kube-state-metrics\n\nDownload
+    kube-state-metrics version 1.7.2 from Github\n```\ncurl -L -o kube-state-metrics-1.7.2.zip
+    https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip\n```\n\nInstall
+    kube-state-metrics in the cluster\n```\nkubectl apply -f kube-state-metrics-1.7.2/kubernetes\n```\n\nConfirm
+    that kube-state-metrics is installed (this might take a minute)\n```\nkubectl
+    get pods --all-namespaces | grep kube-state-metrics\n```\n\nAfter a while, you
+    should see something like:\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true
+    \"Kube-state-metrics\")\n\n# Looking at the data\n\nLet's take a sneak peak at
+    the data that's being retrieved by kube-state-metrics. \nFind out on which IP
+    address the kube-state-metrics service is running:\n\n```\nkubectl get svc kube-state-metrics
+    -n kube-system\n```\n\nYou can use the CLUSTER-IP address with `curl` to view
+    the metrics.\n\n```\ncurl http://<IP_ADDRESS>:8080/metrics\n```\n\nThe metrics
+    format is based off the Prometheus standard, which we will cover later in the
+    workshop. "
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-kubernetes
+  difficulty: basic
+  timelimit: 900
+checksum: "6389038021677938243"
