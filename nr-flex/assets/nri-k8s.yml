@@ -162,4 +162,5 @@ metadata:
 #          name: my-k8s-flex
 #          apis:
 #            - event_type: k8sApiResponseTime
-#              run: echo "{\"apiResponseTime.ms\":$(curl "http://localhost:8080/api/v1/nodes" -s -o /dev/null -w "%{time_starttransfer}\n")}"
+#              commands:
+#                - run: echo "{\"apiResponseTime.ms\":$(curl "http://localhost:8080/api/v1/nodes" -s -o /dev/null -w "%{time_starttransfer}\n")}"

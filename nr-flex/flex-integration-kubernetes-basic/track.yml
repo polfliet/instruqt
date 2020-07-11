@@ -6,7 +6,7 @@ teaser: An introduction to creating configurations for the Flex Integration on N
   Relic's Infrastructure Agent
 description: |-
   # Overview
-  This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Kubernetes](https://docs.newrelic.com/docs/integrations/kubernetes-integration/installation/kubernetes-integration-install-configure).
+  This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Integration for Kubernetes](https://docs.newrelic.com/docs/integrations/kubernetes-integration/installation/kubernetes-integration-install-configure).
 
   ## Requirements
   Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
@@ -35,25 +35,27 @@ challenges:
   type: challenge
   title: Best Practice - Using Kubernetes Secrets
   teaser: Use a Kubernetes secret to store the New Relic license key
-  assignment: "Kubernetes secrets are a great way to store passwords, private keys,
-    and other sensitive information. The secrets can then be shared with pods and
-    containers without having to pass them as plain text in your YAML files. You can
-    find more information about Kubernetes secrets on the [Kubernetes docs](https://kubernetes.io/docs/concepts/configuration/secret/).\n\nWe
-    will create a Kubernetes secret that contains your New Relic License key. The
-    License key will be used by the New Relic Observability agents to send data to
-    the platform. \n\n# Get your New Relic license key\nFirst we need to retrieve
-    your New Relic license key by logging in to your New Relic account, and clicking
-    on Account Settings. \n\nIf you don't have an account yet you can create a free
-    account on [New Relic.com](https://newrelic.com/signup).\n\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/nrlicense.gif?raw=true
-    \"License key\")\n\n# Create the Kubernetes secret\nNext we are going to create
-    the Kubernetes secret by copying the following command and **putting your license
-    key between the quotes** before pressing enter.\n\n```\nkubectl create secret
-    generic newrelic-secret --from-literal=new_relic_license_key='<LICENSE_KEY>'\n```\n\nYou
-    can check if the secret was added succesfully by running \n```\nkubectl describe
-    secret newrelic-secret\n```\n\nIf you made a mistake, you can delete the secret
-    with \n```\nkubectl delete secret newrelic-secret\n```\n\nThe yaml files in the
-    rest of this tutorial will refer to this *newrelic-secret* to retrieve the license
-    key. \n"
+  assignment: "# Overview\nKubernetes secrets are a great way to store passwords,
+    private keys, and other sensitive information. The secrets can then be shared
+    with pods and containers without having to pass them as plain text in your [YAML](https://yaml.org/)
+    files. You can find more information about Kubernetes secrets in the [Kubernetes
+    docs](https://kubernetes.io/docs/concepts/configuration/secret/).\n\nIn this challenge,
+    you will create a Kubernetes secret that contains your New Relic license key.
+    The license key will be used by the New Relic Kubernetes integration to send data
+    to the [New Relic One (NR1) Observability Platform](https://newrelic.com/platform).
+    \n\n## Installation\n\nLog in to [New Relic One](https://one.newrelic.com) and
+    collect your New Relic license key:\n![License Key](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/license.gif?raw=true
+    \"License Key\")\n\n## Create the Kubernetes secret\nCopy and paste the following
+    snippet into your workspace's `shell` tab replacing `LICENSE_KEY` at the end with
+    your own New Relic license key:\n```\nkubectl create secret generic newrelic-secret
+    --from-literal=new_relic_license_key='LICENSE_KEY'\n```\n\nYou can check if the
+    secret was added succesfully by running:\n```\nkubectl describe secret newrelic-secret\n```\n\nWhich
+    should provide an output like this: \n```\nName:         newrelic-secret\nNamespace:
+    \   default\nLabels:       <none>\nAnnotations:  <none>\n\nType:  Opaque\n\nData\n====\nnew_relic_license_key:
+    \ 40 bytes\n```\n\nIf you made a mistake, you can delete the secret with:\n```\nkubectl
+    delete secret newrelic-secret\n```\n\nThe yaml file used in the New Relic integration
+    later will refer to this `newrelic-secret` to retrieve the license key. \n\nIn
+    your next challenge, you will install `kube-state-metrics`.\n"
   notes:
   - type: text
     contents: "Please be patient while your Kubernetes environment is being built.
@@ -64,66 +66,75 @@ challenges:
     type: terminal
     hostname: instruqt-flex-kubernetes
   difficulty: basic
-  timelimit: 900
+  timelimit: 9000
 - slug: kube-state-metrics
   id: pyqeu9wokmct
   type: challenge
   title: Kubernetes health with kube-state-metrics
   teaser: Deploy kube-state-metrics
-  assignment: "During this step we will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics),
+  assignment: "# Overview\nDuring this step you will install [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics),
     a service that exposes metrics about the various Kubernetes objects. These metrics
     can then be picked up by monitoring agents to provide information on the health
-    and performance of your Kubernetes cluster. \n\n# Installing kube-state-metrics\n\nDownload
-    kube-state-metrics version 1.7.2 from Github\n```\ncurl -L -o kube-state-metrics-1.7.2.zip
-    https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip\n```\n\nInstall
-    kube-state-metrics in the cluster\n```\nkubectl apply -f kube-state-metrics-1.7.2/kubernetes\n```\n\nConfirm
-    that kube-state-metrics is installed (this might take a minute)\n```\nkubectl
-    get pods --all-namespaces | grep kube-state-metrics\n```\n\nAfter a while, you
-    should see something like:\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true
+    and performance of your Kubernetes cluster. \n\n## Installing kube-state-metrics\n\nDownload
+    and unzip `kube-state-metrics v1.7.2` from Github:\n```\ncurl -L -o kube-state-metrics-1.7.2.zip
+    https://github.com/kubernetes/kube-state-metrics/archive/v1.7.2.zip && unzip kube-state-metrics-1.7.2.zip\n```\n\n*Note:
+    This version aligns with Kubernetes v1.13.3 installed on your VM. You can check
+    the [compatibility matrix](https://github.com/kubernetes/kube-state-metrics#compatibility-matrix)
+    to find the right version for your own environment*\n\nInstall kube-state-metrics
+    in the cluster:\n```\nkubectl apply -f kube-state-metrics-1.7.2/kubernetes\n```\nWhich
+    will give you this output: \n```\nclusterrolebinding.rbac.authorization.k8s.io/kube-state-metrics
+    created\nclusterrole.rbac.authorization.k8s.io/kube-state-metrics created\ndeployment.apps/kube-state-metrics
+    created\nserviceaccount/kube-state-metrics created\nservice/kube-state-metrics
+    created\n```\n\nConfirm that kube-state-metrics is installed (this might take
+    a minute)\n```\nkubectl get pods --all-namespaces | grep kube-state-metrics\n```\n\nAfter
+    a while, you should see something like:\n![alt text](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/ksm.png?raw=true
     \"Kube-state-metrics\")\n\n# Looking at the data\n\nLet's take a sneak peak at
     the data that's being retrieved by kube-state-metrics. \nFind out on which IP
     address the kube-state-metrics service is running:\n\n```\nkubectl get svc kube-state-metrics
-    -n kube-system\n```\n\nYou can use the CLUSTER-IP address with `curl` to view
-    the metrics.\n\n```\ncurl http://<IP_ADDRESS>:8080/metrics\n```\n\nThe metrics
-    format is based off the Prometheus standard, which we will cover later in the
-    workshop. "
+    -n kube-system\n```\n\nYou can use the `CLUSTER-IP` address with `curl` to view
+    the metrics.\n\n```\ncurl http://CLUSTER-IP:8080/metrics\n```\n\nThe metrics format
+    is based off the Prometheus standard, which is covered in our [Kubernetes track
+    for New Relic University](https://play.instruqt.com/newrelic/tracks/kubernetes-new-relic-university).
+    \n\nIn the next challenge you will install the New Relic Kubernetes integration."
   tabs:
   - title: shell
     type: terminal
     hostname: instruqt-flex-kubernetes
   difficulty: basic
-  timelimit: 900
+  timelimit: 9000
 - slug: nr-k8s-integration
   id: zy00zdlvpxid
   type: challenge
   title: New Relic Kubernetes Integration
   teaser: Deploy the New Relic Kubernetes integration
-  assignment: "During this step we will deploy the New Relic Kubernetes integration
-    to our cluster.\n\nTo achieve this we are going to deploy a DaemonSet into our
-    Kubernetes cluster. A DaemonSet is a Kubernetes concept that ensures that we have
-    1 pod running on each node in our environment. For more information [check out
-    the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).\n\nThis
-    DaemonSet will ensure that we have the New Relic Kubernetes agent running on each
-    node of our cluster.\nThe yaml file required is already available on our machines,
-    execute the following command to create the New Relic DaemonSet:\n```\nkubectl
-    apply -f nri-k8s.yaml\n```\n\nConfirm the DaemonSet was created: \n```\nkubectl
-    get daemonsets\n```\n\nYou should see something like:\n![Daemon set](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/daemonset.png?raw=true
+  assignment: "# Overview\nDuring this step you will deploy the New Relic Kubernetes
+    integration DaemonSet into your cluster. A DaemonSet is a Kubernetes concept that
+    ensures that you have 1 pod running on each node in your environment. For more
+    information [check out the Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/).\n\nThis
+    DaemonSet will ensure that you have the New Relic Kubernetes agent running on
+    each node of your cluster.\n\n## Installation\nThe yaml file required is already
+    available on your VM, execute the following command to create the New Relic DaemonSet:\n```\nkubectl
+    apply -f nri-k8s.yml\n```\n\nYou can see how your secret is being used in the
+    [yaml file](https://docs.newrelic.com/docs/integrations/kubernetes-integration/installation/kubernetes-integration-install-configure#download-manifest)
+    with the following command:\n```\ncat nri-k8s.yml | grep -n -A7 env\n```\n\nHere
+    you can see where you would both target your cluster by name and provide your
+    Kubernetes secret in your own environment:\n```\nenv:\n  - name: \"CLUSTER_NAME\"\n
+    \   value: \"instruqt-flex-kubernetes\"\n  - name: \"NRIA_LICENSE_KEY\"\n    valueFrom:\n
+    \     secretKeyRef:\n        name: newrelic-secret\n        key: new_relic_license_key\n```\n\n##
+    Validation\nConfirm the DaemonSet was created: \n```\nkubectl get daemonsets\n```\n\nYou
+    should see something like:\n![Daemon set](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/daemonset.png?raw=true
     \"Daemon set\")\n\nConfirm that the agent is running: \n```\nkubectl get pods\n```\n\nAfter
     a minute, you should see something like:\n![New Relic pod running](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/infrapod.png?raw=true
-    \"New Relic pod running\")\n\n# Kubernetes Cluster Explorer\nOpen a new tab in
+    \"New Relic pod running\")\n\n## Kubernetes Cluster Explorer\nOpen a new tab in
     your browser and go to [one.newrelic.com](https://one.newrelic.com)\n\nClick on
     the *Kubernetes Cluster Explorer* link and navigate to your cluster ('*New Relic
     - Workshop*')\n![Kubernetes Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce.png?raw=true
     \"Kubernetes Cluster Explorer\")\n\nYour Kubernetes Cluster Explorer should look
-    something like this (note: give the agent some time to initialize):\n![Kubernetes
+    something like this (note: it will take the integration a few minutes to initialize):\n![Kubernetes
     Cluster Explorer](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/kce2.png?raw=true
-    \"Kubernetes Cluster Explorer\")\n\nTake some time to get familiar with the Kubernetes
-    cluster explorer. We will be using the cluster explorer in the rest of this session.\n\n**Try
-    to find an answer to the following questions**:\n* How many pods do we have running
-    in the demo-app namespace?\n* What image is used for the frontend deployment?\n*
-    How can I search for the pods that match a specific label?\n\n# Extra: Troubleshooting
-    the New Relic agent\nIf the New Relic agent is having trouble, a good place to
-    start is by looking at the log messages:\n```\nkubectl logs <POD_NAME>\n```"
+    \"Kubernetes Cluster Explorer\")\n\nFor an in-depth workshop on the Cluster Explorer,
+    please see the [Kubernetes track for New Relic University](https://play.instruqt.com/newrelic/tracks/kubernetes-new-relic-university).\n\nIn
+    the next session, you will be enabling the Flex integration."
   notes:
   - type: text
     contents: |-
@@ -135,39 +146,45 @@ challenges:
     type: terminal
     hostname: instruqt-flex-kubernetes
   difficulty: basic
-  timelimit: 900
+  timelimit: 9000
 - slug: nr-flex-integration
   id: xjoe0lxjckqi
   type: challenge
   title: New Relic Flex Integration
   teaser: Use New Relic's Flex integration
-  assignment: "We now have an insight into our applications, logs and the overal health
-    of Kubernetes, but what about our supporting services like Redis or RabbitMQ?\n\nNew
-    Relic offers integrations to get detailed information about the supporting services
-    in a k8s environment so you can gauge their health and performance.\n\nWe do this
-    by adding some information to our New Relic infrastructure agent. If you remember
-    one of the first things we deployed was the `newrelic-infra` DaemonSet. We're
-    now going to adapt the config to monitor our Redis service in more detail.\n\n#
-    Redis\n\nYou can find an example configuration on the New Relic docs: [Example
-    Redis config](https://github.com/newrelic/nri-redis/blob/master/redis-config.yml.k8s_sample)\n\nYou
-    need to uncomment the following in the `nri-k8s.yaml` file. All the way at the
-    bottom you will find the following code:\n\n```\n  data:\n    redis-config.yml:
-    |\n    ---\n    # Run auto discovery to find pods with label \"app=redis\"\n    #
-    https://docs.newrelic.com/docs/integrations/host-integrations/installation/container-auto-discovery\n
-    \   discovery:\n      command:\n        # Run NRI Discovery for Kubernetes\n        #
-    https://github.com/newrelic/nri-discovery-kubernetes\n        ...\n```\n\nAfter
-    you've changed and saved the file you need to reapply the agent config. You can
-    do this with the following command: \n```\nkubectl apply -f nri-k8s.yaml\n```\n\n#
-    New Relic Dashboards\n\nA dashboard will be automatically created for our Redis
-    service.\n\nGo to [New Relic One](one.newrelic.com) in your browser.\n\nClick
-    on the *New Relic Infrastructure* button on the New Relic One homepage\n![New
-    Relic Infrastructure](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-infra.png?raw=true
-    \"New Relic Infrastructure\")\n\nClick on *Third-party services* \n![New Relic
-    Third-party services](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/button-3rdparty.png?raw=true
-    \"New Relic Third-party services\")\n\nAnd open the *Redis dashboard*:\n![Redis
-    dashboard](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/redis.png?raw=true
-    \"Redis dashboard\")\n\nThis Dashboard shows the most important KPIs for our Redis
-    service.\n"
+  assignment: "# Overview\nWe now have an insight into the overall health of Kubernetes,
+    and if you've taken the [Kubernetes track for New Relic University](https://play.instruqt.com/newrelic/tracks/kubernetes-new-relic-university)
+    you already know that we have support for over a dozen of the [most popular services](https://docs.newrelic.com/docs/integrations/kubernetes-integration/link-apps-services/monitor-services-running-kubernetes#requirements)
+    run in Kubernetes environments, but what if you need something a little more custom?\n\n[New
+    Relic Flex](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration)
+    allows you to gather data from any service, with full control over the particular
+    details and output.\n\nYou enable this by adding some information to your New
+    Relic Kubernetes integration. If you remember, this integration was deployed as
+    the `newrelic-infra` DaemonSet. You're now going to adapt the config to monitor
+    your [Kubernetes API Server's](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
+    response latency.\n\n## Enable the API Server Proxy\n\nBefore you being, you'll
+    need to expose the Kubernetes API by enabling an HTTP proxy with the following
+    command that will run the proxy in the background of your terminal: \n\n```\nkubectl
+    proxy --port=8080 &\n```\n\n*Note you'll need to hit `ENTER` after this command
+    to have your prompt show back up*\n\n## Enable Flex\nYou can find an example configuration
+    on the [Flex Integration docs](https://github.com/newrelic/nri-flex/blob/master/docs/basics/k8s_configure.md).\n\nYou
+    need to uncomment (remove the octothorps/pound signs/hashtags/`#`) from the `nri-k8s.yaml`
+    file, using the `editor` tab in your workspace. All the way at the bottom you
+    will find the following code:\n\n```\n#data:\n#  nri-flex.yml: |\n#    integrations:\n#
+    \     - name: nri-flex\n#        config:\n#          name: my-k8s-flex\n#          apis:\n#
+    \           - event_type: k8sApiResponseTime\n#              commands:\n#                -
+    run: echo \"{\\\"apiResponseTime.ms\\\":$(curl \"http://localhost:8080/api/v1/nodes\"
+    -s -o /dev/null -w \"%{time_starttransfer}\\n\")}\"\n```\n\nAfter you've changed
+    and saved the file you need to reapply the integration config. You can do this
+    with the following command: \n```\nkubectl apply -f nri-k8s.yml\n```\n\n## Validation\n\nIn
+    a few moments you should be able to log in to [New Relic One](https://one.newrelic.com)
+    and select the **Query your data** link in the upper right to open the [Chart
+    Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    \n\n![Chart Builder](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/cb_infra-agent.gif?raw=true
+    \"Chart Builder\")\n\nFrom there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your Flex config:\n\n```sql\nFROM k8sApiResponseTime SELECT
+    max(apiResponseTime.ms) FACET hostname TIMESERIES AUTO\n```\n\nIn the next challenge,
+    you'll learn how to troubleshoot Flex configs inside your Kubernetes environment."
   notes:
   - type: text
     contents: You've got your cluster reporting into New Relic One. Now let's level
@@ -181,5 +198,93 @@ challenges:
     hostname: instruqt-flex-kubernetes
     path: /root/new-relic/
   difficulty: basic
-  timelimit: 900
-checksum: "2171349382376918257"
+  timelimit: 9000
+- slug: nr-flex-troubleshooting
+  id: ciq5hxlvnwy2
+  type: challenge
+  title: New Relic Flex Troubleshooting
+  teaser: Troubleshooting your Flex configurations on your New Relic Infrastructure
+    pod
+  assignment: "# Overview\nIn this challenge, you'll learn how to troubleshoot your
+    Flex configs directly on your New Relic Infrastructure pods.\n\n**<<<overview
+    of how the configmap works>>>**\n\n## Building some broken configs\n*Note: Do
+    not \"fix\" this snippet. It is broken on purpose at this point*\n\n```yaml\nintegrations:\n
+    \ \n    config:\n      name: my-broken-flex\n```\n\n![flex-ts-1](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-1.png?raw=true
+    \"flex-ts-1\")\n\nEdit your config file again and set the contents up like the
+    following (make sure you leave the typo in the URL): \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n      apis:\n        -
+    event_type: testConfig\n          url: https://swapi.dev/api/speciess\n```\n\n![flex-ts-4](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-4.png?raw=true
+    \"flex-ts-4\")\n\n\nUpdate your config file to match the following, replacing
+    the entire `url` api and leaving off the missing `]` at the end of the JSON:\n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n      apis:\n        -
+    event_type: testConfig\n          commands:\n            - run: echo \"[{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}\"\n```\n\n![flex-ts-6](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-6.png?raw=true
+    \"flex-ts-6\")\n\n\n\n## Logging into your pod's shell\nFirst you will need to
+    gather your pod name that is running the New Relic integration: \n```\nkubectl
+    get pods | grep newrelic-infra\n```\n\nNext, you will login to the pod's shell
+    with the following command, replacing `POD_NAME` with the name you gathered above:\n```\nkubectl
+    exec -it POD_NAME -- /bin/sh\n```\n\n## Command Line Arguments\nThe Infrastructure
+    agent installs bundled binaries together in the following directory: `/var/db/newrelic-infra/newrelic-integrations/bin`.
+    Flex itself comes with several command line arguments that can assist you during
+    development of your configurations as you shape your metric outputs. In your workspace's
+    `shell` tab, run the following command to see all of the options available to
+    you:\n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex -help\n```\n\n![flex-binary-help](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-binary-help.png?raw=true
+    \"flex-binary-help\")\n\nAs you can see, there are well over 40 unique command
+    line arguments that are available. The majority are for use when Flex is run without
+    the Infrastructure agent, or are related to [experimental features](https://github.com/newrelic/nri-flex/tree/master/docs/experimental).
+    But there are three very powerful ones that you should be aware of for troubleshooting
+    purposes:\n  * `config_path` - Set a specific config file to execute\n  * `pretty`
+    - Print pretty formatted JSON\n  * `verbose` - Print more information to logs\n\nThese
+    arguments allow you to see in real-time how Flex is processing the config you
+    send it and the associated data output from the API(s) in the config.\n\n## Testing
+    your Config\n\nBack in your `shell` tab, run the following to execute one-time
+    tests against your new broken config files, using the command line arguments discussed
+    above: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    output should look similar to this, notice that the `flexStatusSample` was still
+    processed because it runs as a heartbeat independent of the status of individual
+    configurations. \n\n![flex-ts-2](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-2.png?raw=true
+    \"flex-ts-2\")\n\nYou can see in your error output's 3rd line that there is a
+    requirement for a `name` element that is missing in your config, if you go back
+    and edit your config and add the `- name: nri-flex` entry to line 2 as such: \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n```\n\nThen test
+    again using the same command from earlier: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYou'll
+    see a much better result like this: \n\n![flex-ts-3](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-3.png?raw=true
+    \"flex-ts-3\")\n\nNote the success of a \"real\" config will be accompanied by
+    a breakdown of the metric data processed. Let's start with seeing a bad `url`
+    API request. \n\nThen run your test command: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    results should look like this: \n\n![flex-ts-5](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-5.png?raw=true
+    \"flex-ts-5\")\n\nHere you can see on line 9 that the typo in the URL has led
+    you to a `404 NOT FOUND` error. Line 10 gives you some more details that, without
+    the 404 error, would be very interesting. Recall that Flex will automatically
+    process JSON and XML payloads, but not `text/html`. This is an important distinction
+    to note when you're building your solutions in the future.\n\nSpeaking of payloads,
+    let's take one more look at a bad config and see what the output of our troubleshooting
+    looks like with improperly formatted JSON output. \n\n\nThen run your test command:
+    \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex -pretty
+    -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    results should look like this: \n\n![flex-ts-7](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-7.png?raw=true
+    \"flex-ts-7\")\n\nNotice here that line 8 shows you the exact command that Flex
+    executed in shell, and the `metrics` payload shows you the return of both the
+    `testConfig` event type, and the `flexStatusSample`. However, where you expected
+    Flex to automatically parse the JSON you send over, it instead created a key-value
+    pair that was malformed like this: \n\n```\n\"[\":     \"{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}\"\n```\n*Spaces added for emphasis*\n\nThis is
+    an extremely common error when building Flex configs and is almost exclusively
+    controlled by going back to your config and manipulating your output a bit more.
+    Using tools like [Code Beautify's JSON Validator](https://codebeautify.org/jsonvalidator)
+    and [Request Inspector](https://requestinspector.com/), along with manually executing
+    commands in terminal outside of Flex, will go a long way in relieving potential
+    frustrations during configuration development.\n\nIn this case, editing your config
+    file again and adding that missing `]` to the end of your `echo` like this: \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n      apis:\n        -
+    event_type: testConfig\n          commands:\n            - run: echo \"[{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}]\" \n```\n\nWill yield these results after another
+    test: \n\n![flex-ts-8](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-8.png?raw=true
+    \"flex-ts-8\")\n"
+  difficulty: basic
+  timelimit: 1200
+checksum: "5502537332229621986"
+show_timer: true

@@ -4,7 +4,7 @@
 cd /root/
 
 # Install unzip
-sudo apt-get install unzip
+sudo apt-get install unzip -y
 
 # Create directory for kube-state-metrics files and set as working directory
 mkdir kube-state-metrics/
