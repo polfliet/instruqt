@@ -26,7 +26,7 @@ tags:
 owner: newrelic
 developers:
 - zmutchler@newrelic.com
-private: true
+private: false
 published: true
 challenges:
 - slug: install-the-new-relic-infrastructure-agent-linux
@@ -434,7 +434,10 @@ challenges:
     agent logs](https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-logs/generate-logs-troubleshooting-infrastructure)
     are always a great resource for troubleshooting the health of the agent and its
     integrations. But in the case of troubleshooting the actual configurations that
-    Flex is executing, the steps in this challenge will be your best bet."
+    Flex is executing, the steps in this challenge will be your best bet.\n\n# Conclusion\nThanks
+    for your time, I hope this class was informative and met your needs. I always
+    value feedback, please let me know if you enjoyed this track and how it can be
+    improved!"
   tabs:
   - title: shell
     type: terminal
@@ -449,20 +452,5 @@ challenges:
     path: /tmp/study-hall
   difficulty: basic
   timelimit: 1200
-- slug: flex-feedback-linux
-  id: uek0g7q4cwr9
-  type: challenge
-  title: Flex Track Feedback
-  teaser: Please let me know if you enjoyed this track and how it can be improved!
-  assignment: |-
-    # Conclusion
-    Thanks for your time! I hope this class was informative and met your needs and make sure you look for the other 101 class for Flex covering Kubernetes. I always value feedback, please use the `Feedback Form` tab and let me know if you enjoyed this track and how it can be improved!
-  tabs:
-  - title: Feedback Form
-    type: website
-    hostname: instruqt-flex-linux
-    url: https://docs.google.com/forms/d/e/1FAIpQLSdd9Q0cP2Eus2mk5NVM9ku8ION5jLKtmqenBBu2jaNHp4SSsw/viewform
-  difficulty: basic
-  timelimit: 500
-checksum: "463442307229438427"
+checksum: "17707692820488827811"
 show_timer: true
