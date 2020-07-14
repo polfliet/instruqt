@@ -1,0 +1,470 @@
+slug: nr-flex-integration-linux-basic
+id: fnspxxiznty1
+type: track
+title: '[NR] Flex Integration - Build Your First Linux Configuration'
+teaser: An introduction to creating configurations for the Flex Integration on New
+  Relic's Infrastructure Agent
+description: |-
+  # Overview
+  This track is the ***INTERNAL NEW RELIC EMPLOYEE*** introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Linux](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/linux-installation/install-infrastructure-linux-using-package-manager).
+
+  ## Requirements
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+
+  ## What is the Flex Integration?
+  *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
+
+  "New Relic Flex is an application-agnostic, all-in-one tool that allows you to collect metric data from a wide variety of services. Flex’s approach is different from that of dedicated integrations: Instead of interfacing directly with services, Flex instructs the New Relic Infrastructure agent to listen to standard structured output, which Flex then processes and collects as metric data for Infrastructure.
+
+  With this approach, you can instrument any application that exposes metric data in some way or another, whether it’s from JSON over HTTP or from standard output in a shell session, and combine that data with all your other critical telemetry data in New Relic One. The amount of services you can instrument is only limited by the data sources supported by Flex, which are growing and are open for contribution. If a service can talk, chances are that Flex can listen."
+
+  ## Important Note
+  **This track utilizes an ephemeral virtual machine. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
+icon: https://github.com/polfliet/instruqt/blob/master/assets/icons/flex-logo.png?raw=true
+tags:
+- ""
+owner: newrelic
+developers:
+- zmutchler@newrelic.com
+private: true
+published: false
+challenges:
+- slug: install-the-new-relic-infrastructure-agent-linux
+  id: xb2avb4gwz2t
+  type: challenge
+  title: Install the New Relic Infrastructure Agent
+  teaser: Installation of the New Relic Infrastructure Agent using YUM package manager.
+  assignment: "# Overview\nThe Flex integration has come bundled with the New Relic
+    Infrastructure agent since [v1.10.7](https://docs.newrelic.com/docs/release-notes/infrastructure-release-notes/infrastructure-agent-release-notes/new-relic-infrastructure-agent-1107),
+    so installation of Flex is as simple as [installing the Infrastructure Agent](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/linux-installation/install-infrastructure-linux-using-package-manager).
+    The server for this track is a CentOS 8 VM, and you will be using the YUM package
+    manager for these steps.\n\n## Installation: \n\nLog in to [New Relic One](https://one.newrelic.com)
+    and collect your New Relic license key:\n![License Key](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/license.gif?raw=true
+    \"License Key\")\n\nCopy and paste the following snippets into your workspace's
+    `shell` tab to download and install the Infrastructure agent: \n\n**Create a configuration
+    file and add your license key, replacing `LICENSE_KEY` with your own New Relic
+    license key**\n```shell\necho \"license_key: LICENSE_KEY\" | sudo tee -a /etc/newrelic-infra.yml\n```\n\n**Create
+    the agent’s yum repository**\n```shell\nsudo curl -o /etc/yum.repos.d/newrelic-infra.repo
+    https://download.newrelic.com/infrastructure_agent/linux/yum/el/8/x86_64/newrelic-infra.repo\n```\n\n**Update
+    your yum cache**\n```shell\nsudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'\n```\n\n**Run
+    the installation script**\n```shell\nsudo yum install newrelic-infra -y\n```\n\n##
+    Validate installation \nBack in [New Relic One](https://one.newrelic.com), select
+    the **Query your data** link in the upper right to open the [Chart Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, select the **Advanced (NRQL)** toggle in the upper right to open the
+    window where you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your latest installation:\n\n```sql\nFROM SystemSample SELECT
+    count(*) FACET entityName TIMESERIES 1 minute  WHERE entityName = 'instruqt-flex-linux'\n```\n![Chart
+    Builder](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/cb_infra-agent.gif?raw=true
+    \"Chart Builder\")\n\nYou should see your hostname show up within a minute or
+    two of your installation via YUM. If you do not, troubleshoot by ensuring the
+    following: \n  * The agent service is running: `sudo systemctl start newrelic-infra`\n
+    \ * You have the proper license key assigned: `sudo cat /etc/newrelic-infra.yml`\n\nAt
+    this point, you have installed the latest version of the Infrastructure agent
+    and the associated Flex integration that is bundled with it. In the next challenge,
+    you will create your first configuration."
+  notes:
+  - type: text
+    contents: Please be patient while your VM is configured. This can take several
+      minutes...
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 300
+- slug: create-your-first-flex-config-linux
+  id: a6fnlyjt4iut
+  type: challenge
+  title: Create your first Flex configuration
+  teaser: Creating your first basic configuration file
+  assignment: "# Overview\nIn this challenge, you'll use the `shell`, `study hall`,
+    and `editor` tabs in your workspace to create your first Flex config.\n\n## Integrations
+    SDK Configuration\nFlex uses the [newer configuration format](https://docs.newrelic.com/docs/integrations/integrations-sdk/file-specifications/host-integrations-newer-configuration-format)
+    introduced for the Integrations SDK with [v1.8.0](https://docs.newrelic.com/docs/release-notes/infrastructure-release-notes/infrastructure-agent-release-notes/new-relic-infrastructure-agent-180)
+    of the Infrastructure agent. \n\nBy default, all properly formatted YAML files
+    in the `/etc/newrelic-infra/integrations.d/` directory will be read by the integrations
+    engine. This will be the root directory for all of your integration config files,
+    including Flex. \n\n## Structure\nThe Integrations SDK portion of your YAML file
+    will, at a minimum, require the following syntax: \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex\n    config:\n      ...\n```\n\nNote that the `integrations`
+    top-level section consists of a YAML array of `- name` entities, we will utilize
+    this array in the remaining challenges in this track to add all of our Flex configs
+    to this single YAML file.\n\nIn your workspace's `study hall` tab, select the
+    `integrations-sdk-options.txt` file to see the various configuration options relevant
+    to Flex configurations.\n\n![flex-integrations-sdk](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-integrations-sdk.png?raw=true
+    \"flex-integrations-sdk\")\n\n## Flex Configuration\nThis is the section of your
+    YAML placed inside the `config` element and is driven by the [rules and syntax](https://github.com/newrelic/nri-flex/tree/master/docs)
+    of the Flex integration itself.\n\nAs a starting point, you can validate the Flex
+    integration is working by checking for the default `flexStatusSample` events that
+    are generated by the integration as a heartbeat sample. \n\nIn your workspace,
+    open your `shell` tab and run the following command to create the YAML file we
+    will be using for our work in this track: \n\n```shell\nsudo touch /etc/newrelic-infra/integrations.d/my-first-flex.yml\n```\n\nOnce
+    completed, open the `editor` tab and look in the folder contents in the left-hand
+    pane to select your file for editing. If you don't immediately see your new file,
+    click the refresh icon.\n\n*If you prefer, you can also use `vim` to edit your
+    file in the terminal*\n\nIn the `editor` tab, add this configuration snippet and
+    then click the save icon on the file tab at the top of the editing window. \n\n```yaml\n#
+    This is the Integrations SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n
+    \     # This is the beginning of the Flex Config Block\n      name: my-first-flex\n```\n\n![editor-my-first-flex](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/editor-my-first-flex.png?raw=true
+    \"editor-my-first-flex\")\n\nNotice that we haven't actually tasked Flex with
+    anything, but by telling the integrations engine to execute `nri-flex` and supplying
+    it with a named config for Flex (`my-first-flex`), it will start to create heartbeats
+    on the default 30s integration interval. \n\nJust like your first challenge, log
+    in to [New Relic One](https://one.newrelic.com) and select the **Query your data**
+    link in the upper right to open the [Chart Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your first config:\n\n```sql\nFROM flexStatusSample SELECT count(*)
+    FACET entityName TIMESERIES 1 minute WHERE entityName = 'instruqt-flex-linux'\n```\n\nYou
+    should see your hostname show up within a minute or two of your file save in the
+    `editor` tab. If you do not, troubleshoot by ensuring the following: \n  * The
+    agent service is running: `sudo systemctl start newrelic-infra`\n  * You've validated
+    your YAML formatting with a tool like [Code Beautify](https://codebeautify.org/yaml-validator)\n\n***\n\nIn
+    your next few challenges, you'll begin working with the various Flex APIs currently
+    available.\n  "
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: editor
+    type: code
+    hostname: instruqt-flex-linux
+    path: /etc/newrelic-infra/integrations.d/
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 600
+- slug: flex-url-api-config-linux
+  id: y17ba4plkoax
+  type: challenge
+  title: Flex URL API Configuration
+  teaser: Creating a config using the url API
+  assignment: "# Overview\nIn this challenge, you'll use your workspace's `shell`,
+    `study hall`, and `editor` tabs to extend your initial Flex config and make requests
+    to an open REST API. \n\n## Common Flex Config Options\nIn the last challenge
+    you were introduced to `name`, which is a friendly descriptor used to designate
+    different configs inside of the `config` parent element. For example, in your
+    first config, you have 6 lines in your YAML.\n\n```yaml\n# This is the Integrations
+    SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n      # This is the
+    beginning of the Flex Config Block\n      name: my-first-flex\n```\n\n  * Line
+    2: `integrations: ` - This identifies the YAML as a config for the integrations
+    engine\n  * Line 3: `- name: nri-flex` - This is the name of the integration being
+    executed by the integrations engine\n  * Line 4: `config:` - This is the start
+    of your Flex config block\n  * Line 6: `name: my-first-flex` - This is your friendly
+    descriptor for this particular Flex config. It has no bearing on the events being
+    generated and is only seen in this YAML file.\n\nGoing forward, you'll be adding
+    additional lines to your \"base config\" that will create the configuration used
+    by Flex's various APIs. It's a simple addition to the `config` section adding
+    the `apis:` and `event_type` elements.\n\nNOTE: `event_type` is a [newer element](https://github.com/newrelic/nri-flex/blob/master/docs/basics/configure.md#apis)
+    relative to the history of the Flex integration. As such, it is very common to
+    see [examples](https://github.com/newrelic/nri-flex/tree/master/examples) using
+    another `name` element in its place. It is **highly recommended** to use the `event_type`
+    element as it is easier to read in config files and gives you greater control
+    over your event name once shipped to New Relic as it's value will be literal and
+    `name` values have `Sample` suffixed. \n\nFor example: `event_type: starWarsSpecies`
+    will create events named `starWarsSpecies`; but `name: starWarsSpecies` will create
+    events named `starWarsSpeciesSample`\n\nFor this challenge, and the ones after,
+    you're going to add a name block in addition to the pre-existing in order to compile
+    multiple different configurations in a single YAML.\n\nExample: \n```yaml\n# This
+    is the Integrations SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n
+    \     # This is the beginning of the Flex Config Block\n      name: my-first-flex\n
+    \     \n      # This is the beginning of the URL API Config Block\n      name:
+    my-url-flex\n      apis: ...\n```\n\n## url API\nThe [url API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/url.md)
+    allows you to easily retrieve information from an HTTP/s endpoint using `GET`,
+    `POST`, and `PUT` methods. \n\nIn your workspace's `study hall` tab, select the
+    `url-api-options.txt` file to see the various configuration options available.\n\n![flex-url-api](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-url-api.png?raw=true
+    \"flex-url-api\")\n\n## Becoming a Padawan\nTo put this into a practical example,
+    use the `editor` tab in your workspace and load the config snippet below to the
+    bottom of your `my-first-flex.yml` file and then click the save icon on the file
+    tab at the top of the editing window.\n\n```yaml\n      # This is the beginning
+    of the URL API Config Block\n      name: my-url-flex\n      apis:\n        - event_type:
+    starWarsSpecies\n          url: https://swapi.dev/api/species/\n```\n\nThis is
+    a basic call to the popular Star Wars API using the `url` API in Flex. In a few
+    moments you should be able to visit [New Relic One](https://one.newrelic.com)
+    and select the **Query your data** link in the upper right to open the [Chart
+    Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your `url` API config:\n\n```sql\nFROM starWarsSpecies SELECT
+    COUNT(*) \nFACET name, classification, designation, \naverage_height, average_lifespan,
+    hair_colors, \nskin_colors, eye_colors, homeworld, language \nSINCE 10 MINUTES
+    AGO LIMIT MAX\n```\n\n![flex-url-api-nrql](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-url-api-nrql.png?raw=true
+    \"flex-url-api-nrql\")\n\nYou should see your data show up within a minute or
+    two of your file save in the `editor` tab. If you do not, troubleshoot by ensuring
+    the following: \n  * The agent service is running: `sudo systemctl start newrelic-infra`\n
+    \ * You've validated your YAML formatting with a tool like [Code Beautify](https://codebeautify.org/yaml-validator)\n
+    \ * Your full file contents should look like the following:\n```yaml\n# This is
+    the Integrations SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n
+    \     # This is the beginning of the Flex Config Block\n      name: my-first-flex\n
+    \     \n      # This is the beginning of the URL API Config Block\n      name:
+    my-url-flex\n      apis:\n        - event_type: starWarsSpecies\n          url:
+    https://swapi.dev/api/species/\n```\n\n***\n\nIn your next challenge, you'll learn
+    how to manipulate the powerful `commands` API.\n"
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: editor
+    type: code
+    hostname: instruqt-flex-linux
+    path: /etc/newrelic-infra/integrations.d/
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 600
+- slug: flex-commands-api-config-linux
+  id: gqfwh8ou6hrm
+  type: challenge
+  title: Flex Commands API Configuration
+  teaser: Creating a config using the commands API
+  assignment: "# Overview\nIn this challenge, you'll use your workspace's `shell`,
+    `study hall`, and `editor` tabs to extend your Flex config to execute shell commands.
+    \n\n## commands API\nThe [commands API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/commands.md)
+    allows you to easily retrieve information from any application or shell command.
+    Flex will by default read **all of** the results of your commands sent to `STDOUT`,
+    and therefore the manipulation of this data is vital to creating valuable metrics
+    to be sent to New Relic. \n\nIn your workspace's `study hall` tab, select the
+    `commands-api-options.txt` file to see the various configuration options available.\n\n![flex-commands-api](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-commands-api.png?raw=true
+    \"flex-commands-api\")\n\n*NOTE: Adjusting the `timeout` value of the `commands`
+    API should be done in sync with the [timeout value](https://docs.newrelic.com/docs/integrations/integrations-sdk/file-specifications/host-integrations-newer-configuration-format#timeout)
+    for the Integrations SDK portion of the config*\n\n## But why is all the space
+    gone???\nTo put this into a practical example, use the `editor` tab in your workspace
+    to load the config snippet below to the bottom of your `my-first-flex.yml` file
+    and then click the save icon on the file tab at the top of the editing window.\n\n```yaml\n
+    \     # This is the beginning of the Commands API Config Block\n      name: my-commands-flex\n
+    \     apis:\n        - event_type: fileSize\n          commands:\n            -
+    run: stat -c '%n;%Y' /etc/*conf\n              split: horizontal\n              set_header:
+    [fileSize.name, fileSize.bytes]\n              regex_match: false\n              split_by:
+    \";\"\n```\n\nThis is a query of file sizes in the `/var/log/` directory using
+    the Linux [stat](https://linux.die.net/man/2/stat) command. You're also using
+    various configuration options outlined in your `study hall` resource to format
+    the `STDOUT` into two headers for export to New Relic. It's important to note
+    that care was taken to [format the output](https://linux.die.net/man/1/stat) of
+    `stat` and curate the data sent to `STDOUT`, **before** any of the Flex functions
+    were called. Oftentimes you can manage your config complexity simply by adjusting
+    the shell command(s) you are using to clean up your output as much as possible
+    into delimited values, or JSON format which Flex will read natively.  \n\nIn a
+    few moments you should be able to visit [New Relic One](https://one.newrelic.com)
+    and select the **Query your data** link in the upper right to open the [Chart
+    Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your `commands` API config:\n\n```sql\nFROM fileSize\nSELECT
+    max(`fileSize.bytes`)/1000 AS 'fileSize.kilobytes'\nFACET `fileSize.name`\nSINCE
+    10 MINUTES AGO LIMIT MAX\n```\n\n![flex-commands-api-nrql](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-commands-api-nrql.png?raw=true
+    \"flex-commands-api-nrql\")\n\nYou should see your data show up within a minute
+    or two of your file save in the `editor` tab. If you do not, troubleshoot by ensuring
+    the following: \n  * The agent service is running: `sudo systemctl start newrelic-infra`\n
+    \ * You've validated your YAML formatting with a tool like [Code Beautify](https://codebeautify.org/yaml-validator)\n
+    \ * Your full file contents should look like the following:\n```yaml\n# This is
+    the Integrations SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n
+    \     # This is the beginning of the Flex Config Block\n      name: my-first-flex\n
+    \     \n      # This is the beginning of the URL API Config Block\n      name:
+    my-url-flex\n      apis:\n        - event_type: starWarsSpecies\n          url:
+    https://swapi.dev/api/species/\n          \n      # This is the beginning of the
+    Commands API Config Block\n      name: my-commands-flex\n      apis:\n        -
+    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%Y'
+    /etc/*conf\n              split: horizontal\n              set_header: [fileSize.name,
+    fileSize.bytes]\n              regex_match: false\n              split_by: \";\"\n```\n\n***\n\nIn
+    your next challenge, you'll learn how to work with the `file` API.\n"
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: editor
+    type: code
+    hostname: instruqt-flex-linux
+    path: /etc/newrelic-infra/integrations.d/
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 600
+- slug: flex-file-api-config-linux
+  id: cmt6t3a0yhob
+  type: challenge
+  title: Flex File API Configuration
+  teaser: Creating a config using the file API
+  assignment: "# Overview\nIn this challenge, you'll use your workspace's `shell`,
+    `study hall`, and `editor` tabs to extend your Flex config to read file contents.
+    \n\n## file API\nThe [file API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/file.md)
+    allows you to easily retrieve information from any JSON or CSV file.\n\nIn your
+    workspace's `study hall` tab, select the `file-api-options.txt` file to see the
+    various configuration options available.\n\n![flex-file-api](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-file-api.png?raw=true
+    \"flex-file-api\")\n\n## Jedi Knight\nTo put this into a practical example, use
+    the `editor` tab in your workspace to load the config snippet below to the bottom
+    of your `my-first-flex.yml` file and then click the save icon on the file tab
+    at the top of the editing window.\n\n```yaml\n      # This is the beginning of
+    the File API Config Block\n      name: my-file-flex\n      apis:\n        - event_type:
+    starWarsCharacters\n          file: /tmp/assets/file-api-example.csv\n```\n\nThis
+    is a CSV file pulled from the Star Wars API we used in our URL API challenge earlier.
+    In a few moments you should be able to log in to [New Relic One](https://one.newrelic.com)
+    and select the **Query your data** link in the upper right to open the [Chart
+    Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your `file` API config:\n\n```sql\nFROM starWarsCharacters\nSELECT
+    COUNT(*)\nFACET name, height, mass, \nhair_color, skin_color, eye_color, \nbirth_year,
+    gender, homeworld, \nfilms.1, species, vehicles.1, starships.1 \nSINCE 10 MINUTES
+    AGO LIMIT MAX\n```\n\n![flex-file-api-nrql](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-file-api-nrql.png?raw=true
+    \"flex-file-api-nrql\")\n\nYou should see your data show up within a minute or
+    two of your file save in the `editor` tab. If you do not, troubleshoot by ensuring
+    the following: \n  * The agent service is running: `sudo systemctl start newrelic-infra`\n
+    \ * You've validated your YAML formatting with a tool like [Code Beautify](https://codebeautify.org/yaml-validator)\n
+    \ * Your full file contents should look like the following:\n```yaml\n# This is
+    the Integrations SDK portion\nintegrations:\n  - name: nri-flex\n    config:\n
+    \     # This is the beginning of the Flex Config Block\n      name: my-first-flex\n
+    \     \n      # This is the beginning of the URL API Config Block\n      name:
+    my-url-flex\n      apis:\n        - event_type: starWarsSpecies\n          url:
+    https://swapi.dev/api/species/\n          \n      # This is the beginning of the
+    Commands API Config Block\n      name: my-commands-flex\n      apis:\n        -
+    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%Y'
+    /etc/*conf\n              split: horizontal\n              set_header: [fileSize.name,
+    fileSize.bytes]\n              regex_match: false\n              split_by: \";\"\n
+    \             \n      # This is the beginning of the File API Config Block\n      name:
+    my-file-flex\n      apis:\n        - event_type: starWarsCharacters\n          file:
+    /tmp/assets/file-api-example.csv\n```\n\n***\n\nIn your next challenge, you'll
+    learn how to troubleshoot your Flex configs.\n"
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: editor
+    type: code
+    hostname: instruqt-flex-linux
+    path: /etc/newrelic-infra/integrations.d/
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 600
+- slug: flex-troubleshooting-linux
+  id: wyjcrodtcj4b
+  type: challenge
+  title: Flex Troubleshooting
+  teaser: Troubleshooting your configurations with Flex
+  assignment: "# Overview\nIn this challenge, you'll use your workspace's `shell`,
+    `study hall`, and `editor` tabs to learn how to troubleshoot your Flex configs.\n\n##
+    Command Line Arguments\nThe Infrastructure agent installs bundled binaries together
+    in the following directory: `/var/db/newrelic-infra/newrelic-integrations/bin`.
+    Flex itself comes with several command line arguments that can assist you during
+    development of your configurations as you shape your metric outputs. In your workspace's
+    `shell` tab, run the following command to see all of the options available to
+    you:\n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex -help\n```\n\n![flex-binary-help](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-binary-help.png?raw=true
+    \"flex-binary-help\")\n\nAs you can see, there are well over 40 unique command
+    line arguments that are available. The majority are for use when Flex is run without
+    the Infrastructure agent, or are related to [experimental features](https://github.com/newrelic/nri-flex/tree/master/docs/experimental).
+    But there are three very powerful ones that you should be aware of for troubleshooting
+    purposes:\n  * `config_path` - Set a specific config file to execute\n  * `pretty`
+    - Print pretty formatted JSON\n  * `verbose` - Print more information to logs\n\nThese
+    arguments allow you to see in real-time how Flex is processing the config you
+    send it and the associated data output from the API(s) in the config.\n\n## Testing
+    your Config\n\nIn your workspace, open your `shell` tab and run the following
+    command to create the YAML file we will be using for our work in this challenge:
+    \n\n```shell\nsudo touch /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nOnce
+    completed, open the `editor` tab and look in the folder contents in the left-hand
+    pane to select your file for editing. If you don't immediately see your new file,
+    click the refresh icon.\n\n*If you prefer, you can also use `vim` to edit your
+    file in the terminal*\n\nIn the `editor` tab, add this configuration snippet and
+    then click the save icon on the file tab at the top of the editing window. \n\n*Note:
+    Do not \"fix\" this snippet. It is broken on purpose at this point*\n\n```yaml\nintegrations:\n
+    \ \n    config:\n      name: my-broken-flex\n```\n\n![flex-ts-1](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-1.png?raw=true
+    \"flex-ts-1\")\n\nBack in your `shell` tab, run the following to execute a one-time
+    test against your new config file, using the command line arguments discussed
+    above: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    output should look similar to this, notice that the `flexStatusSample` was still
+    processed because, as you learned in your earlier challenge, it runs as a heartbeat
+    independent of the status of individual configurations. \n\n![flex-ts-2](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-2.png?raw=true
+    \"flex-ts-2\")\n\nYou can see in your error output's 3rd line that there is a
+    requirement for a `name` element that is missing in your config, if you go back
+    and edit your config and add the `- name: nri-flex` entry to line 2 as such: \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n```\n\nThen test
+    again using the same command from earlier: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYou'll
+    see a much better result like this: \n\n![flex-ts-3](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-3.png?raw=true
+    \"flex-ts-3\")\n\nNote the success of a \"real\" config will be accompanied by
+    a breakdown of the metric data processed. Let's start with seeing a bad `url`
+    API request. Edit your config file again and set the contents up like the following
+    (make sure you leave the typo in the URL): \n\n```yaml\nintegrations:\n  - name:
+    nri-flex  \n    config:\n      name: my-broken-flex\n      apis:\n        - event_type:
+    testConfig\n          url: https://swapi.dev/api/speciess\n```\n\n![flex-ts-4](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-4.png?raw=true
+    \"flex-ts-4\")\n\nThen run your test command: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    results should look like this: \n\n![flex-ts-5](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-5.png?raw=true
+    \"flex-ts-5\")\n\nHere you can see on line 9 that the typo in the URL has led
+    you to a `404 NOT FOUND` error. Line 10 gives you some more details that, without
+    the 404 error, would be very interesting. Recall that Flex will automatically
+    process JSON and XML payloads, but not `text/html`. This is an important distinction
+    to note when you're building your solutions in the future.\n\nSpeaking of payloads,
+    let's take one more look at a bad config and see what the output of our troubleshooting
+    looks like with improperly formatted JSON output. \n\nUpdate your config file
+    to match the following, replacing the entire `url` api and leaving off the missing
+    `]` at the end of the JSON:\n\n```yaml\nintegrations:\n  - name: nri-flex  \n
+    \   config:\n      name: my-broken-flex\n      apis:\n        - event_type: testConfig\n
+    \         commands:\n            - run: echo \"[{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}\"\n```\n\n![flex-ts-6](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-6.png?raw=true
+    \"flex-ts-6\")\n\nThen run your test command: \n\n```shell\n/var/db/newrelic-infra/newrelic-integrations/bin/nri-flex
+    -pretty -verbose -config_path /etc/newrelic-infra/integrations.d/my-broken-flex.yml\n```\n\nYour
+    results should look like this: \n\n![flex-ts-7](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-7.png?raw=true
+    \"flex-ts-7\")\n\nNotice here that line 8 shows you the exact command that Flex
+    executed in shell, and the `metrics` payload shows you the return of both the
+    `testConfig` event type, and the `flexStatusSample`. However, where you expected
+    Flex to automatically parse the JSON you send over, it instead created a key-value
+    pair that was malformed like this: \n\n```\n\"[\":     \"{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}\"\n```\n*Spaces added for emphasis*\n\nThis is
+    an extremely common error when building Flex configs and is almost exclusively
+    controlled by going back to your config and manipulating your output a bit more.
+    Using tools like [Code Beautify's JSON Validator](https://codebeautify.org/jsonvalidator)
+    and [Request Inspector](https://requestinspector.com/), along with manually executing
+    commands in terminal outside of Flex, will go a long way in relieving potential
+    frustrations during configuration development.\n\nIn this case, editing your config
+    file again and adding that missing `]` to the end of your `echo` like this: \n\n```yaml\nintegrations:\n
+    \ - name: nri-flex  \n    config:\n      name: my-broken-flex\n      apis:\n        -
+    event_type: testConfig\n          commands:\n            - run: echo \"[{\\\"name\\\":\\\"oops\\\",\\\"message\\\":\\\"this
+    is my poorly formatted json\\\"}]\" \n```\n\nWill yield these results after another
+    test: \n\n![flex-ts-8](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/flex-ts-8.png?raw=true
+    \"flex-ts-8\")\n\n## Infra Agent Log\nA quick note here that the [Infrastructure
+    agent logs](https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-logs/generate-logs-troubleshooting-infrastructure)
+    are always a great resource for troubleshooting the health of the agent and its
+    integrations. But in the case of troubleshooting the actual configurations that
+    Flex is executing, the steps in this challenge will be your best bet.\n\nIn the
+    next challenge, you will complete a short survey to mark your completion of this
+    track."
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-linux
+  - title: editor
+    type: code
+    hostname: instruqt-flex-linux
+    path: /etc/newrelic-infra/integrations.d/
+  - title: study hall
+    type: code
+    hostname: instruqt-flex-linux
+    path: /tmp/study-hall
+  difficulty: basic
+  timelimit: 1200
+- slug: flex-completion-linux
+  id: hxgbb74kruut
+  type: challenge
+  title: Flex Track Completion
+  teaser: This survey is required to prove completion of this track.
+  assignment: |-
+    # Conclusion
+    Thanks for your time, I hope this class was informative and met your needs. I always value feedback, please let me know if you enjoyed this track and how it can be improved!
+  tabs:
+  - title: Completion Survey
+    type: website
+    hostname: instruqt-flex-linux
+    url: https://docs.google.com/forms/d/e/1FAIpQLSdd9Q0cP2Eus2mk5NVM9ku8ION5jLKtmqenBBu2jaNHp4SSsw/viewform
+  difficulty: basic
+  timelimit: 180
+checksum: "1765436041164490924"
+show_timer: true

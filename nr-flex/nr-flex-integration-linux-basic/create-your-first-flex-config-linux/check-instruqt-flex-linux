@@ -1,0 +1,2 @@
+# This command checks for the my-first-flex.yml file created in this challenge
+if ls /etc/newrelic-infra/integrations.d/my-first-flex.yml; then exit 0; else fail-message "Could not find my-first-flex.yml file. Please try again."; fi
