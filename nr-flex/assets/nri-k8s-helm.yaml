@@ -22,24 +22,16 @@ integrations_config:
   - name: nri-flex.yaml
     data:
       integrations:
-        # This is the block that contains 2 tests against various K8s API endpoints        
+        # This block contains 2 tests against various K8s API endpoints        
         - name: nri-flex
           config:
             name: k8sApiLatency
             apis:
-              # This is the Node endpoint test              
+              # This is the Nodes endpoint test              
               - event_type: k8sApiLatency
                 commands:
-                  - run: echo -e "{\"apiEndpoint\":\"Nodes\",\"responseTimeMs\":\"$(curl 'http://localhost:8080/api/v1/nodes' -s -o /dev/null -w "%{time_starttransfer}\n")\"}"
+                  - run: curl -s -o /dev/null -w '{"api_endpoint": "nodes","lookup": %{time_namelookup},"connect": %{time_connect},"app_connect": %{time_appconnect},"pre_transfer": %{time_pretransfer},"redirect": %{time_redirect},"start_transfer": %{time_starttransfer},"total": %{time_total}}\n' 'http://localhost:8080/api/v1/nodes'
               # This is the Pods endpoint test
               - event_type: k8sApiLatency
                 commands:
-                  - run: echo -e "{\"apiEndpoint\":\"Pods\",\"responseTimeMs\":\"$(curl 'http://localhost:8080/api/v1/pods' -s -o /dev/null -w "%{time_starttransfer}\n")\"}"
-
-        # This is the block that contains 1 external call to the Star Wars REST API
-        - name: nri-flex
-          config:
-            name: my-url-flex
-            apis:
-              - event_type: starWarsSpecies
-                url: https://swapi.dev/api/species/
+                  - run: curl -s -o /dev/null -w '{"api_endpoint": "pods","lookup": %{time_namelookup},"connect": %{time_connect},"app_connect": %{time_appconnect},"pre_transfer": %{time_pretransfer},"redirect": %{time_redirect},"start_transfer": %{time_starttransfer},"total": %{time_total}}\n' 'http://localhost:8080/api/v1/pods'
