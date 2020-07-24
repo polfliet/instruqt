@@ -17,21 +17,18 @@ privileged: true
 # For more details on monitoring services on Kubernetes see
 # https://docs.newrelic.com/docs/integrations/kubernetes-integration/link-apps-services/monitor-services-running-kubernetes
 
-
-integrations_config:
-  - name: nri-flex.yaml
-    data:
-      integrations:
-        # This block contains 2 tests against various K8s API endpoints        
-        - name: nri-flex
-          config:
-            name: k8sApiLatency
-            apis:
-              # This is the Nodes endpoint test              
-              - event_type: k8sApiLatency
-                commands:
-                  - run: curl -s -o /dev/null -w '{"api_endpoint": "nodes","lookup": %{time_namelookup},"connect": %{time_connect},"app_connect": %{time_appconnect},"pre_transfer": %{time_pretransfer},"redirect": %{time_redirect},"start_transfer": %{time_starttransfer},"total": %{time_total}}\n' 'http://localhost:8080/api/v1/nodes'
-              # This is the Pods endpoint test
-              - event_type: k8sApiLatency
-                commands:
-                  - run: curl -s -o /dev/null -w '{"api_endpoint": "pods","lookup": %{time_namelookup},"connect": %{time_connect},"app_connect": %{time_appconnect},"pre_transfer": %{time_pretransfer},"redirect": %{time_redirect},"start_transfer": %{time_starttransfer},"total": %{time_total}}\n' 'http://localhost:8080/api/v1/pods'
+#integrations_config:
+#  - name: nri-flex.yaml
+#    data:
+#      integrations:      
+#        - name: nri-flex
+#          config:
+#            name: k8sApiLatency
+#            apis:            
+#              - event_type: k8sApiLatency
+#                commands:
+#                  # This is the Nodes endpoint test  
+#                  - run: "curl -s -o /dev/null -w '{\"api_endpoint\": \"nodes\",\"dns_lookup\": %{time_namelookup},\"tcp_handshake\": %{time_connect},\"ssl_handshake\": %{time_appconnect},\"pre_transfer\": %{time_pretransfer},\"redirect\": %{time_redirect},\"start_transfer\": %{time_starttransfer},\"time_total\": %{time_total}}' 'http://localhost:8080/api/v1/nodes' || :"
+#                  # This is the Pods endpoint test
+#                  - run: "curl -s -o /dev/null -w '{\"api_endpoint\": \"pods\",\"dns_lookup\": %{time_namelookup},\"tcp_handshake\": %{time_connect},\"ssl_handshake\": %{time_appconnect},\"pre_transfer\": %{time_pretransfer},\"redirect\": %{time_redirect},\"start_transfer\": %{time_starttransfer},\"time_total\": %{time_total}}' 'http://localhost:8080/api/v1/pods' || :"
+                  
