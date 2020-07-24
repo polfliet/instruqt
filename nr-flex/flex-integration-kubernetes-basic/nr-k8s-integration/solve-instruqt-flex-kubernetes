@@ -1,3 +1,3 @@
 #!/bin/bash
-
-kubectl create -f /root/new-relic/nri-k8s.yaml
+set-workdir $(pwd)/new-relic
+helm install -f ./nri-k8s-helm.yaml newrelic-infra newrelic/newrelic-infrastructure

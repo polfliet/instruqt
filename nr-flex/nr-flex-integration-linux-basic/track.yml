@@ -25,9 +25,10 @@ tags:
 - ""
 owner: newrelic
 developers:
+- mcaron@newrelic.com
 - zmutchler@newrelic.com
 private: true
-published: false
+published: true
 challenges:
 - slug: install-the-new-relic-infrastructure-agent-linux
   id: xb2avb4gwz2t
@@ -241,8 +242,10 @@ challenges:
     \     apis:\n        - event_type: fileSize\n          commands:\n            -
     run: stat -c '%n;%Y' /etc/*conf\n              split: horizontal\n              set_header:
     [fileSize.name, fileSize.bytes]\n              regex_match: false\n              split_by:
-    \";\"\n```\n\nThis is a query of file sizes in the `/var/log/` directory using
-    the Linux [stat](https://linux.die.net/man/2/stat) command. You're also using
+    \";\"\n```\n\nThis is a query of file sizes in the `/etc/` directory, finding
+    all files matching the pattern `*conf` using the Linux [stat](https://linux.die.net/man/2/stat)
+    command. \n\nTo see what this command looks like in its raw form, run it directly
+    in your `shell` tab: \n\n```\nstat -c '%n;%Y' /etc/*conf\n```\n\nYou're also using
     various configuration options outlined in your `study hall` resource to format
     the `STDOUT` into two headers for export to New Relic. It's important to note
     that care was taken to [format the output](https://linux.die.net/man/1/stat) of
@@ -458,7 +461,7 @@ challenges:
   teaser: This survey is required to prove completion of this track.
   assignment: |-
     # Conclusion
-    Thanks for your time, I hope this class was informative and met your needs. I always value feedback, please let me know if you enjoyed this track and how it can be improved!
+    Thanks for your time, I hope this class was informative and met your needs. I always value feedback, please let me know if you enjoyed this track and how it can be improved! Be sure to checkout the [Flex on Kubernetes](https://play.instruqt.com/newrelic/tracks/flex-integration-kubernetes-basic) track as well!
   tabs:
   - title: Completion Survey
     type: website
@@ -466,5 +469,5 @@ challenges:
     url: https://docs.google.com/forms/d/e/1FAIpQLSdd9Q0cP2Eus2mk5NVM9ku8ION5jLKtmqenBBu2jaNHp4SSsw/viewform
   difficulty: basic
   timelimit: 180
-checksum: "1765436041164490924"
+checksum: "15697769273381840085"
 show_timer: true

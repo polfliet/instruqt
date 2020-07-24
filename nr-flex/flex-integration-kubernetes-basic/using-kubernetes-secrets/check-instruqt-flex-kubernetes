@@ -1,0 +1,5 @@
+# This command returns exitcode 0 if the secret is set, 1 if it is not
+kubectl describe secret newrelic-secret
+if [ $? -ne 0 ]; then
+    fail-message "Could not find newrelic-secret. Please create the secret"
+fi

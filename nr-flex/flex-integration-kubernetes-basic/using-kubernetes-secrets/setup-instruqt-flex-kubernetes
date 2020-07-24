@@ -1,0 +1,8 @@
+-- STARTUP SCRIPT
+#!/bin/bash
+
+# Wait for Kubernetes to become available 
+until kubectl -n kube-system get pod | grep "kubernetes-dashboard" > /dev/null; do printf "." && sleep 1; done
+
+# Install Weave Net add on for Container Network
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"

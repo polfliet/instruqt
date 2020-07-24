@@ -6,7 +6,7 @@ cd /root/
 # Download the first New Relic config
 mkdir new-relic/
 pushd new-relic/
-wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/nri-k8s.yml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/nri-k8s-helm.yaml
 popd
 
 # Set workdir

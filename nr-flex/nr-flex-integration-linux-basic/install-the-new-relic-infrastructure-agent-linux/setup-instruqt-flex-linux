@@ -4,6 +4,7 @@ curl -o /tmp/study-hall/integrations-sdk-options.txt https://raw.githubuserconte
 curl -o /tmp/study-hall/url-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/url-api-options.txt
 curl -o /tmp/study-hall/commands-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/commands-api-options.txt
 curl -o /tmp/study-hall/file-api-options.txt https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/file-api-options.txt
+curl -o /tmp/study-hall/file-api-example.csv https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/file-api-example.csv
 
 # Download CSV file for File API challenge
 mkdir /tmp/assets

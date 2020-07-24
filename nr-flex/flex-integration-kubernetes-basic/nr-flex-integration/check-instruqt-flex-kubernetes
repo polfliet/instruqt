@@ -1,6 +1,6 @@
 #!/bin/bash
 
-kubectl describe configmap nri-integration-cfg | grep nri-flex
+kubectl describe configmap | grep nri-flex
 if [ $? -ne 0 ]; then
     fail-message "Could not find Flex integration. Please follow the steps and uncomment the Flex integration. Don't forget to apply the changes."
 fi
