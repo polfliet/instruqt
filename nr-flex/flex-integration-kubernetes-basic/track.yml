@@ -139,7 +139,7 @@ challenges:
     get daemonsets\n```\n\n![helm confirm](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/k8s-helm-confirm.png?raw=true
     \"helm confirm\")\n\n## Kubernetes Cluster Explorer\nLog in to [New Relic One](https://one.newrelic.com),
     click on the `Apps` icon in the top menu, select the `Kubernetes Cluster Explorer`
-    tile and navigate to your cluster name. (`kubernetes`)\n\n![kce tile](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/k8s-kce-tile.gif?raw=true
+    tile and navigate to your cluster name. (`flex-workshop`)\n\n![kce tile](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/k8s-kce-tile.gif?raw=true
     \"kce tile\")\n\nYour Kubernetes Cluster Explorer should look something like this
     (note: it will take the integration a few minutes to initialize):\n\n![kce confirm](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/k8s-kce-confirm.png?raw=true
     \"kce confirm\")\n\nFor an in-depth workshop on the Cluster Explorer, please see

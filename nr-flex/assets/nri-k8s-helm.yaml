@@ -3,7 +3,7 @@
 
 customSecretName: newrelic-secret
 customSecretLicenseKey: new_relic_license_key
-cluster: kubernetes
+cluster: flex-workshop
 privileged: true
 
 # If you wish to monitor services running on Kubernetes you can provide integrations
