@@ -1,0 +1,6 @@
+version: "2"
+virtualmachines:
+- name: ubuntu
+  image: ubuntu-minimal-1804-lts
+  shell: /usr/bin/env bash
+  machine_type: n1-standard-1

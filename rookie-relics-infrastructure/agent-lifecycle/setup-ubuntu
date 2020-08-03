@@ -1,0 +1,4 @@
+#!/bin/bash
+
+apt -y install stress-ng
+nohup stress-ng -c 2 -i 1 -m 1 --vm-bytes 256M -t 300s >/var/log/stress-ng.out 2>/var/log/stress-ng.err </dev/null & disown

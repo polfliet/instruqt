@@ -1,0 +1,4 @@
+cat /etc/newrelic-infra.yml | grep custom_attributes
+if [ $? -ne 0 ]; then
+    fail-message "Please added the custom attributes as described in this challenge."
+fi

@@ -1,0 +1,13 @@
+apt install -y mongodb
+
+cd /root/
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/activate-infrastructure/assets/newrelic/setupMongo.js
+mongo < setupMongo.js
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/activate-infrastructure/assets/scripts/loadgenMongo.js
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/activate-infrastructure/assets/scripts/loadgenMongo.sh
+chmod +x loadgenMongo.sh
+
+nohup ./loadgenMongo.sh >/var/log/mongo-load.out 2>/var/log/mongo-load.err </dev/null & disown
+set-workdir /etc/newrelic-infra/integrations.d/

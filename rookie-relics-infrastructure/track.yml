@@ -1,0 +1,270 @@
+slug: rookie-relics-infrastructure
+id: zqoswoqg8ztf
+type: track
+title: Rookie Relics - New Relic Infrastructure
+teaser: Learn how to use New Relic Infrastructure
+description: This lab is intended to give you experience of deploying the New Relic
+  Infrastructure solution and to extend the information that the New Relic Infrastructure
+  agent collects.
+icon: https://github.com/polfliet/instruqt/raw/master/assets/icons/nr-infrastructure.png
+tags:
+- infrastructure
+owner: newrelic
+developers:
+- spolfliet@newrelic.com
+private: true
+published: true
+challenges:
+- slug: install-new-relic-infrastructure
+  id: zulqczcimkbv
+  type: challenge
+  title: Install New Relic Infrastructure
+  teaser: Install the New Relic Infrastructure agent
+  assignment: "# Check your operating system\nThe first step to installing the New
+    Relic infrastructure agent is figuring out which agent to install. New Relic supports
+    several package management systems (`apt`, `yum`, `zypper`) and operating systems,
+    which means the install instructions are different for each.\n\nThe simplest way
+    to figure out which package manager you have is to discover which operating system
+    is installed. Running the following command will give you that information.\n\n```\ncat
+    /etc/os-release\n```\n\nCheck out the `NAME` and `PRETTY_NAME` variable for the
+    name of the operating system. `VERSION_ID` gives you a hint on the version.\n\n#
+    Install New Relic Infrastructure\nOpen a tab in your browser and go to [New Relic
+    One](one.newrelic.com).\nIn the top-right, click on your name and click on `Instrument
+    your system`\n\n![Instrument your system](https://github.com/polfliet/instruqt/blob/master/activate-infrastructure/assets/gifs/instrument-system.gif?raw=true
+    \"Instrument your system\")\n\nAfter selecting the right operating system follow
+    the instructions within New Relic:\n* Select your New Relic account\n* Choose
+    the correct operating system\n* Copy the installation instructions to the terminal
+    window\n\nYou can check if your installation was succesfull by running: \n\n```\nservice
+    newrelic-infra status\n```\n\nIf it says `Active: active (running)` you are all
+    good. Press `q` to exit this command.\n"
+  notes:
+  - type: text
+    contents: Please wait while we are starting your Linux server
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  difficulty: basic
+  timelimit: 900
+- slug: agent-lifecycle
+  id: ja6vjxurwhar
+  type: challenge
+  title: Agent Lifecycle
+  teaser: Learn how to stop, start, restart the agent
+  assignment: |
+    You can start, stop, or restart the agent using:
+    ```
+    sudo systemctl <start|stop|restart|status> newrelic-infra
+    ```
+
+    ### Stop the agent if it’s running:
+    ```
+    sudo systemctl stop newrelic-infra
+    ```
+
+    ### Start the agent:
+    ```
+    sudo systemctl start newrelic-infra
+    ```
+
+    ### Check the status of the agent:
+    ```
+    sudo systemctl status newrelic-infra
+    ```
+    Use `q` to quit
+
+    ### Restart the agent:
+    ```
+    sudo systemctl restart newrelic-infra
+    ```
+
+    ### Check the status of the agent again:
+    ```
+    sudo systemctl status newrelic-infra
+    ```
+    Use `q` to quit
+  notes:
+  - type: text
+    contents: Time to learn more about the lifecycle of the New Relic Infrastructure
+      agent
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  difficulty: basic
+  timelimit: 900
+- slug: nri-customizing
+  id: rcetomarnqbs
+  type: challenge
+  title: Agent configuration
+  teaser: Customizing the agent
+  assignment: |-
+    Now that we have a running agent, let's take a look at the configuration. We're going to add a couple of labels (so we can more easily find a group of servers), as well as change the hostname.
+
+    # Configuration files
+    When the New Relic agent is installed it will create a `/etc/newrelic-infra` directory. Let's take a look at what's inside that directory.
+
+    ```
+    ls /etc/newrelic-infra
+    ```
+
+    Note that we have 2 directories:
+    * `integrations.d/`: Configuration files for New Relic Infrastructure OHI's (On-Host integrations) can be found here
+    * `logging.d/`: Configuration files for setting up New Relic Logs
+
+    The New Relic agent also has a configuration file `newrelic-infra.yml` which you can find in `/etc`.
+
+    ```
+    cat /etc/newrelic-infra.yml
+    ```
+
+    # Customizing the agent
+    Let's add some labels and change the hostname of our agent. To do that, use the Instruqt editor to open `/etc/newrelic-infra.yml`.
+
+    We're going to add some labels to make it easier to group our hosts for alerting and dashboarding. In this case we're adding the location of the server, the group that's managing it, and the environment. Copy paste this information into the `/etc/newrelic-infra.yml` file. You can always add your own labels to test.
+
+    ```
+    custom_attributes:
+        environment: staging
+        location: eu-brussels-1
+        team: ops-falcon
+    ```
+
+    Next thing is to change our display name, this can be handy in environments where a lot of hosts share the same name. Changing the display name to something unique will make it easier to find the host in New Relic UI. Again copy paste this information in the `/etc/newrelic-infra.yml` file.
+
+    ```
+    display_name: app1-staging-eu
+    ```
+
+    You can now save the `newrelic-infra.yml` file and restart the agent. Restarting the agent can be done by running the following command. In this case we're using the service command, keep in mind that this might be different depending on the Operating System.
+
+    ```
+    service newrelic-infra restart
+    ```
+
+    After restarting the agent you will see a new host appear in the New Relic UI, with the `display_name` you've given it.
+
+    Congratulations, you've now installed and configured a New Relic Infrastructure agent.
+  notes:
+  - type: text
+    contents: We will now learn how to customize the agent
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra.yml
+  difficulty: basic
+  timelimit: 900
+- slug: nri-explore
+  id: lb59jdtsqvs2
+  type: challenge
+  title: Exploring the data
+  teaser: Explore the data
+  assignment: "NOTE: I have asked the Instruqt team if we can put the notes full screen
+    when there is no terminal window needed. Ideally we want to show some dashboard
+    screenshots here. \n\nNow that the Infrastructure agent is pushing data to the
+    New Relic platform, let's take a look at the data coming in.\n\nNavigate to the
+    New Relic Infrastructure UI\n\n*Make sure to check out the following pages:*\n\n*
+    Hosts\n* Network\n* Storage\n* Processes\n* Inventory\n* Events\n\n*Can you answer
+    the following questions:*\n* Hosts: What instanceType is this machine?\n* Processes:
+    What process was consuming a lot of resources?\n* Inventory: Is root login via
+    ssh permitted?\n* Events: When was the time-consuming process installed?\n\n"
+  notes:
+  - type: text
+    contents: Your server is being monitored, time to explore all the data that is
+      coming in.
+  tabs:
+  - title: New Relic One
+    type: website
+    hostname: ubuntu
+    url: https://one.newrelic.com
+  difficulty: basic
+  timelimit: 500
+- slug: logs
+  id: 5kruvslzznp6
+  type: challenge
+  title: 'Extra: Forwarding Logs'
+  teaser: How to forward logs using New Relic Infrastructure
+  assignment: |-
+    The New Relic Infrastructure agent can forward logs to New Relic.
+
+    An example configuration is already available on this machine.
+    Use the editor to open `/etc/newrelic-infra/logging.d/file.yml`
+
+    This configuration tells the New Relic Infrastructure agent to forward the contents of `/var/log/syslog` to New Relic.
+
+    # Try it out
+    The Infrastructure agent has already picked up this configuration file, so let's create some log messages and check if we can see them in New Relic:
+    ```
+    logger "This is a message for New Relic"
+    ```
+
+    Go to Logs on [New Relic One](one.newrelic.com).
+    You should be able to see our message in the log stream:
+    ![Logs](https://github.com/polfliet/instruqt/blob/master/activate-infrastructure/assets/screenshots/logs.png?raw=true "Logs")
+  notes:
+  - type: text
+    contents: New Relic is a true observability platform with support for different
+      data types, such as Metrics, Events, Logs and Traces (MELT). Let's see how we
+      can easily forward logs with the Infrastructure agent.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra/logging.d/file.yml
+  difficulty: basic
+  timelimit: 900
+- slug: nri-ohi
+  id: i0nmae0ausui
+  type: challenge
+  title: 'Extra: Installing an on-host integration'
+  teaser: Learn how to use on-host integrations
+  assignment: |+
+    MongoDB has been installed on your server, and a user `newrelic` is already created with the right permissions. Read more about configuring MongoDB in the [docs](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/mongodb-monitoring-integration)
+
+    # Install the MongoDB on-host integration
+
+    ```
+    sudo apt install -y nri-mongodb
+    ```
+
+    Configuration files for the on-host integrations are stored in `/etc/newrelic-infra/integrations.d`
+
+    ```
+    sudo cp mongodb-config.yml.sample mongodb-config.yml
+    ```
+    Use the editor to update `mongodb-config.yml`:
+    * Change the host to `localhost`
+    * Change the username and password to `newrelic`
+    * Disable SSL by setting `ssl` to `false`
+
+    Restart the Infrastructure agent:
+    ```
+    sudo service newrelic-infra restart
+    ```
+
+    # Explore the data
+    Go to [New Relic One](one.newrelic.com), navigate to New Relic Infrastructure - Third-party services and open the MongoDB dashboard.
+
+  notes:
+  - type: text
+    contents: We are installing MongoDB on your server. Let's learn how to get visibility
+      in MongoDB.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: ubuntu
+  - title: Editor
+    type: code
+    hostname: ubuntu
+    path: /etc/newrelic-infra/integrations.d/
+  difficulty: basic
+  timelimit: 900
+checksum: "12549639174723662994"
+show_timer: true

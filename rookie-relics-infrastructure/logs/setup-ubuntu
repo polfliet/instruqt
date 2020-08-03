@@ -1,0 +1,3 @@
+cd /etc/newrelic-infra/logging.d/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/activate-infrastructure/assets/newrelic/file.yml
+set-workdir /etc/newrelic-infra/logging.d/
