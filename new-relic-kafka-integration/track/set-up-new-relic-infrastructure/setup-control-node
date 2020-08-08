@@ -10,15 +10,22 @@
 # for more information.
 #
 
+set -x
 set -e 
 
 echo "Installing Ansible"
 sudo apt update
-sudo apt install software-properties-common
+sudo apt install -y software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install -y ansible
 
 sed -i 's/^#host_key_checking.*$/host_key_checking = False/' /etc/ansible/ansible.cfg
 
 ansible-galaxy install newrelic.newrelic-infra
+ansible-galaxt install sansible.zookeeper
 ansible-galaxy install sansible.kafka
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/new-relic-kafka-integration/assets/dist/ansible.tar.gz
+tar -xzvf ansible.tar.gz
+
+ansible-playbook -i ansible/hosts ansible/setup-kafka-and-zookeeper.yml
