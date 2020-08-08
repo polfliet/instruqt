@@ -1,0 +1,6 @@
+[zookeeper]
+newrelic-kafka-tutorial-zookeeper
+
+[kafkabrokers]
+newrelic-kafka-tutorial-broker-1 broker_id=1
+newrelic-kafka-tutorial-broker-2 broker_id=2

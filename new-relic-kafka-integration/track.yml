@@ -1,0 +1,36 @@
+slug: new-relic-kafka-integration
+id: mhr6ytvlv52i
+type: track
+title: New Relic Kafka Integration
+teaser: A short description of the track.
+description: |-
+  A long description of the track.
+
+  You can use any GitHub flavoured markdown.
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
+tags: []
+owner: newrelic
+developers:
+- emittelhammer@newrelic.com
+private: true
+published: false
+challenges:
+- slug: set-up-new-relic-infrastructure
+  id: ykaixa7deh4g
+  type: challenge
+  title: Set up New Relic Infrastructure
+  teaser: A short description of the challenge.
+  assignment: |-
+    The assignment the participant needs to complete in order to proceed.
+
+    You can use any GitHub flavoured markdown.
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: control-node
+  difficulty: basic
+  timelimit: 1500
+checksum: "2969780581149304837"

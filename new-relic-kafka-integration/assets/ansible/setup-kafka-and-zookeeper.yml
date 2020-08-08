@@ -1,0 +1,13 @@
+- name: Install Zookeeper
+  hosts: zookeeper
+
+  roles:
+    - name: sansible.zookeeper
+
+- name: Install Kafka Server
+  hosts: kafkabrokers
+
+  roles:
+    - name: sansible.kafka
+      sansible_kafka_zookeeper_hosts:
+        - newrelic-kafka-tutorial-zookeeper

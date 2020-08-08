@@ -1,0 +1,20 @@
+version: "2"
+virtualmachines:
+- name: control-node
+  image: ubuntu-1910-eoan-v20200610
+  shell: /bin/bash
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+  machine_type: g1-small
+- name: newrelic-kafka-tutorial-zookeeper
+  image: ubuntu-1910-eoan-v20200610
+  shell: /bin/bash
+  machine_type: g1-small
+- name: newrelic-kafka-tutorial-broker-1
+  image: ubuntu-1910-eoan-v20200610
+  shell: /bin/bash
+  machine_type: g1-small
+- name: newrelic-kafka-tutorial-broker-2
+  image: ubuntu-1910-eoan-v20200610
+  shell: /bin/bash
+  machine_type: g1-small
