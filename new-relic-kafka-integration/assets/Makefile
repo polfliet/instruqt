@@ -1,6 +1,6 @@
 .PHONY: clean build
 
-./dist/ansible.tar.gz:
+./dist/ansible.tar.gz: ./ansible/*
 	tar -cvzf ./dist/ansible.tar.gz ./ansible
 
 clean:
