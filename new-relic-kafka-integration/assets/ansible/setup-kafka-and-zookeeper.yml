@@ -10,6 +10,7 @@
   roles:
     - name: sansible.kafka
       sansible_kafka_zookeeper_hosts:
-        - newrelic-kafka-tutorial-zookeeper
+        - newrelic-kafka-tutorial-zookeeper:2181
       sansible_kafka_server_properties:
         broker.id: "{{ broker_id }}"
+        advertised.listeners: "PLAINTEXT://{{dns_name}}:{{ sansible_kafka_port }}"
