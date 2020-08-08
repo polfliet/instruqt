@@ -12,4 +12,4 @@
       sansible_kafka_zookeeper_hosts:
         - newrelic-kafka-tutorial-zookeeper
       sansible_kafka_server_properties_defaults:
-        broker.id: {{ broker_id }}
+        broker.id: "{{ broker_id }}"
