@@ -6,3 +6,12 @@
         nrinfragent_config:
           license_key: "{{ NRIA_LICENSE_KEY }}"
           enable_process_metrics: true
+          custom-attributes:
+            project: new-relic-kafka-tutorial
+
+- name:  Copy kafka minimal kafka config to Zookeeper node
+  hosts: zookeeper 
+  tasks:
+    - copy:
+        src: ./templates/kafka-config.yml.min
+        dest:  /etc/newrelic-infra/integrations.d/

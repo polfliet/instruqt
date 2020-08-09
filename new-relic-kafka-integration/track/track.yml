@@ -20,17 +20,18 @@ challenges:
   type: challenge
   title: Set up New Relic Infrastructure
   teaser: A short description of the challenge.
-  assignment: |-
-    The assignment the participant needs to complete in order to proceed.
-
-    You can use any GitHub flavoured markdown.
+  assignment: |
+    Enter the following command in the shell, using your New Relic license key:
+    ```
+    ansible-playbook ansible/install-new-relic-infrastructure.yml extra-vars="NRIA_LICENSE_KEY=<insert your license key here>"
+    ```
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: ""
   tabs:
   - title: Shell
     type: terminal
     hostname: control-node
   difficulty: basic
   timelimit: 1500
-checksum: "17232017456987587287"
+checksum: "16893660330843668246"
