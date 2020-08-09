@@ -27,11 +27,30 @@ challenges:
     ```
   notes:
   - type: text
-    contents: ""
+    contents: Sit tight while we set up your enviroment...
   tabs:
   - title: Shell
     type: terminal
     hostname: control-node
   difficulty: basic
   timelimit: 1500
-checksum: "16893660330843668246"
+- slug: set-up-new-relic-kafka-integration
+  id: rk9cyctciuau
+  type: challenge
+  title: Set Up New Relic Kafka Integration
+  teaser: A short description of the challenge.
+  assignment: |-
+    Install the New Relic Kafka On-Host Integration: `apt-get install -y nri-kafka`
+    `cd /etc/newrelic-infra/integrations.d`
+    Rename minimal New Relic Kafka Integration configuration file from kafka-config.yml.min to kafka-config.yml
+    Restart the New Relic Infrastructure agent `systemctl restart newrelic-infra`
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: newrelic-kafka-tutorial-zookeeper
+  difficulty: basic
+  timelimit: 300
+checksum: "8569479685420227293"

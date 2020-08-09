@@ -1,5 +1,5 @@
 - name: Install New Relic Infrastructure
-  hosts: zookeeper:kafkabrokers
+  hosts: zookeeper:kafkabrokers:appserver
   roles: 
     - name: newrelic.newrelic-infra
       vars:

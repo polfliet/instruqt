@@ -1,0 +1,22 @@
+- name: Download kubectl version
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    dest: /tmp/kubectl_lastest.txt
+  
+- name: Set Version
+  command: cat /tmp/kubectl_latest
+  register: kubectl_latest
+
+- name: Download kubectl
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_latest }}/bin/linux/amd64/kubectl"
+    dest: /tmp/kubectl
+    mode: '550'
+
+- name: Ensure path exists
+  file:
+    path: /usr/local/bin
+    state: directory
+
+- name: Install kubectl
+  command: mv /tmp/kubectl /usr/local/bin

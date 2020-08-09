@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# This is a sample solve script. Rename this file to solve-$CONTAINER
+# (where $container is the name of the container as defined in your config.yml),
+# and replace this content with your own script.
+#
+# This script will be run when you solve the challenge.
+#
+# Remember that the exit code is important. See the documentation
+# for more information.
+#
+
+set -e
+set -x
+
+echo "This is the solve script"
+
+apt-get install -y nri-kafka
+mv /etc/newrelic-infra/integrations.d/kafka-config.min.yml /etc/newrelic-infra/integrations.d/kafka-config.yml
+systemctl restart newrelic-infra
+
+exit 0

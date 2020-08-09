@@ -1,0 +1,16 @@
+- name: Download minikube
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /tmp/minikube
+    mode: '550'
+
+- name: Ensure path exists
+  file:
+    path: /usr/local/bin
+    state: directory
+
+- name: Install minikube
+  command: mv /tmp/minikube /usr/local/bin
+
+- name: Start minikube
+  command: minikube --driver=docker

@@ -1,20 +1,24 @@
 version: "2"
 virtualmachines:
 - name: control-node
-  image: ubuntu-minimal-1804-lts
+  image: ubuntu-1804-lts
   shell: /bin/bash
   environment:
     ANSIBLE_HOST_KEY_CHECKING: "False"
   machine_type: g1-small
 - name: newrelic-kafka-tutorial-zookeeper
-  image: ubuntu-minimal-1804-lts
+  image: ubuntu-1804-lts
   shell: /bin/bash
   machine_type: g1-small
 - name: newrelic-kafka-tutorial-broker-1
-  image: ubuntu-minimal-1804-lts
+  image: ubuntu-1804-lts
   shell: /bin/bash
   machine_type: g1-small
 - name: newrelic-kafka-tutorial-broker-2
-  image: ubuntu-minimal-1804-lts
+  image: ubuntu-1804-lts
   shell: /bin/bash
   machine_type: g1-small
+- name: newrelic-kafka-tutorial-appserver
+  image: ubuntu-1804-lts
+  shell: /bin/bash
+  machine_type: g1-medium
