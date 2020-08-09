@@ -1,0 +1,7 @@
+- name: Install New Relic Infrastructure
+  hosts: zookeeper:kafkabrokers
+  roles: 
+    - name: newrelic.newrelic-infra
+      vars:
+        nrinfragent_config:
+          license_key: "{{ NRIA_LICENCE_KEY }}"

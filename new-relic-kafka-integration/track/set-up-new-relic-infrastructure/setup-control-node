@@ -30,4 +30,6 @@ ansible-galaxy install sansible.kafka
 wget https://raw.githubusercontent.com/polfliet/instruqt/master/new-relic-kafka-integration/assets/dist/ansible.tar.gz
 tar -xzvf ansible.tar.gz
 
-ansible-playbook -i ansible/hosts.ini ansible/setup-kafka-and-zookeeper.yml --extra-vars="sansible_zookeeper_download_url=https://mirrors.ocf.berkeley.edu/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz"
+cp ansible/hosts.ini /etc/ansible/hosts
+
+ansible-playbook ansible/setup-kafka-and-zookeeper.yml --extra-vars="sansible_zookeeper_download_url=https://mirrors.ocf.berkeley.edu/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz"
