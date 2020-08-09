@@ -13,12 +13,12 @@ virtualmachines:
 - name: newrelic-kafka-tutorial-broker-1
   image: ubuntu-1804-lts
   shell: /bin/bash
-  machine_type: g1-small
+  machine_type: n2-standard-2
 - name: newrelic-kafka-tutorial-broker-2
   image: ubuntu-1804-lts
   shell: /bin/bash
-  machine_type: g1-small
+  machine_type: n2-standard-2
 - name: newrelic-kafka-tutorial-appserver
-  image: ubuntu-1804-lts
+  image: instruqt/kubernetes-v1-17-0
   shell: /bin/bash
-  machine_type: g1-medium
+  machine_type: n2-standard-8
