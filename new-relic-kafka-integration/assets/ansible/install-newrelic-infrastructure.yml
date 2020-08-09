@@ -4,4 +4,7 @@
     - name: newrelic.newrelic-infra
       vars:
         nrinfragent_config:
-          license_key: "{{ NRIA_LICENCE_KEY }}"
+          license_key: "{{ NRIA_LICENSE_KEY }}"
+          enable_process_metrics: true
+          include_matching_metrics:
+            - "java*"
