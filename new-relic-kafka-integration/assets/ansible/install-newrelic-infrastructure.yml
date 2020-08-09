@@ -6,5 +6,3 @@
         nrinfragent_config:
           license_key: "{{ NRIA_LICENSE_KEY }}"
           enable_process_metrics: true
-          include_matching_metrics:
-            - "java*"
