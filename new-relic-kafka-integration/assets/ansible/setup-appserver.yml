@@ -1,5 +1,11 @@
 - name: Setup Appserver
   hosts: appserver
+
+  pre_taks:
+    - name: update apt
+      apt:
+       update_cache: yes
+       
   roles:
     - docker
     - kubectl
