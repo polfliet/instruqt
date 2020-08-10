@@ -1,15 +1,5 @@
 version: "2"
 virtualmachines:
-- name: control-node
-  image: ubuntu-1804-lts
-  shell: /bin/bash
-  environment:
-    ANSIBLE_HOST_KEY_CHECKING: "False"
-  machine_type: g1-small
-- name: newrelic-kafka-tutorial-zookeeper
-  image: ubuntu-1804-lts
-  shell: /bin/bash
-  machine_type: g1-small
 - name: newrelic-kafka-tutorial-broker-1
   image: ubuntu-1804-lts
   shell: /bin/bash
@@ -22,3 +12,13 @@ virtualmachines:
   image: instruqt/kubernetes-v1-17-0
   shell: /bin/bash
   machine_type: n2-standard-8
+- name: control-node
+  image: ubuntu-1804-lts
+  shell: /bin/bash
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+  machine_type: g1-small
+- name: newrelic-kafka-tutorial-zookeeper
+  image: ubuntu-1804-lts
+  shell: /bin/bash
+  machine_type: g1-small
