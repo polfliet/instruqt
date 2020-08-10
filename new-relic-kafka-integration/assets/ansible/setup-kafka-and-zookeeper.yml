@@ -1,7 +1,7 @@
 - name: Install Zookeeper
   hosts: zookeeper
 
-  pre_taks:
+  pre_tasks:
     - name: update apt
       apt:
        update_cache: yes
