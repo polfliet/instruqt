@@ -1,0 +1,9 @@
+apiVersion: nr.k8s.newrelic.com/v1
+kind: AlertsPolicy
+metadata:
+  name: my-policy
+spec:
+  account_id: <your New Relic account ID>
+  api_key: <your New Relic personal API key>
+  name: 'Alert Policy Created With k8s' # Feel free to rename
+  region: 'us'

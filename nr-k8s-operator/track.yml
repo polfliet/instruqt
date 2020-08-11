@@ -1,0 +1,57 @@
+slug: nr-k8s-operator
+id: ilvm8f7zxiy9
+version: 0.0.1
+type: track
+title: New Relic Kubernetes Operator
+teaser: Learn how to use the New Relic Kubernetes Operator
+description: Welcome to the New Relic Kubernetes Operator workshop. This is WORK IN
+  PROGRESS.
+icon: ""
+tags:
+- kubernetes, operator
+owner: newrelic
+developers:
+- spolfliet@newrelic.com
+private: false
+published: true
+challenges:
+- slug: k8s-secret
+  id: xarzw3l8xopp
+  type: challenge
+  title: New Relic license key
+  teaser: Use a Kubernetes secret to store the New Relic license key
+  assignment: "\n##### Get your New Relic license key\nLogin to [New Relic](https://one.newrelic.com/),
+    click on your name, click on Account Settings. \n\nNo account? Create a free account
+    at [New Relic.com](https://newrelic.com/signup).\n\n##### Create a Kubernetes
+    secret with your license key\n**Put your license key between the quotes** before
+    pressing enter: `kubectl create secret generic newrelic-secret --from-literal=new_relic_license_key='<LICENSE_KEY>'`\n\nIf
+    you made a mistake, you can delete the secret with `kubectl delete secret newrelic-secret`\n\n#####
+    Click the 'Check' button below to continue"
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 1800
+- slug: nr-operator
+  id: ctxihgzeym40
+  type: challenge
+  title: Install the New Relic Kubernetes Operator
+  teaser: Install the New Relic Kubernetes operator
+  assignment: |-
+    ##### Install cert-manager
+    `kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.0/cert-manager.yaml`
+
+    ##### Install the New Relic Kubernetes operator.
+    `kustomize build https://github.com/newrelic/newrelic-kubernetes-operator/configs/default | kubectl apply -f -`
+
+    ##### Check if the operator is running:
+    Check if the operator's controller manager is running:
+    kubectl get pods --namespace newrelic-kubernetes-operator-system
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 1800
+checksum: "6863863923228104060"

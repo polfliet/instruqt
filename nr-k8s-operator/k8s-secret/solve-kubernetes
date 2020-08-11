@@ -1,0 +1,2 @@
+# Set temporary key so we can test
+kubectl create secret generic newrelic-secret --from-literal=new_relic_license_key='INVALID_KEY'
