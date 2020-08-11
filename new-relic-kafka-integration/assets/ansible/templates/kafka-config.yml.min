@@ -1,0 +1,39 @@
+# this is a minimial version of the New Relic Kafka Integration configuration file.
+# it uses zookeeper to discover the broker nodes and to discover topic inventory
+---
+integration_name: com.newrelic.kafka
+
+instances:
+  # This instance gives an example of autodiscovery of brokers with zookeeper
+  - name: kafka-metrics-zookeeper-discovery
+    command: metrics
+    arguments:
+      # A cluster name is required to uniquely identify this collection result in Insights
+      cluster_name: "new-relic-kafka-tutorial-cluster"
+
+      # Override the kafka API version to target. Defaults to 1.0.0, which will work for all post-1.0.0 versions. Older versions of the API may be missing features.
+      kafka_version: "1.0.0"
+
+
+      # How to find brokers. Either "bootstrap" or "zookeeper"
+      autodiscover_strategy: "zookeeper"
+
+      # since we are installing the integration on the zookeeper node, we can connect locally, without authenticating
+      zookeeper_hosts: '[{"host": "localhost", "port": 2181}]'
+    
+      topic_mode: "all"
+
+    # Additionally, custom labels can be added to further identify your data
+    labels:
+      project: "new-relic-kafka-tutorial"
+
+
+  # This instance gives an example of collecting inventory with the integration
+  - name: kafka-inventory
+    command: inventory
+    arguments:
+      cluster_name: "new-relic-kafka-tutorial-cluster"
+      zookeeper_hosts: '[{"host": "localhost", "port": 2181}]'
+      topic_mode: 'all'
+    labels:
+      project: "new-relic-kafka-tutorial"

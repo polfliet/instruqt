@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# This is a sample setup script. Rename this file to setup-$CONTAINER
+# (where $container is the name of the container as defined in your config.yml),
+# and replace this content with your own script.
+#
+# This script will be run when you setup the challenge.
+#
+# Remember that the exit code is important. See the documentation
+# for more information.
+#
+
+set -x
+set -e 
+
+echo "**************** SETUP CONTROL NODE ********************"
+echo "pwd: $(pwd)"
+
+apt update
+apt install -y software-properties-common
+apt update
+apt-add-repository --yes ppa:ansible/ansible
+apt update
+apt install -y ansible
+
+sed -i 's/^#host_key_checking.*$/host_key_checking = False/' /etc/ansible/ansible.cfg
+
+ansible-galaxy install newrelic.newrelic-infra
+ansible-galaxy install sansible.zookeeper
+ansible-galaxy install sansible.kafka
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/new-relic-kafka-integration/assets/dist/ansible.tar.gz
+tar -xzvf ansible.tar.gz
+
+cp ansible/hosts.ini /etc/ansible/hosts
+
+ansible-playbook ansible/update-apt.yml
+ansible-playbook --extra-vars="sansible_zookeeper_download_url=https://mirrors.ocf.berkeley.edu/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz" ansible/setup-kafka-and-zookeeper.yml
