@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nr-role
+rules:
+- apiGroups: ["nr.k8s.newrelic.com"]
+  resources: ["alertschannels", "alertsapmconditions"]
+  verbs: ["get", "watch", "list"]
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nr-operator-apigroup
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nr-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: newrelic-kubernetes-operator-system
