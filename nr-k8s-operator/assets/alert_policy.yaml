@@ -5,5 +5,5 @@ metadata:
 spec:
   account_id: <your New Relic account ID>
   api_key: <your New Relic personal API key>
-  name: 'Alert Policy Created With k8s' # Feel free to rename
-  region: 'us'
+  name: 'Alert policy created with k8s operator' # Feel free to rename
+  region: 'US' # Update if you are using the EU datacenter
