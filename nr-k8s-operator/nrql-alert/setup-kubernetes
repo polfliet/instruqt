@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cat <<EOF >> alert_policy.yaml
+# Add a NRQL alert condition to the policy
+  conditions:
+    - spec:
+        type: 'NRQL'
+        name: 'NRQL Alert Condition Created With k8s'
+        nrql:
+          query: "SELECT average(duration) FROM Transaction WHERE appName = 'YOUR APP NAME'"
+          evaluationOffset: 3
+        enabled: true
+        terms:
+          - threshold: '5'
+            threshold_occurrences: 'ALL'
+            threshold_duration: 180
+            priority: 'CRITICAL'
+            operator: 'ABOVE'
+        violationTimeLimit: 'ONE_HOUR'
+        valueFunction: 'SINGLE_VALUE'
+EOF
