@@ -1,0 +1,26 @@
+# This is the Integrations SDK portion
+integrations:
+  - name: nri-flex
+    config:
+      # This is the beginning of the URL API Config Block
+      name: my-url-flex
+      apis:
+        - event_type: starWarsSpecies
+          url: https://swapi.dev/api/species/
+          
+      # This is the beginning of the Commands API Config Block
+      name: my-commands-flex
+      apis:
+        - event_type: fileSize
+          commands:
+            - run: stat -c '%n;%Y' /etc/*conf
+              split: horizontal
+              set_header: [fileSize.name, fileSize.bytes]
+              regex_match: false
+              split_by: ";"
+              
+      # This is the beginning of the File API Config Block
+      name: my-file-flex
+      apis:
+        - event_type: starWarsCharacters
+          file: /etc/newrelic-infra/integrations.d/flexAssets/file-api-example.csv

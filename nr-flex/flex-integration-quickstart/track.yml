@@ -1,0 +1,124 @@
+slug: flex-integration-quickstart
+id: bvdy8lloyrrm
+type: track
+title: Flex Integration - Quickstart
+teaser: A short overview of the basic capabilities for the Flex Integration on New
+  Relic's Infrastructure Agent
+description: |-
+  # Overview
+  This track is a high-level overview of the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's Infrastructure Agent. More detailed content is available in dedicated tracks for configuration of the Flex Integration in both [Linux](https://play.instruqt.com/newrelic/tracks/flex-integration-linux-basic) and [Kubernetes](https://play.instruqt.com/newrelic/tracks/flex-integration-kubernetes-basic).
+
+  ## Requirements
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key).
+
+  ## What is the Flex Integration?
+  *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
+
+  "New Relic Flex is an application-agnostic, all-in-one tool that allows you to collect metric data from a wide variety of services. Flex’s approach is different from that of dedicated integrations: Instead of interfacing directly with services, Flex instructs the New Relic Infrastructure agent to listen to standard structured output, which Flex then processes and collects as metric data for Infrastructure.
+
+  With this approach, you can instrument any application that exposes metric data in some way or another, whether it’s from JSON over HTTP or from standard output in a shell session, and combine that data with all your other critical telemetry data in New Relic One. The amount of services you can instrument is only limited by the data sources supported by Flex, which are growing and are open for contribution. If a service can talk, chances are that Flex can listen."
+
+  ## Important Note
+  **This track utilizes an ephemeral virtual machine. As a result, you should be prepared to finish the entire track in one sitting or risk losing your progress when the timer expires.**
+icon: https://github.com/polfliet/instruqt/blob/master/assets/icons/flex-logo.png?raw=true
+tags:
+- ""
+owner: newrelic
+developers:
+- zmutchler@newrelic.com
+private: false
+published: false
+challenges:
+- slug: install-the-new-relic-infrastructure-agent-quickstart
+  id: pt8rj8z5disf
+  type: challenge
+  title: Install the New Relic Infrastructure Agent
+  teaser: Installation of the New Relic Infrastructure Agent using YUM package manager.
+  assignment: "# Overview\nThe Flex integration has come bundled with the New Relic\nInfrastructure
+    agent since [v1.10.7](https://docs.newrelic.com/docs/release-notes/infrastructure-release-notes/infrastructure-agent-release-notes/new-relic-infrastructure-agent-1107),\nso
+    installation of Flex is as simple as [installing the Infrastructure Agent](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/linux-installation/install-infrastructure-linux-using-package-manager).\nThe
+    server for this track is a CentOS 8 VM, and you will be using the YUM package\nmanager
+    for these steps.\n\n## Installation: \n\nLog in to [New Relic One](https://one.newrelic.com)
+    and collect your New Relic license key: ![License Key](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/license.gif?raw=true
+    \"License Key\")\n\nCopy and paste the following snippets into your workspace's
+    `shell` tab to download and install the Infrastructure agent: \n\n**Create a configuration
+    file and add your license key, replacing `LICENSE_KEY` with your own New Relic
+    license key**\n```shell\necho \\\"license_key: LICENSE_KEY\\\" | sudo tee -a /etc/newrelic-infra.yml\n```\n\n**Create
+    the agent’s yum repository**\n```shell\nsudo curl -o /etc/yum.repos.d/newrelic-infra.repo
+    https://download.newrelic.com/infrastructure_agent/linux/yum/el/8/x86_64/newrelic-infra.repo\n```\n\n**Update
+    your yum cache**\n```shell\nsudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'\n```\n\n**Run
+    the installation script**\n```shell\nsudo yum install newrelic-infra -y\n```\n\n##
+    Validate installation \nBack in [New Relic One](https://one.newrelic.com), select
+    the **Query your data** link in the upper right to open the [Chart Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, select the **Advanced (NRQL)** toggle in the upper right to open the
+    window where you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    query to validate your latest installation:\n\n```sql\nFROM SystemSample SELECT
+    count(*) FACET entityName TIMESERIES WHERE entityName = 'instruqt-flex-quickstart'\n```\n\n![Chart
+    Builder](https://github.com/polfliet/instruqt/blob/master/nr-flex/screenshots/cb_infra-agent.gif?raw=true
+    \"Chart Builder\")\n\nYou should see your hostname show up within a minute or
+    two of your installation via YUM. If you do not, troubleshoot by ensuring the
+    following: \n  * The agent service is running: `sudo systemctl start newrelic-infra`\n
+    \ * You have the proper license key assigned: `sudo cat /etc/newrelic-infra.yml`\n\nAt
+    this point, you have installed the latest version of the Infrastructure agent
+    and the associated Flex integration that is bundled with it. In the next challenge,
+    you will review a common configuration scenario."
+  notes:
+  - type: text
+    contents: |-
+      Please be patient while your VM is configured.
+      This can take several minutes...
+  tabs:
+  - title: shell
+    type: terminal
+    hostname: instruqt-flex-quickstart
+  difficulty: basic
+  timelimit: 300
+- slug: review-common-flex-configs-quickstart
+  id: wolvpoupl3py
+  type: challenge
+  title: Review a Common Configuration
+  teaser: Reviewing a basic configuration file for the Flex Integration
+  assignment: "# Overview\n\nIn this challenge, you'll use your workspace's `editor`
+    tab to review a common Flex config file.\n\n## URL API\n\nThe [URL API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/url.md)
+    allows you to easily retrieve information from an HTTP/s endpoint using `GET`,
+    `POST`, and `PUT` methods. You can see a sample of the basic config options under
+    the `# This is the beginning of the URL API Config Block` section of the `flex-quikstart.yml`
+    file in your `editor` tab. The target is the popular [Star Wars API](https://swapi.dev),
+    which returns a JSON payload.\n\n## Commands API\n\nThe [Commands API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/commands.md)
+    allows you to easily retrieve information from any application or shell command.
+    Flex will by default read **all of** the results of your commands sent to `STDOUT`,
+    and therefore the manipulation of this data is vital to creating valuable metrics
+    to be sent to New Relic. You can see a sample of the basic config options under
+    the `# This is the beginning of the Commands API Config Block` section of the
+    `flex-quikstart.yml` file in your `editor` tab. This command is querying the file
+    size of a CSV file we'll be using in the File API next, using the Linux [stat](https://linux.die.net/man/2/stat)
+    command. \n\n## File API\n\nThe [File API](https://github.com/newrelic/nri-flex/blob/master/docs/apis/file.md)
+    allows you to easily retrieve information from any JSON or CSV file. You can see
+    a sample of the basic config options under the `# This is the beginning of the
+    File API Config Block` section of the `flex-quikstart.yml` file in your `editor`
+    tab. The target is a CSV file pulled from the Star Wars API we used in our URL
+    API challenge above. You can see the contents of this CSV in the `/flexAssets`
+    sub-directory of the `editor` tab. \n\n## Validation\n\nIn a few moments you should
+    be able to log in to [New Relic One](https://one.newrelic.com) and select the
+    **Query your data** link in the upper right to open the [Chart Builder](https://docs.newrelic.com/docs/chart-builder/use-chart-builder/get-started/introduction-chart-builder#chart-builder-advanced).
+    From there, you can run the below [NRQL](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)
+    queries to validate your Flex configs:\n\n### URL API\n\n```sql\nFROM starWarsSpecies
+    SELECT COUNT(*) \nFACET name, classification, designation, \naverage_height, average_lifespan,
+    hair_colors, \nskin_colors, eye_colors, homeworld, language \nSINCE 10 MINUTES
+    AGO LIMIT MAX\n```\n\n### Commands API\n\n```sql\nFROM fileSize\nSELECT max(`fileSize.bytes`)/1000
+    AS 'fileSize.kilobytes'\nFACET `fileSize.name`\nSINCE 10 MINUTES AGO LIMIT MAX\n```\n\n###
+    File API\n\n```sql\nFROM starWarsCharacters\nSELECT COUNT(*)\nFACET name, height,
+    mass, \nhair_color, skin_color, eye_color, \nbirth_year, gender, homeworld, \nfilms.1,
+    species, vehicles.1, starships.1 \nSINCE 10 MINUTES AGO LIMIT MAX\n```\n\n## Conclusion\n\nThanks
+    for taking the time to learn about the Flex Integration! Please be sure to dive
+    deeper with both the [Linux](https://play.instruqt.com/newrelic/tracks/flex-integration-linux-basic)
+    and [Kubernetes](https://play.instruqt.com/newrelic/tracks/flex-integration-kubernetes-basic)
+    tracks, and come chat with us on the [New Relic Explorer's Hub](https://discuss.newrelic.com)."
+  tabs:
+  - title: editor
+    type: code
+    hostname: instruqt-flex-quickstart
+    path: /etc/newrelic-infra/integrations.d/
+  difficulty: basic
+  timelimit: 600
+checksum: "2174163431906066817"
