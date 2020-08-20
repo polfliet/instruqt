@@ -244,7 +244,7 @@ challenges:
     \";\"\n```\n\nThis is a query of file sizes in the `/etc/` directory, finding
     all files matching the pattern `*conf` using the Linux [stat](https://linux.die.net/man/2/stat)
     command. \n\nTo see what this command looks like in its raw form, run it directly
-    in your `shell` tab: \n\n```\nstat -c '%n;%Y' /etc/*conf\n```\n\nYou're also using
+    in your `shell` tab: \n\n```\nstat -c '%n;%s' /etc/*conf\n```\n\nYou're also using
     various configuration options outlined in your `study hall` resource to format
     the `STDOUT` into two headers for export to New Relic. It's important to note
     that care was taken to [format the output](https://linux.die.net/man/1/stat) of
@@ -455,5 +455,5 @@ challenges:
     path: /tmp/study-hall
   difficulty: basic
   timelimit: 1200
-checksum: "9708703338763837760"
+checksum: "10304693753126891065"
 show_timer: true
