@@ -11,7 +11,7 @@ description: |-
   The primary focus of this track is enabling Flex on Kubernetes. More in-depth tracks are available for both [Kubernetes](https://play.instruqt.com/newrelic/tracks/kubernetes-new-relic-university) and the [Flex Integration](https://play.instruqt.com/newrelic/tracks/flex-integration-linux-basic) if interested.
 
   ## Requirements
-  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key).
 
   ## What is the Flex Integration?
   *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
@@ -242,5 +242,5 @@ challenges:
     path: /root/new-relic/
   difficulty: basic
   timelimit: 600
-checksum: "14053568833192746333"
+checksum: "6707980395444833933"
 show_timer: true
