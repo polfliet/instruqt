@@ -15,7 +15,7 @@ integrations:
       apis:
         - event_type: fileSize
           commands:
-            - run: stat -c '%n;%s' /etc/*conf
+            - run: stat -c '%n;%s' /etc/newrelic-infra/integrations.d/flexAssets/file-api-example.csv
               split: horizontal
               set_header: [fileSize.name, fileSize.bytes]
               regex_match: false

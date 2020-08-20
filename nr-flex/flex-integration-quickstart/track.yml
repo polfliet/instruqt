@@ -27,7 +27,7 @@ owner: newrelic
 developers:
 - zmutchler@newrelic.com
 private: false
-published: false
+published: true
 challenges:
 - slug: install-the-new-relic-infrastructure-agent-quickstart
   id: pt8rj8z5disf
@@ -121,4 +121,5 @@ challenges:
     path: /etc/newrelic-infra/integrations.d/
   difficulty: basic
   timelimit: 600
-checksum: "2174163431906066817"
+checksum: "10376717273542651199"
+show_timer: true
