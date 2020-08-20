@@ -9,7 +9,7 @@ description: |-
   This track is an introduction to the [Flex Integration](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) on New Relic's [Infrastructure Agent for Linux](https://docs.newrelic.com/docs/infrastructure/install-configure-manage-infrastructure/linux-installation/install-infrastructure-linux-using-package-manager).
 
   ## Requirements
-  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key). This can be from your paid New Relic account or from your free [Developer Edition](https://developer.newrelic.com/build-tools/new-relic-one-applications/developer-edition-program) account.
+  Completion of this track will require you to have access to your New Relic [License Key](https://docs.newrelic.com/docs/accounts/install-new-relic/account-setup/license-key).
 
   ## What is the Flex Integration?
   *From [How to Use New Relic Flex to Create Your Own Codeless Custom Integrations](https://blog.newrelic.com/product-news/how-to-use-new-relic-flex/)*
@@ -270,7 +270,7 @@ challenges:
     my-url-flex\n      apis:\n        - event_type: starWarsSpecies\n          url:
     https://swapi.dev/api/species/\n          \n      # This is the beginning of the
     Commands API Config Block\n      name: my-commands-flex\n      apis:\n        -
-    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%Y'
+    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%s'
     /etc/*conf\n              split: horizontal\n              set_header: [fileSize.name,
     fileSize.bytes]\n              regex_match: false\n              split_by: \";\"\n```\n\n***\n\nIn
     your next challenge, you'll learn how to work with the `file` API.\n"
@@ -325,7 +325,7 @@ challenges:
     my-url-flex\n      apis:\n        - event_type: starWarsSpecies\n          url:
     https://swapi.dev/api/species/\n          \n      # This is the beginning of the
     Commands API Config Block\n      name: my-commands-flex\n      apis:\n        -
-    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%Y'
+    event_type: fileSize\n          commands:\n            - run: stat -c '%n;%s'
     /etc/*conf\n              split: horizontal\n              set_header: [fileSize.name,
     fileSize.bytes]\n              regex_match: false\n              split_by: \";\"\n
     \             \n      # This is the beginning of the File API Config Block\n      name:
@@ -455,5 +455,5 @@ challenges:
     path: /tmp/study-hall
   difficulty: basic
   timelimit: 1200
-checksum: "17919983268692468602"
+checksum: "9708703338763837760"
 show_timer: true
