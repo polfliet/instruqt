@@ -1,0 +1,137 @@
+slug: nr-k8s-operator
+id: ilvm8f7zxiy9
+type: track
+title: New Relic Kubernetes Operator
+teaser: Learn how to use the New Relic Kubernetes Operator
+description: |-
+  Welcome to the New Relic Kubernetes Operator workshop.
+
+  **This is intended ONLY to be embedded on [developer.newrelic.com](https://developer.newrelic.com/automate-workflows/get-started-kubernetes)**
+
+  **This workshop is NOT built to run directly on the Instruqt platform**
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
+tags:
+- kubernetes
+- ' operator'
+owner: newrelic
+developers:
+- spolfliet@newrelic.com
+private: false
+published: true
+challenges:
+- slug: k8s-secret
+  id: xarzw3l8xopp
+  type: challenge
+  title: New Relic license key
+  teaser: Use a Kubernetes secret to store the New Relic license key
+  assignment: "\n**Get your New Relic license key**\n\nLogin to [New Relic](https://one.newrelic.com/),
+    click on your name, click on Account Settings. \n\nNo account? Create a free account
+    at [New Relic.com](https://newrelic.com/signup).\n\n**Create a Kubernetes secret
+    with your license key**\n\n*Put your license key between the quotes* before pressing
+    enter: `kubectl create secret generic newrelic-secret --from-literal=new_relic_license_key='<LICENSE_KEY>'`\n\n(If
+    you made a mistake, you can delete the secret with `kubectl delete secret newrelic-secret`)\n\n**Click
+    the 'Check' button below to continue**"
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 600
+- slug: nr-agent
+  id: l7wentyb8tk7
+  type: challenge
+  title: Install the New Relic Kubernetes integration
+  teaser: Learn how to install the New Relic Kubernetes integration
+  assignment: |2-
+
+    ##### Install the New Relic Kubernetes integration
+    `kubectl apply -f newrelic-manifest.yaml`
+
+    ##### Check if the New Relic pods are running
+    `kubectl get pods`
+
+    ##### Open the [Kubernetes cluster explorer in New Relic One](https://one.newrelic.com/launcher/k8s-cluster-explorer-nerdlet.cluster-explorer-launcher?pane=eyJuZXJkbGV0SWQiOiJrOHMtY2x1c3Rlci1leHBsb3Jlci1uZXJkbGV0Lms4cy1jbHVzdGVyLWxpc3QifQ==)
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 600
+- slug: nr-operator
+  id: ctxihgzeym40
+  type: challenge
+  title: Install the New Relic Kubernetes Operator
+  teaser: Install the New Relic Kubernetes operator
+  assignment: |2-
+
+    **Install cert-manager**
+
+    `kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.0/cert-manager.yaml`
+
+    Wait until `kubectl rollout status deployment -n cert-manager cert-manager-webhook` is successful.
+
+    **Install the New Relic Kubernetes operator**
+
+    `kustomize build https://github.com/newrelic/newrelic-kubernetes-operator/config/default | kubectl apply -f -`
+
+    ** Check if the operator is running**
+
+    Check if the operator's controller manager is running:
+    `kubectl get pods -n newrelic-kubernetes-operator-system`
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 600
+- slug: alert-policy
+  id: ygfirqvohkxf
+  type: challenge
+  title: Create an alert policy
+  teaser: Create a New Relic alert policy
+  assignment: |2-
+
+    **Update with your account ID and API key**
+
+    Use the editor tab below to fill in your [account ID](https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/account-id) and [API key](https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys#personal-api-key).
+    **Don't forget to save by pressing CTRL-s or CMD-s**
+
+    **Create the alert policy**
+
+    `kubectl apply -f ./alert_policy.yaml`
+
+    **Open [your alert policies in New Relic One](https://one.newrelic.com/launcher/nrai.launcher?pane=eyJuZXJkbGV0SWQiOiJhbGVydGluZy11aS1jbGFzc2ljLnBvbGljaWVzIiwibmF2IjoiUG9saWNpZXMifQ==&sidebars[0]=eyJuZXJkbGV0SWQiOiJucmFpLm5hdmlnYXRpb24tYmFyIiwibmF2IjoiUG9saWNpZXMifQ==) to verify it was created**
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  - title: Editor
+    type: code
+    hostname: kubernetes
+    path: /root/alert_policy.yaml
+  difficulty: basic
+  timelimit: 600
+- slug: nrql-alert
+  id: a8ouxjwkurtz
+  type: challenge
+  title: Add a NRQL alert
+  teaser: Add a NRQL alert to the alert policy
+  assignment: |-
+    **Add an alert condition to the policy**
+
+    Have a look at the editor again. We have added an example NRQL alert.
+
+    Apply the changes with: `kubectl apply -f alert_policy.yaml` and have a look to see if the alert condition was added to your alert policy in [New Relic One](https://one.newrelic.com/launcher/nrai.launcher?pane=eyJuZXJkbGV0SWQiOiJhbGVydGluZy11aS1jbGFzc2ljLnBvbGljaWVzIiwibmF2IjoiUG9saWNpZXMifQ==&sidebars[0]=eyJuZXJkbGV0SWQiOiJucmFpLm5hdmlnYXRpb24tYmFyIiwibmF2IjoiUG9saWNpZXMifQ==)
+
+    **Good job! Thanks for following this tutorial!**
+  tabs:
+  - title: Shell
+    type: terminal
+    hostname: kubernetes
+  - title: Editor
+    type: code
+    hostname: kubernetes
+    path: /root/alert_policy.yaml
+  difficulty: basic
+  timelimit: 600
+checksum: "8453157495609967627"

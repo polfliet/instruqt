@@ -1,0 +1,5 @@
+#!/bin/bash
+
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-k8s-operator/assets/alert_policy.yaml
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nr-k8s-operator/assets/cluster-role.yaml
+kubectl apply -f cluster-role.yaml

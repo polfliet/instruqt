@@ -1,0 +1,6 @@
+# Download CSV file for File API
+mkdir /etc/newrelic-infra/integrations.d/flexAssets
+curl -o /etc/newrelic-infra/integrations.d/flexAssets/file-api-example.csv https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/file-api-example.csv
+
+# Download Sample Flex Config File
+curl -o /etc/newrelic-infra/integrations.d/flex-quickstart.yml https://raw.githubusercontent.com/polfliet/instruqt/master/nr-flex/assets/flex-quickstart.yml

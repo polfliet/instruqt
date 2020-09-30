@@ -1,0 +1,6 @@
+version: "2"
+virtualmachines:
+- name: instruqt-flex-quickstart
+  image: centos-8
+  shell: /bin/bash
+  machine_type: n1-standard-1

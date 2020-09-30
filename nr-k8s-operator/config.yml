@@ -1,0 +1,6 @@
+version: "2"
+virtualmachines:
+- name: kubernetes
+  image: instruqt/kubernetes-v1-17-0
+  shell: /usr/bin/env bash
+  machine_type: n1-standard-2
