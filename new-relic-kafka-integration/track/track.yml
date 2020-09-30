@@ -51,6 +51,9 @@ challenges:
   - title: Shell
     type: terminal
     hostname: newrelic-kafka-tutorial-zookeeper
+  - title: appserver
+    type: terminal
+    hostname: newrelic-kafka-tutorial-appserver
   difficulty: basic
   timelimit: 300
-checksum: "18103626318608698593"
+checksum: "16882044628071992530"

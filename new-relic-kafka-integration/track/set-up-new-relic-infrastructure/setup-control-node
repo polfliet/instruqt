@@ -34,5 +34,5 @@ tar -xzvf ansible.tar.gz
 
 cp ansible/hosts.ini /etc/ansible/hosts
 
-ansible-playbook ansible/update-apt.yml
-ansible-playbook --extra-vars="sansible_zookeeper_download_url=https://mirrors.ocf.berkeley.edu/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz" ansible/setup-kafka-and-zookeeper.yml
+#ansible-playbook ansible/update-apt.yml
+#ansible-playbook --extra-vars="sansible_zookeeper_download_url=https://mirrors.ocf.berkeley.edu/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz" ansible/setup-kafka-and-zookeeper.yml
