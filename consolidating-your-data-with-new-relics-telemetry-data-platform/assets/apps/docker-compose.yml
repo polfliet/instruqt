@@ -22,3 +22,11 @@ services:
       - ecommerceapi
     ports:
       - "80:80"
+  
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter
+    depends_on:
+      - proxy
+    ports:
+      - "9113:9113"
+    command: "-nginx.scrape-uri http://proxy/stub_status"
