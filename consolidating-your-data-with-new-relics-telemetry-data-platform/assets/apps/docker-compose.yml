@@ -3,6 +3,8 @@ services:
 
   ecommerceapi:
     build: ./ecommerce-api
+    depends_on:
+      - redis
     ports:
       - "3000:3000"
     environment:
@@ -10,6 +12,11 @@ services:
       - LOG_FILE=TRUE
     volumes:
         - ${ECOMMERCE_API_HOST_LOG_DIR}:/home/node/app/logs
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
 
   loadgen:
     build: ./loadgen

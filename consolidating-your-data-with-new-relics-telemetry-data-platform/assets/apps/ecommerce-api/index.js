@@ -3,10 +3,12 @@ const newrelicFormatter = require('@newrelic/winston-enricher')
 const Koa = require('koa');
 const Router = require('@koa/router');
 const winston = require('winston');
+const redis = require("redis");
+const util = require("util");
 
 const logger = winston.createLogger({
     level: 'info',
-    defaultMeta: { service: 'user-service' },
+    //defaultMeta: { service: 'user-service' },
     transports: [
       new winston.transports.Console({
         format: winston.format.simple(),
@@ -23,15 +25,31 @@ if (process.env.LOG_FILE == 'TRUE') {
         )
     }));
 }
+const client = redis.createClient({ host: 'redis' });
+client.on("error", function(error) {
+  console.error(error);
+});
+
+const incrbyfloatAsync = util.promisify(client.incrbyfloat).bind(client);
+const getAsync = util.promisify(client.get).bind(client);
 
 const app = new Koa();
 const router = new Router();
 
-router.get('/checkout', async (ctx, next) => {
+router.post('/checkout', async (ctx, next) => {
     await next();
-    logger.info('processed checkout');
+    const checkoutAmount = (Math.random() * 100).toFixed(2);
+    logger.info('processed checkout:', { checkoutAmount: Number(checkoutAmount) });
+    await incrbyfloatAsync('dailytotal', checkoutAmount);
     ctx.response.type = 'application/json';
-    ctx.response.body = { status: 'ok' };
+    ctx.response.body = { checkoutAmount: Number(checkoutAmount) };
+});
+
+router.get('/dailytotal', async (ctx, next) => {
+  await next();
+  let t = await getAsync('dailytotal');
+  ctx.response.type = 'application/json';
+  ctx.response.body = { dailyTotal: Number(t) };
 });
 
 app
