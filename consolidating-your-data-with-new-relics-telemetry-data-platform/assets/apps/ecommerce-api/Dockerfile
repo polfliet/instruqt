@@ -1,4 +1,6 @@
-FROM node:14-slim
+FROM node:14-alpine
+
+RUN apk update && apk add python make g++
 
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
