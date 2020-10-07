@@ -38,3 +38,10 @@ services:
     ports:
       - "9113:9113"
     command: "-nginx.scrape-uri http://proxy/stub_status"
+
+  docs:
+    image: thomsch98/markserv
+    ports:
+      - "3080:3080"
+    volumes:
+      - "./docs/src:/data"
