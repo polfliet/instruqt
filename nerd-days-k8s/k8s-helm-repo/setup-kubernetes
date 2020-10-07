@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Install Helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# Check Kubernetes is available
+if ! kubectl get pods > /dev/null 2>&1; then
+  echo "Starting Kubernetes, this may take a minute or so"
+  while ! kubectl get pods > /dev/null 2>&1; do printf "." && sleep 1; done || break
+  printf "done."
+  echo ""
+fi
+
+# Fix networking bug
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+# Download the pending pod yaml
+mkdir app/
+pushd app/
+wget https://raw.githubusercontent.com/polfliet/instruqt/master/nerd-days-k8s/assets/yaml/pending.yaml
+
+# Create the pending pod
+kubectl apply -f pending.yaml -n demo-app
+
+popd

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+kubectl get daemonsets newrelic-bundle-newrelic-infrastructure
+if [ $? -ne 0 ]; then
+    fail-message "Could not find the New Relic agent. Please check if the Helm chart was deployed or try again."
+fi
