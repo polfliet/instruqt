@@ -41,14 +41,18 @@ challenges:
     contents: Have your New Relic license key ready, we're going to configure the
       Infrastructure agent to send data to your account.
   tabs:
+  - title: New Relic Infrastructure Configuration
+    type: code
+    hostname: dockerhost
+    path: /etc/newrelic-infra.yml
   - title: Terminal
     type: terminal
     hostname: dockerhost
   - title: Overview
     type: service
     hostname: dockerhost
-    port: 3080
     path: /overview.md
+    port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "2594425778586937023"
+checksum: "12282517630033735619"

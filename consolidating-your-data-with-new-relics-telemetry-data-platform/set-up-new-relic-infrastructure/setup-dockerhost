@@ -16,6 +16,13 @@ curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compo
 chmod +x /usr/local/bin/docker-compose
 curl -L https://raw.githubusercontent.com/docker/compose/1.27.4/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 
+cat << EOF > /etc/newrelic-infra.yml
+#uncomment this line and add your license key
+#license_key: your_license_key
+
+display_name: newrelic-training-dockerhost
+EOF
+
 echo "Installing New Relic Infrastructure"
 curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -
 printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt bionic main" | tee -a /etc/apt/sources.list.d/newrelic-infra.list
@@ -38,7 +45,7 @@ NEW_RELIC_ENABLED=false
 
 #####################################################
 # You shouldn't need to edit anything below this line
-ECOMMERCE_API_HOST_LOG_DIR=/var/log/ecommerce-api.log
+ECOMMERCE_API_HOST_LOG_DIR=/var/log/ecommerce-api
 EOF
 
 docker-compose up -d --build
