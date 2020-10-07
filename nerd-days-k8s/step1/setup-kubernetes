@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Create the demo app in our k8s cluster
+pushd app/
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/rabbitmq.yaml
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/redis.yaml
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/frontend.yaml
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/parser.yaml
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/worker.yaml
+wget https://raw.githubusercontent.com/newrelic-experimental/kubernetes-demo-apps/main/yaml/loadgen.yaml
+
+# Create our demo app in a seperate namespace
+kubectl create namespace demo-app
+
+# Copy the secret also to the demo-app namespace
+kubectl get secret newrelic-bundle-newrelic-infrastructure-config --namespace=default -oyaml | grep -v '^\s*namespace:\s' | kubectl apply --namespace=demo-app -f -
+
+# Create the demo resources
+kubectl apply -f rabbitmq.yaml -n demo-app
+kubectl apply -f redis.yaml -n demo-app
+kubectl apply -f frontend.yaml -n demo-app
+kubectl apply -f parser.yaml -n demo-app
+kubectl apply -f worker.yaml -n demo-app
+kubectl apply -f loadgen.yaml -n demo-app # Start load generator
+popd
+
+# Set label to scrape coredns
+kubectl label pods -n kube-system -l k8s-app=kube-dns prometheus.io/scrape=true
