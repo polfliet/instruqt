@@ -50,7 +50,7 @@ challenges:
 
     Use the following command to deploy the helm charts:
     ```
-    helm install newrelic-bundle newrelic/nri-bundle --set global.licenseKey=***REMOVED*** --set global.cluster=$CLUSTER_NAME --namespace=default --set newrelic-infrastructure.privileged=true --set ksm.enabled=true --set prometheus.enabled=true --set kubeEvents.enabled=true --set logging.enabled=true
+    helm install newrelic-bundle newrelic/nri-bundle --set global.licenseKey=c1c118183c7527b1b84013fe50fa3c99eb50NRAL --set global.cluster=$CLUSTER_NAME --namespace=default --set newrelic-infrastructure.privileged=true --set ksm.enabled=true --set prometheus.enabled=true --set kubeEvents.enabled=true --set logging.enabled=true
     ```
 
 

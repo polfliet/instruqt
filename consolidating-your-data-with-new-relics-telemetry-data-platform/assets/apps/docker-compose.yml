@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+
+  ecommerceapi:
+    build: ./ecommerce-api
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+    environment:
+      - NEW_RELIC_LICENSE_KEY
+      - LOG_FILE=TRUE
+    volumes:
+        - ${ECOMMERCE_API_HOST_LOG_DIR}:/home/node/app/logs
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  loadgen:
+    build: ./loadgen
+    depends_on:
+      - proxy
+  
+  proxy:
+    build: ./proxy
+    depends_on:
+      - ecommerceapi
+    ports:
+      - "80:80"
+  
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter
+    depends_on:
+      - proxy
+    ports:
+      - "9113:9113"
+    command: "-nginx.scrape-uri http://proxy/stub_status"
