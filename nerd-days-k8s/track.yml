@@ -1,0 +1,187 @@
+slug: nerd-days-k8s
+id: gjyktkglvnfa
+type: track
+title: Nerd Days - Kubernetes Observability
+teaser: Learn how to deploy the New Relic Kubernetes integration with Helm and how
+  to troubleshoot with the Kubernetes cluster explorer
+description: |-
+  # Welcome to the Nerd Days Kubernetes workshop
+
+  Your first job today is to deploy the New Relic observability tools for Kubernetes.
+
+  Below you will find interactive challenges to learn how to use the Kubernetes cluster explorer to troubleshoot your Kubernetes environment, following New Relic's Observability maturity model:
+
+  ![Kubernetes maturity model](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/maturity-model.png?raw=true "Kubernetes maturity model")
+
+  Click on the *Start Track* button to accept your first challenge!
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
+level: beginner
+tags:
+- kubernetes
+- helm
+- nerddays
+owner: newrelic
+developers:
+- spolfliet@newrelic.com
+- jsius@newrelic.com
+- bschmitt@newrelic.com
+private: true
+published: true
+challenges:
+- slug: k8s-helm-repo
+  id: zhfgxekjs3f9
+  type: challenge
+  title: Deploy New Relic with Helm
+  teaser: Learn how to use Helm charts to deploy New Relic to your cluster
+  assignment: |
+    Our Kubernetes environment is up and running! Time to get the New Relic observability agents deployed.
+    We will use [Helm](https://helm.sh/) (a popular package manager for Kubernetes) to make this easy.
+
+    ## Add the New Relic Helm repo
+    ```
+    helm repo add newrelic https://helm-charts.newrelic.com
+    ```
+
+    ## Install the helm chart
+    First, choose a unique cluster name and set it as an environment variable:
+    ```
+    CLUSTER_NAME='YOUR_NAME_HERE'
+    ```
+
+    Use the following command to deploy the helm charts:
+    ```
+    helm install newrelic-bundle newrelic/nri-bundle --set global.licenseKey=c1c118183c7527b1b84013fe50fa3c99eb50NRAL --set global.cluster=$CLUSTER_NAME --namespace=default --set newrelic-infrastructure.privileged=true --set ksm.enabled=true --set prometheus.enabled=true --set kubeEvents.enabled=true --set logging.enabled=true
+    ```
+
+
+    ## Confirm everything is running
+    ```
+    kubectl get daemonsets,pods
+    ```
+    You should see something like this:
+    ![New Relic pods](https://github.com/polfliet/instruqt/blob/master/nerd-days-k8s/assets/screenshots/nr-pods.png?raw=true "New Relic pods")
+
+    **Note:** If you made a mistake, you can uninstall with `helm uninstall newrelic-bundle`
+  notes:
+  - type: text
+    contents: "Your new Kubernetes environment is being deployed. This takes a minute.\n\nKubernetes
+      (“koo-burr-NET-eez”) is the mangled conventional pronunciation of a Greek word,
+      κυβερνήτης, meaning “helmsman” or “pilot.” "
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 1800
+- slug: step1
+  id: 4tckmhxya5d7
+  type: challenge
+  title: Introduction to the Kubernetes cluster explorer
+  teaser: Start using the Kubernetes cluster explorer
+  assignment: |-
+    ## Kubernetes cluster explorer
+    Go to [New Relic One](one.newrelic.com) and login with the following credentials:
+    * email: nerddays.kubernetes@gmail.com
+    * password: k8so11y!
+
+    Click on **'Apps'** in the top menu, then click on **'Kubernetes cluster explorer'** and select your cluster.
+
+    ## Get an answer to the following questions:
+    Hint: Enable **'Auto-refresh'** first.
+    * **How many pods** were deployed for the demo app and in what namespace are they running? **Hint: Use the search bar**
+
+    * How much **memory** was requested for the **worker** pod? What is the **limit**? **Hint: Click on a pod to get more details**
+
+    * How many **requests per second** is the **parser** pod handling? Hint: Pods with an APM agent will automatically show latency, throughput and error rates. Drill down to get more application performance details.
+  notes:
+  - type: text
+    contents: The dev team is deploying an application to our cluster. Try to find
+      out how many pods were deployed and in what namespace they are running.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 900
+- slug: step2
+  id: 9v8ug7umqppj
+  type: challenge
+  title: Understanding dynamic cluster behavior and analyzing log messages
+  teaser: The cluster is always changing, learn how to track and troubleshoot relevant
+    events
+  assignment: "Many things can happen in a Kubernetes environment (autoscaling, new
+    deployments, resource contention, etc.). All these important events are registered
+    by the Kubernetes API server.\n\nWe can inspect what's happening by manually doing:\n```\nkubectl
+    get events\n```\n\nThe New Relic Kubernetes events integration also collects this
+    information. Use the Kubernetes cluster explorer to find an answer to the following
+    questions:\n\n## Pod stuck in the pending state \n* Why is there a pod stuck in
+    the **pending** state? **Hint: Click on a pod to get more details**\n\n## What's
+    happening with the frontend pod?\nThe frontend pod is using a **liveness probe**:
+    This is used to periodically check if a container is still healthy. If not, it
+    will be restarted by Kubernetes.\n* It looks like the liveness probe is periodically
+    failing, how often has the pod been restarted?\n\n* What is causing the crash?
+    **Hint: Check the log messages for errors**\n"
+  notes:
+  - type: text
+    contents: The support team is getting sporadic complaints from customers about
+      the site not working. Let's see if we can find what is causing sporadic errors.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 900
+- slug: step3
+  id: ezfkrla1rlk1
+  type: challenge
+  title: Using Distributed Tracing
+  teaser: Use Distributed Tracing to understand how your microservices are communicating
+  assignment: "Many services could be communicating in a Kubernetes environment, Distributed
+    Tracing allows us to track and understand that communication.\n\n* A distributed
+    trace represents a unique transaction that flows through your microservice environment\n*
+    A trace consists of spans, which represent a unit of work (e.g.: code execution
+    on 1 microservice)\n![Distributed Tracing](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-intro.png?raw=true
+    \"Distributed Tracing\")\n\n# Kubernetes Cluster Explorer\nGo back to the Cluster
+    Explorer. Because we have an APM agent running in the pods, we can see application
+    details in the context of our Kubernetes environment. \n\nClick on *'Trace this
+    application'* to show relevant traces for the service running inside this pod.\n\nNow
+    we see an overview of all traces that were captured:\n![Distributed Traces](https://github.com/polfliet/instruqt/blob/master/kubernetes-new-relic-university/screenshots/dt-overview.png?raw=true
+    \"Distributed Traces\")\n\nClick on one of the traces and try to understand what
+    happened (search for a trace with root entry span *POST//message*):\n\n* How many
+    **entities** were involved in the traces? How much time are we spending in each
+    service?\n\n* Select a trace with **errors** and check what is happening.\n\n##
+    More details?\n\nThe dev team added a custom attribute *msgData* to the traces.
+    This way we are able to quickly find a specific trace. Try using the *msgData*
+    attribute in the search field.\n"
+  notes:
+  - type: text
+    contents: Multiple services are part of the deployed app but it is not clear how
+      communication is flowing. Distributed Tracing to the rescue!
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 900
+- slug: step4
+  id: svf1j0znq26i
+  type: challenge
+  title: Complete service observability with Prometheus
+  teaser: Correlate Prometheus metrics with the other captured data
+  assignment: "New Relic will automatically scrape any pod that has the *prometheus.io/scrape=true*
+    label.\nLet's check which pods are exposing Prometheus metrics\n\n```\nkubectl
+    get pods -A -l prometheus.io/scrape=true\n```\n\nYou should see that *coredns*
+    is exposing Prometheus metrics.\n\n## Building MELT dashboards\nNow we can build
+    a true MELT (Metrics, Events, Logs, Traces) dashboard. \n\nGo to [New Relic One](one.newrelic.com)
+    and click on Dashboards, select the CoreDNS dashboard and filter to your cluster.\n"
+  notes:
+  - type: text
+    contents: Many Kubernetes services expose Prometheus metrics. Let's correlate
+      those metrics with our logs, events and traces!
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: kubernetes
+  difficulty: basic
+  timelimit: 900
+checksum: "1829681530498563974"
