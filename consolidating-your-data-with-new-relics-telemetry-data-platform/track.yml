@@ -25,21 +25,30 @@ challenges:
   assignment: |-
     We will be working on a single virtual machine that will host several Docker containers.
     The New Relic Infrastructure agent has been installed on this host, but it hasn't been configured yet.
-    Use the editor to add your license key to the New Relic Infrastructure Configuration File, then restart the agent.
 
-    Verify....
+    Start by creating a configuration file containing your license key by running the following command in the terminal to the right:
+    ```
+    echo "license_key: YOUR_LICENSE_KEY" | tee -a /etc/newrelic-infra.yml
+    ```
+    Then restart the agent for the settings to take effect:
+    ```
+    sudo systemctl restart newrelic-infra
+    ```
+
+    <explain architecture here...>
   notes:
   - type: text
     contents: Have your New Relic license key ready, we're going to configure the
       Infrastructure agent to send data to your account.
   tabs:
-  - title: New Relic Infrastructure Agent Config
-    type: code
-    hostname: dockerhost
-    path: /etc/
   - title: Terminal
     type: terminal
     hostname: dockerhost
+  - title: Overview
+    type: service
+    hostname: dockerhost
+    port: 3080
+    path: /overview.md
   difficulty: basic
   timelimit: 600
-checksum: "4382720141644244177"
+checksum: "2594425778586937023"

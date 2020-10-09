@@ -8,6 +8,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - NEW_RELIC_ENABLED
       - NEW_RELIC_LICENSE_KEY
       - LOG_FILE=TRUE
     volumes:
@@ -37,3 +38,10 @@ services:
     ports:
       - "9113:9113"
     command: "-nginx.scrape-uri http://proxy/stub_status"
+
+  docs:
+    image: thomsch98/markserv
+    ports:
+      - "3080:3080"
+    volumes:
+      - "./docs/src:/data"
