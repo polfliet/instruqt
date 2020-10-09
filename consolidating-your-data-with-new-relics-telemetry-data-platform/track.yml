@@ -45,7 +45,7 @@ challenges:
     type: code
     hostname: dockerhost
     path: /etc/newrelic-infra.yml
-  - title: Terminal
+  - title: Shell
     type: terminal
     hostname: dockerhost
   - title: Overview
@@ -55,4 +55,27 @@ challenges:
     port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "12282517630033735619"
+- slug: collect-events-and-traces-with-new-relic-apm
+  id: puelt47xjbiw
+  type: challenge
+  title: Collect Events and Traces with New Relic APM
+  teaser: A short description of the challenge.
+  assignment: |-
+    Add your new License key to the configuration file, then run
+    ```
+    docker-compose up -d
+    ```
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Environment Variables
+    type: code
+    hostname: dockerhost
+    path: /root/apps/.env
+  - title: Shell
+    type: terminal
+    hostname: dockerhost
+  difficulty: basic
+  timelimit: 300
+checksum: "18405242351020241729"

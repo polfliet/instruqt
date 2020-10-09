@@ -39,7 +39,7 @@ const router = new Router();
 router.post('/checkout', async (ctx, next) => {
     await next();
     const checkoutAmount = (Math.random() * 100).toFixed(2);
-    logger.info('processed checkout:', { checkoutAmount: Number(checkoutAmount) });
+    logger.info(`processed checkout for $${checkoutAmount}`, { checkoutAmount: Number(checkoutAmount) });
     await incrbyfloatAsync('dailytotal', checkoutAmount);
     ctx.response.type = 'application/json';
     ctx.response.body = { checkoutAmount: Number(checkoutAmount) };

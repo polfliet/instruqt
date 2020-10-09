@@ -1,0 +1,4 @@
+cluster_name: nginx-prometheus-scraper
+targets:
+  - description: "Docker container running nginx"
+    urls: ["http://nginx-prometheus-exporter:9113/metrics"]
