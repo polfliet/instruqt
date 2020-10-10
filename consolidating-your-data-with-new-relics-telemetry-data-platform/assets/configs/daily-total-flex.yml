@@ -1,0 +1,11 @@
+---
+integrations:
+  - name: nri-flex
+    config:
+      name: dailyTotalFlex
+      apis:
+        - name: dailyTotal
+          # The name of the event when it arrives on the Telemetry Data Platform
+          event_type: DailyTotalSample
+          # the url we are going to pull metrics from
+          url: http://localhost/dailytotal

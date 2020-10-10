@@ -1,3 +1,4 @@
+---
 cluster_name: nginx-prometheus-scraper
 targets:
   - description: "Docker container running nginx"

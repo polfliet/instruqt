@@ -1,0 +1,3 @@
+logs:
+  - name: "ecommerce_api_application_log"
+    file: /var/log/ecommerce-api/application.log

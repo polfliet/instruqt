@@ -2,6 +2,8 @@
 
 set -x
 
+echo 'alias redis-cli="docker run --network="apps_default" --rm redis redis-cli -h redis"'
+
 echo "Installing Docker"
 apt-get remove -y docker docker-engine docker.io containerd runc
 apt-get update
@@ -32,7 +34,8 @@ apt-get install newrelic-infra -y
 echo "Downloading assets"
 curl -L "https://github.com/polfliet/instruqt/raw/master/consolidating-your-data-with-new-relics-telemetry-data-platform/dist/assets.tar.gz" -o /var/tmp/assets.tar.gz
 tar -C /var/tmp -xf /var/tmp/assets.tar.gz
-cp -r /var/tmp/assets/apps ~
+cp -r /var/tmp/assets/apps /root
+cp -r /var/tmp/assets/configs /root
 
 cd ~/apps
 
@@ -45,7 +48,7 @@ NEW_RELIC_ENABLED=false
 
 #####################################################
 # You shouldn't need to edit anything below this line
-ECOMMERCE_API_HOST_LOG_DIR=/var/log/ecommerce-api
+ECOMMERCE_API_MOUNT_LOG_DIR=/var/log/ecommerce-api
 EOF
 
 docker-compose up -d --build

@@ -12,7 +12,7 @@ services:
       - NEW_RELIC_LICENSE_KEY
       - LOG_FILE=TRUE
     volumes:
-        - ${ECOMMERCE_API_HOST_LOG_DIR}:/home/node/app/logs
+        - ${ECOMMERCE_API_MOUNT_LOG_DIR}:/home/node/app/logs
 
   redis:
     image: redis
@@ -30,6 +30,8 @@ services:
       - ecommerceapi
     ports:
       - "80:80"
+    volumes:
+        - ${ECOMMERCE_API_MOUNT_LOG_DIR}:/var/log/app
   
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter

@@ -18,7 +18,7 @@ const logger = winston.createLogger({
 
 if (process.env.LOG_FILE == 'TRUE') {
     logger.add(new winston.transports.File({
-        filename: 'logs/ecommerce-api.log',
+        filename: 'logs/application.log',
         format: winston.format.combine(
             winston.format.json(),
             newrelicFormatter()

@@ -61,7 +61,7 @@ challenges:
   title: Collect Events and Traces with New Relic APM
   teaser: A short description of the challenge.
   assignment: |-
-    Add your new License key to the configuration file, then run
+    Add your New Relic license key to the configuration file, then run
     ```
     docker-compose up -d
     ```
@@ -77,5 +77,88 @@ challenges:
     type: terminal
     hostname: dockerhost
   difficulty: basic
-  timelimit: 300
+  timelimit: 600
+- slug: collect-your-application-logs
+  type: challenge
+  title: Collect Your Application Logs
+  teaser: A short description of the challenge.
+  assignment: Move the application-logs.yml file to /etc/newrelic/logging.d/
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Configuration Files
+    type: code
+    hostname: dockerhost
+    path: /root/configs
+  - title: Shell
+    type: terminal
+    hostname: shell
+  difficulty: basic
+  timelimit: 600
+- slug: collect-nginx-metrics-in-prometheus-format
+  type: challenge
+  title: Collect NGINX Metrics in Prometheus Format
+  teaser: A short description of the challenge.
+  assignment: |-
+    run:
+    ```
+    docker run -d --restart unless-stopped \
+    --name nri-prometheus \
+    --network="apps_default"
+    -e LICENSE_KEY="YOUR_LICENSE_KEY" \
+    -v "$(pwd)/configs/nginx-prometheus.yml:/config.yaml" \
+    newrelic/nri-prometheus:1.5
+    ```
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Configuration Files
+    type: code
+    hostname: dockerhost
+    path: /root/configs
+  - title: Shell
+    type: terminal
+    hostname: shell
+  difficulty: basic
+  timelimit: 600
+- slug: collect-redis-metrics-with-flex
+  type: challenge
+  title: Collect Redis Metrics with Flex
+  teaser: A short description of the challenge.
+  assignment: |-
+    Move redis-flex.yml to /etc/newrelic/integrations.d/
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Configuration Files
+    type: code
+    hostname: dockerhost
+    path: /root/configs
+  - title: Shell
+    type: terminal
+    hostname: shell
+  difficulty: basic
+  timelimit: 600
+- slug: collect-custom-business-metrics-with-flex
+  type: challenge
+  title: Collect Custom Business Metrics with Flex
+  teaser: A short description of the challenge.
+  assignment: |-
+    Move daily-total-flex.yml to /etc/newrelic/integrations.d
+  notes:
+  - type: text
+    contents: Replace this text with your own text
+  tabs:
+  - title: Configuration Files
+    type: code
+    hostname: dockerhost
+    path: /root/configs
+  - title: Shell
+    type: terminal
+    hostname: shell
+  difficulty: basic
+  timelimit: 600
 checksum: "18405242351020241729"
