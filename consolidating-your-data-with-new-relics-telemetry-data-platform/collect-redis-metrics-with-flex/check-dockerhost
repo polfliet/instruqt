@@ -13,6 +13,6 @@
 set -e
 echo "This is the check script"
 
-test -f /etc/newrelic/integrations.d/redis-flex.yml
+test -f /etc/newrelic-infra/integrations.d/redis-flex.yml
 
 exit 0

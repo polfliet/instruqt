@@ -12,6 +12,6 @@
 
 echo "This is the solve script"
 
-mv /root/configs/daily-total-flex.yml /etc/newrelic/integrations.d/
+mv /root/configs/daily-total-flex.yml /etc/newrelic-infra/integrations.d/
 
 exit 0

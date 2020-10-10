@@ -13,6 +13,6 @@
 set -e
 echo "This is the check script"
 
-test -f /etc/newrelic/logging.d/application-logs.yml
+test -f /etc/newrelic-infra/logging.d/application-logs.yml
 
 exit 0

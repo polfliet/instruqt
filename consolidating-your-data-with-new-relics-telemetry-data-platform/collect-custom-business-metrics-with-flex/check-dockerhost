@@ -13,6 +13,6 @@
 set -e
 echo "This is the check script"
 
-test -f /etc/newrelic/integrations.d/daily-total-flex.yml
+test -f /etc/newrelic-infra/integrations.d/daily-total-flex.yml
 
 exit 0

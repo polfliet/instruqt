@@ -12,6 +12,6 @@
 
 echo "This is the solve script"
 
-mv /root/configs/application-logs.yml /etc/newrelic/logging.d/
+mv /root/configs/application-logs.yml /etc/newrelic-infra/logging.d/
 
 exit 0
