@@ -79,6 +79,7 @@ challenges:
   difficulty: basic
   timelimit: 600
 - slug: collect-your-application-logs
+  id: hupa4ptgwkp8
   type: challenge
   title: Collect Your Application Logs
   teaser: A short description of the challenge.
@@ -93,10 +94,11 @@ challenges:
     path: /root/configs
   - title: Shell
     type: terminal
-    hostname: shell
+    hostname: dockerhost
   difficulty: basic
   timelimit: 600
 - slug: collect-nginx-metrics-in-prometheus-format
+  id: gypxcuu8mydi
   type: challenge
   title: Collect NGINX Metrics in Prometheus Format
   teaser: A short description of the challenge.
@@ -120,15 +122,15 @@ challenges:
     path: /root/configs
   - title: Shell
     type: terminal
-    hostname: shell
+    hostname: dockerhost
   difficulty: basic
   timelimit: 600
 - slug: collect-redis-metrics-with-flex
+  id: kskcr0i7ymw0
   type: challenge
   title: Collect Redis Metrics with Flex
   teaser: A short description of the challenge.
-  assignment: |-
-    Move redis-flex.yml to /etc/newrelic/integrations.d/
+  assignment: Move redis-flex.yml to /etc/newrelic/integrations.d/
   notes:
   - type: text
     contents: Replace this text with your own text
@@ -139,15 +141,15 @@ challenges:
     path: /root/configs
   - title: Shell
     type: terminal
-    hostname: shell
+    hostname: dockerhost
   difficulty: basic
   timelimit: 600
 - slug: collect-custom-business-metrics-with-flex
+  id: 4kviv252susu
   type: challenge
   title: Collect Custom Business Metrics with Flex
   teaser: A short description of the challenge.
-  assignment: |-
-    Move daily-total-flex.yml to /etc/newrelic/integrations.d
+  assignment: Move daily-total-flex.yml to /etc/newrelic/integrations.d
   notes:
   - type: text
     contents: Replace this text with your own text
@@ -158,7 +160,7 @@ challenges:
     path: /root/configs
   - title: Shell
     type: terminal
-    hostname: shell
+    hostname: dockerhost
   difficulty: basic
   timelimit: 600
-checksum: "18405242351020241729"
+checksum: "1890076648636869722"
