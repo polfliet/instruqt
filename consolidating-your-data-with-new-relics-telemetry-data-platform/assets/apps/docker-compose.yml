@@ -42,7 +42,7 @@ services:
     command: "-nginx.scrape-uri http://proxy/stub_status"
 
   docs:
-    image: thomsch98/markserv
+    build: ./docs
     ports:
       - "3080:3080"
     volumes:

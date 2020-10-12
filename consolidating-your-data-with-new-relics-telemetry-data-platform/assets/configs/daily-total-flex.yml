@@ -9,3 +9,5 @@ integrations:
           event_type: DailyTotalSample
           # the url we are going to pull metrics from
           url: http://localhost/dailytotal
+          add_attribute:
+            role: "newrelic-training"

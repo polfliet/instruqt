@@ -1,5 +1,11 @@
 ---
 cluster_name: nginx-prometheus-scraper
+
 targets:
   - description: "Docker container running nginx"
     urls: ["http://nginx-prometheus-exporter:9113/metrics"]
+
+add_attributes:
+  - prefix: ""
+    attributes: 
+      role: "newrelic-training"

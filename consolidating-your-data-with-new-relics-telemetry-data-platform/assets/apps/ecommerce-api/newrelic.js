@@ -9,7 +9,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['New Relic Data Consolidation Ecommerce API'],
+  app_name: ['newrelic-training-ecommerce-api'],
   /**
    * Your New Relic license key.
    */

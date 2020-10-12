@@ -1,3 +1,4 @@
+const newrelic = require('newrelic');
 require('@newrelic/koa');
 const newrelicFormatter = require('@newrelic/winston-enricher')
 const Koa = require('koa');
@@ -8,7 +9,7 @@ const util = require("util");
 
 const logger = winston.createLogger({
     level: 'info',
-    //defaultMeta: { service: 'user-service' },
+    defaultMeta: { role: 'newrelic-training' },
     transports: [
       new winston.transports.Console({
         format: winston.format.simple(),
@@ -51,6 +52,11 @@ router.get('/dailytotal', async (ctx, next) => {
   ctx.response.type = 'application/json';
   ctx.response.body = { dailyTotal: Number(t) };
 });
+
+app.use(async (ctx, next) => {
+  newrelic.addCustomAttribute('role', 'newrelic-training');
+  await next();
+})
 
 app
   .use(router.routes())

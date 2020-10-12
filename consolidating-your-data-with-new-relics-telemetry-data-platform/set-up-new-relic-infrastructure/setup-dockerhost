@@ -23,6 +23,9 @@ cat << EOF > /etc/newrelic-infra.yml
 #license_key: your_license_key
 
 display_name: newrelic-training-dockerhost
+custom_attributes:
+  role: newrelic-training
+
 EOF
 
 echo "Installing New Relic Infrastructure"

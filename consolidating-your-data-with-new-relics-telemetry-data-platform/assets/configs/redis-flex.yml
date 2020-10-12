@@ -7,13 +7,18 @@ integrations:
         - name: redis
           event_type: RedisFlexSample
           commands:
+            # connect to redis over TCP and issue the "INFO" command
             - dial: 127.0.0.1:6379
               run: "info\r\n"
               split_by: ":"
+          # add a custom attribue so we can identify these metrics
+          add_attribute:
+            role: "newrelic-training"
           remove_keys: # remove any keys that contain any of the following strings
             - human
           snake_to_camel: true
           perc_to_decimal: true
+          # the db metrics are nested in another key/value pair.  use this to separate them
           sub_parse:
             - type: prefix
               key: db
