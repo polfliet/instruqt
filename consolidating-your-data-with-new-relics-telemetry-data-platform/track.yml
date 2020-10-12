@@ -23,27 +23,38 @@ challenges:
   title: Set Up New Relic Infrastructure
   teaser: Configure the New Relic Infrastructure Agent
   assignment: |-
-    We will be working on a single virtual machine running several Docker containers.
-    The New Relic Infrastructure agent has been installed on this host, but it hasn't been configured to send data to your account yet.
-
-    In the editor tab to the right, open up the file `/etc/newrelic-infra.yml`.  Uncomment the line
+    We will be working on a single virtual machine running several Docker
+    containers.
+    The New Relic Infrastructure agent has been installed on this host,
+    but it hasn't been configured to send data to your account yet.
+    
+    In the editor tab to the right, open up the file `/etc/newrelic-infra.yml`.  
+    
+    Uncomment the line
     ```
     #license_key: your_license_key
-    ``` 
-    by removing the `#` at the beginning of the line, and replacing the placeholder text with your own license key, which can be found under your account settings.
-
+    ```
+    by removing the `#` at the beginning of the line. Replace the placeholder text with your own license key, which can be found under
+    your account settings.
+    
     Save the file by clicking the disk icon in the tab.
     
-    Then, using the Shell tab, enter the following command to restart the agent for the settings to take effect:
+    Then, using the Shell tab, enter the following command to restart the agent for the
+    settings to take effect:
     ```
     systemctl restart newrelic-infra
     ```
-    While you wait for data to appear in your New Relic account, read through the tab labed "Overview" to get a better understanding of what we're going to accomplish in this track.
-
-    After a few mometns, you should see a host named `newrelic-training-dockerhost` in your account. The tab labeled "Explanation" will guide you through finding the data in your New Relic dashboard before completing the challenge.
+    While you wait for data to appear in New Relic One, read through the tab labeled
+    "Overview" to get a better understanding of what we're going to accomplish in
+    this track.
     
-    Now would be a good time to create a new dasboard where we can visualize all of the data we're going to collect!
-
+    After a few mometns, you should see a host named `newrelic-training-dockerhost`
+    in your account. The tab labeled "Explanation" will guide you through finding
+    the data in your New Relic dashboard before completing the challenge.
+    
+    Now would be a good time to create a new dasboard where we can visualize all of the data
+    we're going to collect!
+    
     Before continuing, be sure:
     - [ ] you are seeing data for a host named `newrelic-training-dockerhost` in New Relic One.
     - [ ] you have created a new dashboard to add charts to for the following challenges in this track.
@@ -86,7 +97,9 @@ challenges:
     NEW_RELIC_ENABLED=false
     ```
     and _un_-comment the line beginning with `LICENSE_KEY`, replacing the placeholder text with your license key.
-
+    
+    Then save the file by clicking the disk icon on the tab header.
+    
     In the shell tab to the right, run:
     ```
     cd apps
@@ -123,10 +136,11 @@ challenges:
   id: hupa4ptgwkp8
   type: challenge
   title: Collect Your Application Logs
-  teaser: Use the New Relic Infrastructure agent to collect logs from the ecommerce api.
+  teaser: Use the New Relic Infrastructure agent to collect logs from the ecommerce
+    api.
   assignment: |-
     So far, we've collected Metrics, Events, and Traces using the New Relic Infrastructure and APM agents to get a rich view of how our application is performing.  However, we can complement this with the information our application is writing to it's log files.
-    
+
     The New Relic Infrastructure agent also functions as a lightweight log collector and shipper.  We'll use it to read in our application's logs and send them to the New Relic Telemetry Data Platform.
 
     Our application is writing logs to a file located at `/var/log/ecommerce-api/application.log`.
@@ -139,7 +153,7 @@ challenges:
     To send these logs the New Relic, we need to tell the Infrastructure agent where to find them.
 
     Use the code editor tab at the right to view the `application-logs.yml` file to see how that's done.
-    
+
     No need to edit anything, just copy the file into the Infrastructure agent's configuration directory:
     ```
     cp /configs/application-logs.yml /etc/newrelic/logging.d/
@@ -235,4 +249,4 @@ challenges:
     hostname: dockerhost
   difficulty: basic
   timelimit: 600
-checksum: "503161616867259311"
+checksum: "3254507799368161037"
