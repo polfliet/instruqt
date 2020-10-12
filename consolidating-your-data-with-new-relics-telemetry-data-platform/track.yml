@@ -23,12 +23,10 @@ challenges:
   title: Set Up New Relic Infrastructure
   teaser: Configure the New Relic Infrastructure Agent
   assignment: |-
-    We will be working on a single virtual machine running several Docker
-    containers.
-    The New Relic Infrastructure agent has been installed on this host,
-    but it hasn't been configured to send data to your account yet.
+    We will be working on a single virtual machine running several Docker containers.
+    The New Relic Infrastructure agent has been installed on this host, but it hasn't been configured to send data to your account yet.
     
-    In the editor tab to the right, open up the file `/etc/newrelic-infra.yml`.  
+    In the editor tab to the right, open up the file `/etc/newrelic-infra.yml`.
     
     Uncomment the line
     ```
@@ -89,7 +87,7 @@ challenges:
   teaser: Install New Relic APM on the Ecommerce API application.
   assignment: |-
     Now that we've installed the Infrastructure agent, it's time to get some data from our ecommerce api application.
-    To the right is a code editor tab.  Open the file named `.env`.  This is used to pass environment variables into Docker containers.
+    To the right is a code editor tab.  Open the file named `/root/apps/.env`.  This is used to pass environment variables into Docker containers.
     We can use environment variables to send configuration options to the New Relic APM agent running in our container.
 
     Delete or comment out the line:
