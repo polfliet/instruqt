@@ -197,8 +197,8 @@ challenges:
 
     Recall that our ecommerce api sits behind an NGINX server that is acting as a proxy.  We'd like to collect metrics from that environment as well.
 
-    The NGINX container has exposed its metrics in Prometheus format via what is known as a _Prometheus Exporter_.  View the tab named "NGINX Metrics" to see what that looks like.  Try refreshing the tab (*NOT* your browswer window!!!) using the icon next to the tab name to watch the value update in real time.
-    
+    The NGINX container has exposed its metrics in Prometheus format via what is known as a _Prometheus Exporter_.  View the tab named "NGINX Metrics" to see what that looks like.  Try refreshing the tab (within Instruqt, *NOT* your browswer tab!!!) using the icon next to the tab name to watch the value update in real time.
+
     [Prometheus](https://prometheus.io/) is a self-hosted monitoring solution that will request (or "scrape") metrics from exporters such as this.
 
     New Relic provides [two ways](https://docs.newrelic.com/docs/integrations/prometheus-integrations) in which you can take advantage of the vast ecosystem of Prometheus exporters by sending Prometheus-formatted metrics to the New Relic Platform:
@@ -207,7 +207,7 @@ challenges:
 
     We are going to use the second approach in this excercise.
 
-    _Note: New Relic provides a fully-fleged [NGINX integration](https://newrelic.com/integrations/nginx-integration) as well._
+    _Note: New Relic provides a complete [NGINX integration](https://newrelic.com/integrations/nginx-integration) as well._
 
     The New Relic Prometheus OpenMetrics Integration runs as a Docker container, to which we will supply configuration to tell it how to scrape our NGINX exporter endpoint.
     View the file named "nginx-prometheus.yml" in the "Configuration Files" tab to see how we will configure the scraper.
@@ -252,12 +252,13 @@ challenges:
   id: kskcr0i7ymw0
   type: challenge
   title: Collect Redis Metrics with Flex
-  teaser: Use New Relic's Flex integration builder to harvest telemetry data from Redis's INFO command.
+  teaser: Use New Relic's Flex integration builder to harvest telemetry data from
+    Redis's INFO command.
   assignment: |-
     [New Relic Flex](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) is a configuration-based tool built into the Infrastructure agent that allows you to write custom integrations that can pull data from many sources, transform them, and then send to the New Relic Telemetry Data Platform.
     All of this can be done without writing code - using only configuration.
 
-    _Note: New Relic also provides a fully-fledged [Redis integration](https://newrelic.com/integrations/redis-integration) as well_
+    _Note: New Relic also provides a complete [Redis integration](https://newrelic.com/integrations/redis-integration) as well_
 
     Let's examine how Redis exposes its internal metrics.
 
@@ -265,27 +266,30 @@ challenges:
     ```
     sh configs/redis_info.sh
     ```
-    What you see in the output are a list of metric key/value pairs that would be very valuable for us to have at our disposal.
+    What you see in the output is a list of metric key/value pairs that would be very valuable for us to have at our disposal.
     But they aren't in a format that we can readily use.  Luckily, Flex makes this easy for us.
 
     Use the "Configuration Files" tab to view the file "redis-flex.yml".
     This defines an integration that will execute the same command we did above, split the output into named metrics with their corresponding values, and then submit them as event named `RedisFlexSample`.
-    
-    Once you have reviewed the file, copy it into the Infrastructure agent's configuration folder:
+
+    Once you have reviewed the file, copy it into the Infrastructure agent's configuration folder.
+
+    Execute this command in the Shell:
     ```
     cp ./configs/redis-flex.yml /etc/newrelic-infra/integrations.d/
     ```
     Shortly, the agent will begin polling Redis for these metrics and sending the data to the platform.
 
     View the "Explanation" tab to find out how to use the data, and how to create dashboards from it.
-    
+
     Before continuing, be sure:
       - you are able to view `RedisFlexSample` events in New Relic One.
       - you have created the charts and added them to your dashboard.
-
   notes:
   - type: text
-    contents: Did you know you can use New Relic Flex to fetch telemetry data from almost any source?  With a set of built-in data trasformation functions, almost anything is possible!
+    contents: Did you know you can use New Relic Flex to fetch telemetry data from
+      almost any source?  With a set of built-in data trasformation functions, almost
+      anything is possible!
   tabs:
   - title: Configuration Files
     type: code
@@ -315,13 +319,14 @@ challenges:
 
     The Flex configuration for this endpoint is named "daily-total-flex.yml".  Review it briefly in the "Configuration Files" tab, then copy it to the Infrastructure agent's configuration directory:
     ```
-    cp ./confifgs/daily-total-flex.yml /etc/newrelic-infra/integrations.d/
+    cp ./configs/daily-total-flex.yml /etc/newrelic-infra/integrations.d/
     ```
 
     View the "Explanation" tab to find out how to use the data, and how to create dashboards from it.
   notes:
   - type: text
-    contents: Flex is great at consuming data from HTTP endpoints too.  Let's use it to send some custom data about our business to New Relic.
+    contents: Flex is great at consuming data from HTTP endpoints too.  Let's use
+      it to send some custom data about our business to New Relic.
   tabs:
   - title: Daily Total
     type: service
@@ -342,4 +347,4 @@ challenges:
     port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "14308620040455567717"
+checksum: "8487184185132029507"
