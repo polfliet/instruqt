@@ -165,7 +165,8 @@ challenges:
   - title: Explanation
     type: service
     hostname: dockerhost
-    path: /02-collect-events-and-traces-with-new-relic-apm/explanation.md
+    path: /03-collect-your-application-logs/explanation.md
+    port: 3080
   difficulty: basic
   timelimit: 600
 - slug: collect-nginx-metrics-in-prometheus-format
