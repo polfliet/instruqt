@@ -1,0 +1,8 @@
+Replace your license key in the command below and then copy, paste and execute the entire command into the Shell tab
+
+docker run -d --restart unless-stopped \
+--name nri-prometheus \
+--network="apps_default" \
+-e LICENSE_KEY="YOUR_LICENSE_KEY" \
+-v "$(pwd)/configs/nginx-prometheus.yml:/config.yaml" \
+newrelic/nri-prometheus:1.5

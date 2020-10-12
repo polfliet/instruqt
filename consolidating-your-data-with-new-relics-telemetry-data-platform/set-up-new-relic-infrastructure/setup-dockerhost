@@ -2,7 +2,7 @@
 
 set -x
 
-echo 'alias redis-cli="docker run --network="apps_default" --rm redis redis-cli -h redis"'
+echo "alias redis-cli='docker run --network=\"apps_default\" --rm redis redis-cli -h redis'" >> /root/.bashrc
 
 echo "Installing Docker"
 apt-get remove -y docker docker-engine docker.io containerd runc

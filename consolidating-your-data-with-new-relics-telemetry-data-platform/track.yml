@@ -25,18 +25,18 @@ challenges:
   assignment: |-
     We will be working on a single virtual machine running several Docker containers.
     The New Relic Infrastructure agent has been installed on this host, but it hasn't been configured to send data to your account yet.
-    
+
     In the editor tab to the right, open up the file `/etc/newrelic-infra.yml`.
-    
+
     Uncomment the line
     ```
     #license_key: your_license_key
     ```
     by removing the `#` at the beginning of the line. Replace the placeholder text with your own license key, which can be found under
     your account settings.
-    
+
     Save the file by clicking the disk icon in the tab.
-    
+
     Then, using the Shell tab, enter the following command to restart the agent for the
     settings to take effect:
     ```
@@ -45,17 +45,17 @@ challenges:
     While you wait for data to appear in New Relic One, read through the tab labeled
     "Overview" to get a better understanding of what we're going to accomplish in
     this track.
-    
-    After a few mometns, you should see a host named `newrelic-training-dockerhost`
+
+    After a few moments, you should see a host named `newrelic-training-dockerhost`
     in your account. The tab labeled "Explanation" will guide you through finding
     the data in your New Relic dashboard before completing the challenge.
-    
+
     Now would be a good time to create a new dasboard where we can visualize all of the data
     we're going to collect!
-    
+
     Before continuing, be sure:
-    - [ ] you are seeing data for a host named `newrelic-training-dockerhost` in New Relic One.
-    - [ ] you have created a new dashboard to add charts to for the following challenges in this track.
+    - you are seeing data for a host named `newrelic-training-dockerhost` in New Relic One.
+    - you have created a new dashboard to add charts to for the following challenges in this track.
   notes:
   - type: text
     contents: Have your New Relic license key ready, we're going to configure the
@@ -95,9 +95,9 @@ challenges:
     NEW_RELIC_ENABLED=false
     ```
     and _un_-comment the line beginning with `LICENSE_KEY`, replacing the placeholder text with your license key.
-    
+
     Then save the file by clicking the disk icon on the tab header.
-    
+
     In the shell tab to the right, run:
     ```
     cd apps
@@ -110,11 +110,12 @@ challenges:
     Read more about the data we are collecting, and what to add to your dashboard in the "Explanation" tab.
 
     Before continuing, be sure:
-    - [ ] you are seeing data for an application named `newrelic-training-ecommerce-api` in New Relic One.
-    - [ ] you have created the charts described in the "Explanation" tab.
+    - you are seeing data for an application named `newrelic-training-ecommerce-api` in New Relic One.
+    - you have created the charts described in the "Explanation" tab.
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: Now we're going to add our license key to the configuration for New
+      Relic APM...
   tabs:
   - title: Environment Variables
     type: code
@@ -150,22 +151,24 @@ challenges:
 
     To send these logs the New Relic, we need to tell the Infrastructure agent where to find them.
 
-    Use the code editor tab at the right to view the `application-logs.yml` file to see how that's done.
+    Use the code editor tab named "Configuration Files" on the right to view the `application-logs.yml` file to see how that's done.
 
     No need to edit anything, just copy the file into the Infrastructure agent's configuration directory:
     ```
-    cp /configs/application-logs.yml /etc/newrelic/logging.d/
+    cp ./configs/application-logs.yml /etc/newrelic-infra/logging.d/
     ```
     The agent should automatically load the configuration and start sending those log messages to your account!
 
     Get a deeper understanding of how to use that data in the "Explanation" tab to the right.
 
     Before continuing, be sure:
-    - [ ] you are able to view log messages from the `newrelic-training-ecommerce-api` application in the New Relic One logs UI.
-    - [ ] you have created the charts described in the "Explanation" tab.
+    - you are able to view log messages from the `newrelic-training-ecommerce-api` application in the New Relic One logs UI.
+    - you are able to view logs in context for distributed traces from the application.
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: Did you know that New Relic's APM agent can automatically correlate
+      logs written by your application to the context of the individual Transaction
+      that created them?
   tabs:
   - title: Configuration Files
     type: code
@@ -185,21 +188,52 @@ challenges:
   id: gypxcuu8mydi
   type: challenge
   title: Collect NGINX Metrics in Prometheus Format
-  teaser: A short description of the challenge.
+  teaser: Use New Relic's Prometheus OpenMetrics Integration to collect metrics without
+    using an agent.
   assignment: |-
-    run:
+    New Relic's Telemetry Data platform allows you to collect telemetry data of all types, from anywhere and store them in a single unified database, enabling you to analyze everything togehter.
+
+    We've done a great job of collecting telemetry data for our ecommerce api, but our goal here is to acheive full observability.
+
+    Recall that our ecommerce api sits behind an NGINX server that is acting as a proxy.  We'd like to collect metrics from that environment as well.
+
+    The NGINX container has exposed its metrics in Prometheus format via what is known as a _Prometheus Exporter_.  View the tab named "NGINX Metrics" to see what that looks like.  Try refreshing the tab (*NOT* your browswer window!!!) using the icon next to the tab name to watch the value update in real time.
+    
+    [Prometheus](https://prometheus.io/) is a self-hosted monitoring solution that will request (or "scrape") metrics from exporters such as this.
+
+    New Relic provides [two ways](https://docs.newrelic.com/docs/integrations/prometheus-integrations) in which you can take advantage of the vast ecosystem of Prometheus exporters by sending Prometheus-formatted metrics to the New Relic Platform:
+      - you can set what is known "remote write" integration, which will publish metrics from your self-hosted Prometheus database to New Relic
+      - you can use the [New Relic Prometheus OpenMetrics Integration](https://docs.newrelic.com/docs/integrations/prometheus-integrations/install-configure-openmetrics/install-update-or-uninstall-your-prometheus-openmetrics-integration), where New Relic provides it's own scraper, freeing you from having to use Prometheus at all!
+
+    We are going to use the second approach in this excercise.
+
+    _Note: New Relic provides a fully-fleged [NGINX integration](https://newrelic.com/integrations/nginx-integration) as well._
+
+    The New Relic Prometheus OpenMetrics Integration runs as a Docker container, to which we will supply configuration to tell it how to scrape our NGINX exporter endpoint.
+    View the file named "nginx-prometheus.yml" in the "Configuration Files" tab to see how we will configure the scraper.
+
+    The command to install and start the integration is in a file named `nri-prometheus-command.txt`.  Use the tab named "Configuration Files" to view the command.  Insert your license key into the command, then copy, paste, and execute it in the Shell.
+
+    Verify that the integration is running by executing this command in the Shell:
     ```
-    docker run -d --restart unless-stopped \
-    --name nri-prometheus \
-    --network="apps_default"
-    -e LICENSE_KEY="YOUR_LICENSE_KEY" \
-    -v "$(pwd)/configs/nginx-prometheus.yml:/config.yaml" \
-    newrelic/nri-prometheus:1.5
+    docker ps -f "name=nri-prometheus"
     ```
+
+    Once you have done that, visit the "Explanation" tab to understand how to use the data we're collecting.
+
+    Before continuing, be sure:
+      - you are able to view NGINX Metrics in New Relic One.
+      - you have created the charts and added them to your dashboard.
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: Now, were going to collect metrics from outside of our application,
+      published in Prometheus' metrics format.
   tabs:
+  - title: NGINX Metrics
+    type: service
+    hostname: dockerhost
+    path: /metrics
+    port: 9113
   - title: Configuration Files
     type: code
     hostname: dockerhost
@@ -207,17 +241,51 @@ challenges:
   - title: Shell
     type: terminal
     hostname: dockerhost
+  - title: Explanation
+    type: service
+    hostname: dockerhost
+    path: /04-collect-nginx-metrics-in-prometheus-format/explanation.md
+    port: 3080
   difficulty: basic
   timelimit: 600
 - slug: collect-redis-metrics-with-flex
   id: kskcr0i7ymw0
   type: challenge
   title: Collect Redis Metrics with Flex
-  teaser: A short description of the challenge.
-  assignment: Move redis-flex.yml to /etc/newrelic/integrations.d/
+  teaser: Use New Relic's Flex integration builder to harvest telemetry data from Redis's INFO command.
+  assignment: |-
+    [New Relic Flex](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) is a configuration-based tool built into the Infrastructure agent that allows you to write custom integrations that can pull data from many sources, transform them, and then send to the New Relic Telemetry Data Platform.
+    All of this can be done without writing code - using only configuration.
+
+    _Note: New Relic also provides a fully-fledged [Redis integration](https://newrelic.com/integrations/redis-integration) as well_
+
+    Let's examine how Redis exposes its internal metrics.
+
+    Run the following command in the Shell:
+    ```
+    sh configs/redis_info.sh
+    ```
+    What you see in the output are a list of metric key/value pairs that would be very valuable for us to have at our disposal.
+    But they aren't in a format that we can readily use.  Luckily, Flex makes this easy for us.
+
+    Use the "Configuration Files" tab to view the file "redis-flex.yml".
+    This defines an integration that will execute the same command we did above, split the output into named metrics with their corresponding values, and then submit them as event named `RedisFlexSample`.
+    
+    Once you have reviewed the file, copy it into the Infrastructure agent's configuration folder:
+    ```
+    cp ./configs/redis-flex.yml /etc/newrelic-infra/integrations.d/
+    ```
+    Shortly, the agent will begin polling Redis for these metrics and sending the data to the platform.
+
+    View the "Explanation" tab to find out how to use the data, and how to create dashboards from it.
+    
+    Before continuing, be sure:
+      - you are able to view `RedisFlexSample` events in New Relic One.
+      - you have created the charts and added them to your dashboard.
+
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: Did you know you can use New Relic Flex to fetch telemetry data from almost any source?  With a set of built-in data trasformation functions, almost anything is possible!
   tabs:
   - title: Configuration Files
     type: code
@@ -226,18 +294,40 @@ challenges:
   - title: Shell
     type: terminal
     hostname: dockerhost
+  - title: Explanation
+    type: service
+    hostname: dockerhost
+    path: /05-collect-redis-metrics-with-flex/explanation.md
+    port: 3080
   difficulty: basic
   timelimit: 600
 - slug: collect-custom-business-metrics-with-flex
   id: 4kviv252susu
   type: challenge
   title: Collect Custom Business Metrics with Flex
-  teaser: A short description of the challenge.
-  assignment: Move daily-total-flex.yml to /etc/newrelic/integrations.d
+  teaser: Use Flex to query custom data that we have made available via API.
+  assignment: |-
+    Just like the last challenge, we are going to use Flex to consume some data and send it to New Relic.
+
+    This time, however, we're going to consume the payload of a JSON HTTP request coming from our own API.
+
+    In the "Daily Total" tab, you can see the output of the url we are going to consume.  It will return the current running total of the amount of checkouts we've processed.
+
+    The Flex configuration for this endpoint is named "daily-total-flex.yml".  Review it briefly in the "Configuration Files" tab, then copy it to the Infrastructure agent's configuration directory:
+    ```
+    cp ./confifgs/daily-total-flex.yml /etc/newrelic-infra/integrations.d/
+    ```
+
+    View the "Explanation" tab to find out how to use the data, and how to create dashboards from it.
   notes:
   - type: text
-    contents: Replace this text with your own text
+    contents: Flex is great at consuming data from HTTP endpoints too.  Let's use it to send some custom data about our business to New Relic.
   tabs:
+  - title: Daily Total
+    type: service
+    hostname: dockerhost
+    path: /dailytotal
+    port: 80
   - title: Configuration Files
     type: code
     hostname: dockerhost
@@ -245,6 +335,11 @@ challenges:
   - title: Shell
     type: terminal
     hostname: dockerhost
+  - title: Explanation
+    type: service
+    hostname: dockerhost
+    path: /06-collect-custom-business-metrics-with-flex/explanation.md
+    port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "3254507799368161037"
+checksum: "14308620040455567717"
