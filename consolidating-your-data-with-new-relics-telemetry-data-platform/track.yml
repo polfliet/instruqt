@@ -5,10 +5,13 @@ title: Consolidating your data with New Relic's Telemetry Data Platform
 teaser: Learn how to ingest all of the MELT data types from various sources into New
   Relic's Telemetry Data Platform
 description: |-
-  A long description of the track.
+  The age of microservices and DevOps has ushered observability to the forefront of the minds of practitioners.
+  While the resulting explosion of available telemetry data is generally a Good Thing, it has led to data sprawl and siloed tooling within teams and organizations.
+  In this hands-on session, you’ll learn how New Relic’s [Telemetry Data Platform](https://newrelic.com/platform/telemetry-data-platform) makes it easy to ingest data from anywhere, across all of the M.E.L.T (Metrics, Events, Logs, and Traces) [telemetry data types](https://docs.newrelic.com/docs/telemetry-data-platform/ingest-manage-data/understand-data/new-relic-data-types).
 
-  You can use any GitHub flavoured markdown.
-icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
+
+  We’ll cover the building blocks of data ingestion, including New Relic’s [Open Telemetry](https://docs.newrelic.com/docs/integrations/open-source-telemetry-integrations/get-started/introduction-new-relics-open-source-telemetry-integrations) capabilities and [Flex](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/flex-integration-tool-build-your-own-integration) integration builder, and then we’ll visualize the data we’ve collected by querying NRDB, the world’s most powerful telemetry database.
+icon: https://newrelic.com/assets/newrelic/source/PNG/NR_logo_Horizontal.png
 tags:
 - New Relic
 owner: newrelic
@@ -191,18 +194,18 @@ challenges:
   teaser: Use New Relic's Prometheus OpenMetrics Integration to collect metrics without
     using an agent.
   assignment: |-
-    New Relic's Telemetry Data platform allows you to collect telemetry data of all types, from anywhere and store them in a single unified database, enabling you to analyze everything togehter.
+    New Relic's Telemetry Data platform allows you to collect telemetry data of all types, from anywhere and store them in a single unified database, enabling you to analyze everything together, using the same query language and visualization capabilities.
 
     We've done a great job of collecting telemetry data for our ecommerce api, but our goal here is to acheive full observability.
 
     Recall that our ecommerce api sits behind an NGINX server that is acting as a proxy.  We'd like to collect metrics from that environment as well.
 
-    The NGINX container has exposed its metrics in Prometheus format via what is known as a _Prometheus Exporter_.  View the tab named "NGINX Metrics" to see what that looks like.  Try refreshing the tab (within Instruqt, *NOT* your browswer tab!!!) using the icon next to the tab name to watch the value update in real time.
+    The NGINX container has exposed its metrics in Prometheus format via what is known as a _Prometheus Exporter_.  View the tab named "NGINX Metrics" to see what that looks like.  Try refreshing the tab (within Instruqt, *NOT* your browser tab!!!) using the icon to the right of the tab names name to watch the value update in real time.
 
     [Prometheus](https://prometheus.io/) is a self-hosted monitoring solution that will request (or "scrape") metrics from exporters such as this.
 
     New Relic provides [two ways](https://docs.newrelic.com/docs/integrations/prometheus-integrations) in which you can take advantage of the vast ecosystem of Prometheus exporters by sending Prometheus-formatted metrics to the New Relic Platform:
-      - you can set what is known "remote write" integration, which will publish metrics from your self-hosted Prometheus database to New Relic
+      - you can configure what is known "remote write" integration, which will publish metrics from your self-hosted Prometheus database to New Relic
       - you can use the [New Relic Prometheus OpenMetrics Integration](https://docs.newrelic.com/docs/integrations/prometheus-integrations/install-configure-openmetrics/install-update-or-uninstall-your-prometheus-openmetrics-integration), where New Relic provides it's own scraper, freeing you from having to use Prometheus at all!
 
     We are going to use the second approach in this excercise.
@@ -347,4 +350,4 @@ challenges:
     port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "8487184185132029507"
+checksum: "3130263784798252060"
