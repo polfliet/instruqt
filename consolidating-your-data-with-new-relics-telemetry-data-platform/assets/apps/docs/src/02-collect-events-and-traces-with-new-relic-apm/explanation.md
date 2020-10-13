@@ -12,7 +12,9 @@ and Distributed Tracing here:
 In New Relic One, click on "Entity Explorer", and then "Services".  Verify that you see a sevice named `newrelic-training-ecommerce-api`.
 ![Services](images/entity_explorer.png)
 
-Click on your application to see the curated APM view.  This gives you a view to what happeing inside of your application. Take a look at the charts and metrics that are available.  Once you've reviewed the overall performance of the application.  Click on the the link in the left hand menu named "Distributed Tracing"
+Click on your application to see the curated APM view.  This gives you a view to what happeing inside of your application. Take a look at the charts and metrics that are available.
+
+Once you've reviewed the overall performance of the application, click on the the link in the left hand menu named "Distributed Tracing"
 ![APM](images/apm.png)
 
 You'll see a list of all of the recent traces collect for you application.  Click on one of them to see the trace details, and expand any collapsed spans.  You should see something like this:
