@@ -28,7 +28,7 @@ But, what if we _did_ want to see how we were doing over the course of time?  Co
 </details>
 
 ## Bonus: Verify the Approximate Value Using Logs
-New Relic can accept structured log messages with any arbitrary key/value pairs, in addition to the fulltext `message` field.  These log messages can then be queried an analyzed alongside all of the other data you've collected and sent to the platform.  All log messages are collected under an event named `Log`.
+New Relic can accept structured log messages with any arbitrary key/value pairs, in addition to the fulltext `message` field.  These log messages can then be queried and analyzed alongside all of the other data you've collected and sent to the platform.  All log messages are collected under an event named `Log`.
 
 Let's inspect the log messages from our ecommerce api application by selecting all fields from the Log event.
 
@@ -36,13 +36,13 @@ Let's inspect the log messages from our ecommerce api application by selecting a
 
 You can see that there is a field named `checkoutAmount`. Instead of having a sum total of our checkouts, we have the individual amount for every transaction that we've logged.  For fun, let's use that to compare to the amount we are approximating with `derivative` on `DailyTotalSample`.
 
-Edit your chart, adding another query that shows the average `checkoutAmount` calculated from `Log`s.
+Edit your chart, adding another query that shows the average `checkoutAmount` calculated uisng `Log` events.
 
 <details>
   <summary>Spoiler: click here to see the comparison</summary>
   <img src="images/verify_totals.png"/>
 
-  Pretty close!  You can see from the additional query of _actual_ values from the logs that using `derivative` to approximate constantly increasing values is a good way to extract detail.
+  Not bad!  You can see from the additional query of _actual_ values from the logs that using `derivative` to approximates it pretty closely.
 
 </details>
 

@@ -18,7 +18,8 @@ owner: newrelic
 developers:
 - emittelhammer@newrelic.com
 private: false
-published: false
+published: true
+show_timer: true
 challenges:
 - slug: set-up-new-relic-infrastructure
   id: pxrk5xdyroax
@@ -318,7 +319,7 @@ challenges:
 
     This time, however, we're going to consume the payload of a JSON HTTP request coming from our own API.
 
-    In the "Daily Total" tab, you can see the output of the url we are going to consume.  It will return the current running total of the amount of checkouts we've processed.
+    In the "Daily Total" tab, you can see the output of the url we are going to consume.  It will return the current running total of the amount of checkouts we've processed.  Refresh it a few times to see the value update as we process more transactions.
 
     The Flex configuration for this endpoint is named "daily-total-flex.yml".  Review it briefly in the "Configuration Files" tab, then copy it to the Infrastructure agent's configuration directory:
     ```
@@ -350,4 +351,4 @@ challenges:
     port: 3080
   difficulty: basic
   timelimit: 600
-checksum: "3130263784798252060"
+checksum: "5653508623718778412"
