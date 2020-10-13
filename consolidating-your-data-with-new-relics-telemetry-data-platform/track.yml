@@ -83,7 +83,7 @@ challenges:
     path: /01-set-up-new-relic-infrastructure/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
+  timelimit: 1200
 - slug: collect-events-and-traces-with-new-relic-apm
   id: puelt47xjbiw
   type: challenge
@@ -134,7 +134,7 @@ challenges:
     path: /02-collect-events-and-traces-with-new-relic-apm/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
+  timelimit: 1200
 - slug: collect-your-application-logs
   id: hupa4ptgwkp8
   type: challenge
@@ -187,7 +187,7 @@ challenges:
     path: /03-collect-your-application-logs/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
+  timelimit: 1200
 - slug: collect-nginx-metrics-in-prometheus-format
   id: gypxcuu8mydi
   type: challenge
@@ -251,7 +251,7 @@ challenges:
     path: /04-collect-nginx-metrics-in-prometheus-format/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
+  timelimit: 1200
 - slug: collect-redis-metrics-with-flex
   id: kskcr0i7ymw0
   type: challenge
@@ -308,7 +308,7 @@ challenges:
     path: /05-collect-redis-metrics-with-flex/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
+  timelimit: 1200
 - slug: collect-custom-business-metrics-with-flex
   id: 4kviv252susu
   type: challenge
@@ -350,5 +350,5 @@ challenges:
     path: /06-collect-custom-business-metrics-with-flex/explanation.md
     port: 3080
   difficulty: basic
-  timelimit: 600
-checksum: "1057684002893677579"
+  timelimit: 1200
+checksum: "18381247011316995791"
